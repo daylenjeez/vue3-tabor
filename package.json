@@ -14,6 +14,7 @@
     "build": "rollup -c",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
     "prepublishOnly": "npm run test && npm run build"
   },
   "keywords": [
@@ -47,6 +48,7 @@
     "@rollup/plugin-typescript": "^11.0.0",
     "@vitejs/plugin-vue": "^5.2.1",
     "@vitejs/plugin-vue-jsx": "^4.1.1",
+    "@vitest/coverage-istanbul": "^0.34.6",
     "@vue/babel-plugin-jsx": "^1.3.0",
     "@vue/test-utils": "^2.4.6",
     "jsdom": "^26.0.0",
