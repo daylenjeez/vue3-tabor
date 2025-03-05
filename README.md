@@ -1,5 +1,5 @@
 <div align="center">
-    <div align="center"><img src="https://github.com/daylenjeez/vue3-tabor/assets/111993029/71058201-d832-43d2-8396-04def7756971" width=240 /></div>
+    <div align="center"><img src="https://github.com/daylenjeez/vue3-router-tab/assets/111993029/71058201-d832-43d2-8396-04def7756971" width=240 /></div>
     <h2 align="center">vue3-tabor</h2>
     <div align="center">实现在<code>vue3</code>中通过路由响应打开/切换页签，同时支持页签keepAlive；兼容多个组件库样式并提供丰富的Api；</div>
     <div align="center"><strong>中文</strong> | <a href="README.en.md">English</a></div>
