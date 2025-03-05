@@ -1,14 +1,8 @@
 import { mount } from '@vue/test-utils';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import DropdownMenu from '@routerTab/components/tabs/dropdown/index.vue';
 
 describe('DropdownMenu Component', () => {
-  let actionHandler: any;
-
-  beforeEach(() => {
-    actionHandler = vi.fn();
-  });
-
   it('should not render when visible is false', () => {
     const wrapper = mount(DropdownMenu, {
       props: {

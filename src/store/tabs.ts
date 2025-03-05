@@ -22,6 +22,7 @@ import type {
 } from "vue-router";
 
 import { useCache } from "./cache";
+import Page from "../components/page/index.vue";
 
 interface TabStoreOptions {
   maxCache?: number;
@@ -201,13 +202,13 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
       const name = `rt-iframe-${path.replace(/\//g, '-')}`;
 
       const route = {
-        path,
+        path: path,
         name,
         meta: {
           tabConfig,
           routeName: name,
         },
-        component: () => import("../components/page/index.vue"), // 确保路径正确
+        component: Page,
       };
       // 动态添加路由
       router.addRoute(route);

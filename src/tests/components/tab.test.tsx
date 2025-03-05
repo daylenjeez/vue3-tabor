@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { defineComponent, h, ref, provide } from 'vue';
+import { describe, it, expect, vi } from 'vitest';
+import { defineComponent, h, provide } from 'vue';
 import Tab from '@routerTab/components/tabs/tab/index';
 import { RouterTabStore } from '@routerTab/store';
 
@@ -46,7 +46,7 @@ const TabWrapper = defineComponent({
       required: true
     }
   },
-  setup(props, { slots }) {
+  setup(props) {
     const store = createMockStore();
     provide('tabStore', store);
     provide('tabClass', 'custom-tab-class');

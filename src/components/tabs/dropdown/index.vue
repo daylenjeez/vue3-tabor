@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, onUpdated, watch } from 'vue';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'DropdownMenu',
@@ -41,20 +41,6 @@ export default defineComponent({
   },
   emits: ['action'],
   setup(props, { emit }) {
-    // 监听visible属性变化
-    watch(() => props.visible, (newValue) => {
-      console.log('DropdownMenu visible changed:', newValue, props.position);
-    }, { immediate: true });
-
-    // 组件挂载和更新时输出调试信息
-    onMounted(() => {
-      console.log('DropdownMenu mounted, visible:', props.visible, 'position:', props.position);
-    });
-
-    onUpdated(() => {
-      console.log('DropdownMenu updated, visible:', props.visible, 'position:', props.position);
-    });
-
     const handleAction = (action: string) => {
       // 如果该操作被禁用，则不触发事件
       if (props.disabledActions.includes(action)) {
