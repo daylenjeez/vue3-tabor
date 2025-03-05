@@ -1,0 +1,71 @@
+{
+  "name": "vue3-tabor",
+  "version": "0.1.0",
+  "description": "Vue 3 routing tabs with keepAlive support",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.es.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "rollup -c",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "prepublishOnly": "npm run test && npm run build"
+  },
+  "keywords": [
+    "vue3",
+    "router",
+    "tabs",
+    "tab-router",
+    "vue-tabs",
+    "vue-plugin",
+    "tabs-management"
+  ],
+  "author": "Daylen Jeez",
+  "license": "MIT",
+  "private": false,
+  "type": "module",
+  "peerDependencies": {
+    "vue": "^3.0.0",
+    "vue-router": "^4.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.26.9",
+    "@babel/plugin-syntax-jsx": "^7.25.9",
+    "@babel/plugin-transform-runtime": "^7.26.9",
+    "@babel/preset-env": "^7.26.9",
+    "@babel/preset-typescript": "^7.26.0",
+    "@rollup/plugin-alias": "^5.1.1",
+    "@rollup/plugin-babel": "^6.0.4",
+    "@rollup/plugin-commonjs": "^25.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.0",
+    "@rollup/plugin-terser": "^0.4.0",
+    "@rollup/plugin-typescript": "^11.0.0",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "@vitejs/plugin-vue-jsx": "^4.1.1",
+    "@vue/babel-plugin-jsx": "^1.3.0",
+    "@vue/test-utils": "^2.4.6",
+    "jsdom": "^26.0.0",
+    "less": "^4.2.2",
+    "postcss": "^8.4.0",
+    "rollup": "^3.0.0",
+    "rollup-plugin-postcss": "^4.0.0",
+    "rollup-plugin-vue": "^6.0.0",
+    "typescript": "^5.0.0",
+    "vitest": "^0.34.0",
+    "vue": "^3.0.0",
+    "vue-router": "^4.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/daylenjeez/vue3-tabor"
+  },
+  "homepage": "https://github.com/daylenjeez/vue3-tabor#readme",
+  "bugs": {
+    "url": "https://github.com/daylenjeez/vue3-tabor/issues"
+  }
+}

@@ -1,0 +1,123 @@
+.rt-tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  height: inherit;
+  padding: var(--tab-padding);
+  cursor: pointer;
+  border-style: solid;
+  border-color: var(--tab-border-color);
+  border-width: 0;
+  margin-bottom: -1px;
+  background: var(--tab-background-color);
+  transition: all .25s ease;
+  font-weight: 400;
+  position: relative;
+  min-width: var(--tab-min-width);
+
+  &.rt-tab-active {
+    background: var(--tab-active-background-color);
+    color: var(--primary-color);
+    font-weight: 500;
+  }
+
+  .remove-icon {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    margin-left: 5px;
+    font-size: 12px;
+  }
+
+  &:hover {
+    .remove-icon {
+      opacity: 0.7;
+    }
+  }
+
+  &.rt-tab-active {
+    .remove-icon {
+      opacity: 0.9;
+    }
+  }
+
+  &:hover .remove-icon:hover {
+    opacity: 1;
+  }
+
+  .rt-tab--prefix {
+    margin-right: 6px;
+    display: flex;
+    align-items: center;
+  }
+}
+
+.rt-tab--line {
+  border-width: 0;
+  border-radius: 0;
+  margin: 0 16px 0 0;
+  background: transparent;
+  position: relative;
+  padding-bottom: 0;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    right: 50%;
+    height: 2px;
+    background-color: var(--primary-color);
+    transition: all 0.25s ease;
+    opacity: 0;
+  }
+
+  &.rt-tab-active {
+    background: transparent;
+    border-bottom: none;
+
+    &::after {
+      left: 0;
+      right: 0;
+      opacity: 1;
+    }
+  }
+
+  &:hover:not(.rt-tab-active) {
+    color: var(--primary-color);
+    background: transparent;
+
+    &::after {
+      left: 0;
+      right: 0;
+      opacity: 0.5;
+    }
+  }
+}
+
+.rt-tab--card {
+  border-width: 1px;
+  border-bottom-width: 0;
+  border-radius: var(--tab-border-radius) var(--tab-border-radius) 0 0;
+  box-shadow: var(--tab-box-shadow);
+  overflow: hidden;
+
+  &.rt-tab-active {
+    border-bottom-color: var(--tab-active-background-color);
+    box-shadow: var(--tab-active-box-shadow);
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background-color: var(--primary-color);
+    }
+  }
+
+  &:hover:not(.rt-tab-active) {
+    background: rgba(240, 242, 245, 0.8);
+  }
+}
