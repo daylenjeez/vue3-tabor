@@ -1,6 +1,6 @@
- <div align="center">
-    <div align="center"><img src="https://github.com/daylenjeez/vue3-router-tab/assets/111993029/71058201-d832-43d2-8396-04def7756971" width=240 /></div>
-    <h2 align="center">vue3-router-tab</h2>
+<div align="center">
+    <div align="center"><img src="https://github.com/daylenjeez/vue3-tabor/assets/111993029/71058201-d832-43d2-8396-04def7756971" width=240 /></div>
+    <h2 align="center">vue3-tabor</h2>
     <div align="center">实现在<code>vue3</code>中通过路由响应打开/切换页签，同时支持页签keepAlive；兼容多个组件库样式并提供丰富的Api；</div>
     <div align="center"><strong>中文</strong> | <a href="README.en.md">English</a></div>
 </div>
@@ -35,24 +35,23 @@
 ## 安装
 
 ```bash
-npm install vue3-router-tab
+npm install vue3-tabor
 ```
 
 ## 使用
 
-1. 在入口文件引入`vue3-router-tab`
+1. 在入口文件引入`vue3-tabor`
 
-```ts
-// main.ts
+```js
 import { createApp } from "vue";
-import App from "./App.vue";
+import RouterTab from "./plugins/vue3-tabor";
 import router from "./router";
-import RouterTab from "./plugins/vue3-router-tab";
+import App from "./App.vue";
 
 const app = createApp(App);
-
 app.use(router);
-app.use(RouterTab, { router });
+app.use(RouterTab);
+
 app.mount("#app");
 ```
 

@@ -72,14 +72,14 @@ describe('Utils Functions', () => {
   });
 
   describe('throwError', () => {
-    it('should log error message and return undefined', () => {
+    it('should log an error message to the console', () => {
       const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => { });
-
-      const result = throwError('Test error');
-
-      expect(consoleSpy).toHaveBeenCalledWith('[vue3-router-tab]: Test error');
-      expect(result).toBeUndefined();
-
+      try {
+        throwError('Test error');
+      } catch (e) {
+        // 捕获错误
+      }
+      expect(consoleSpy).toHaveBeenCalledWith('[vue3-tabor]: Test error');
       consoleSpy.mockRestore();
     });
   });

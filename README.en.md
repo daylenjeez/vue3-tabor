@@ -1,6 +1,6 @@
 <div align="center">
-    <div align="center"><img src="https://github.com/daylenjeez/vue3-router-tab/assets/111993029/71058201-d832-43d2-8396-04def7756971" width=240 /></div>
-    <h2 align="center">vue3-router-tab</h2>
+    <div align="center"><img src="https://github.com/daylenjeez/vue3-tabor/assets/111993029/71058201-d832-43d2-8396-04def7756971" width=240 /></div>
+    <h2 align="center">vue3-tabor</h2>
     <div align="center">Implement opening/switching tabs via routing in <code>vue3</code>. Supports tabs' keepAlive; Compatible with multiple component library styles and provides a rich API.</div>
     <div align="center"><strong>English</strong> | <a href="README.md">中文</a></div>
 </div>
@@ -34,23 +34,23 @@
 ## Installation
 
 ```bash
-npm install vue3-router-tab
+npm install vue3-tabor
 ```
 
 ## Usage
 
-1. Import `vue3-router-tab` in the entry file
-```ts
-// main.ts
+1. Import `vue3-tabor` in the entry file
+
+```js
 import { createApp } from "vue";
-import App from "./App.vue";
+import RouterTab from "./plugins/vue3-tabor";
 import router from "./router";
-import RouterTab from "./plugins/vue3-router-tab";
+import App from "./App.vue";
 
 const app = createApp(App);
-
 app.use(router);
-app.use(RouterTab, { router });
+app.use(RouterTab);
+
 app.mount("#app");
 ```
 

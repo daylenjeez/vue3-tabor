@@ -27,9 +27,9 @@ export const isObject = <T extends Record<string, any> = Record<string, any>>(
   value: unknown,
 ): value is T => isType("Object")(value) && value !== null;
 
-export const throwError = (message: string) => {
-  console.error(`[vue3-router-tab]: ${message}`);
-  return void 0;
+export const throwError = (message: string): never => {
+  console.error(`[vue3-tabor]: ${message}`);
+  throw new Error(`[vue3-tabor] ${message}`);
 };
 
 export const pick = <T extends object, K extends keyof T>(
