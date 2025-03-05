@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { defineComponent, h, nextTick } from 'vue';
+import { defineComponent, nextTick } from 'vue';
 import clickOutside from '@routerTab/directives/clickOutside';
 
 // 创建一个简单的测试组件

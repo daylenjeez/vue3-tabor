@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { defineComponent, h, provide, ref, computed } from 'vue';
 import RtIframe from '@routerTab/components/page/iframe/index';
 import type { RouterTabStore } from '@routerTab/store';
