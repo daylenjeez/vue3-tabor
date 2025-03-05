@@ -1,7 +1,7 @@
 import type { App, Plugin } from "vue";
 import type { RouteLocationNormalized, Router } from "vue-router";
 
-import RouterTab from "./router-tab";
+import Tabor from "./tabor";
 import { type RouterTabStore, useTabStore } from "./store";
 import type { RouterTabProps, Tab, TabType } from "./types";
 
@@ -45,15 +45,15 @@ const init = (app: App, options: PluginOptions) => {
 	app.config.globalProperties.$tabStore = tabStore;
 };
 
-const RouterTabPlugin: Plugin = {
+const TaborPlugin: Plugin = {
 	install(app: App, options: PluginOptions) {
 		init(app, options);
-		app.component("router-tab", RouterTab);
+		app.component("vue-tabor", Tabor);
 	},
 };
 
 export type { Tab, RouterTabProps, RouterTabStore, TabType, PluginOptions };
 
-export { RouterTab, useTabStore };
+export { Tabor, useTabStore };
 
-export default RouterTabPlugin;
+export default TaborPlugin;

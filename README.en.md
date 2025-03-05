@@ -7,7 +7,7 @@
 
 ## Features
 
-- **✊ Easy to Get Started**: Low learning curve, simple to integrate, and incorporates most features of [Vue Router Tab](https://bhuh12.github.io/vue-router-tab).
+- **✊Easy to use**: Low learning curve, simple to import and use, inheriting most of the functionality from [Vue Tabor](https://bhuh12.github.io/vue-router-tab).
 - **🎨 Highly Customizable**: Offers a wealth of APIs and configurations. Use basic features or customize as needed.
 
 ## Functionality
@@ -54,13 +54,11 @@ app.use(RouterTab);
 app.mount("#app");
 ```
 
-2. Incorporate the `vue-router-tab` component wherever needed
+2. Import the `vue-tabor` component where needed
+
 ```html
-<!-- App.vue -->
 <template>
-  <div class="container">
-    <vue-router-tab />
-  </div>
+  <vue-tabor />
 </template>
 ```
 

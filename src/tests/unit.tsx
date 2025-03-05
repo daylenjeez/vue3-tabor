@@ -90,7 +90,7 @@ export const getWrapper = (router: Router) =>
       render() {
         return (
           <div>
-            <router-tab />
+            <vue-tabor />
           </div>
         );
       },

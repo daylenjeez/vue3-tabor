@@ -12,7 +12,7 @@ describe("init", () => {
     routerTab = item.routerTab;
   });
 
-  it("router-tab is defined", ({ expect }) => {
+  it("vue-tabor is defined", ({ expect }) => {
     expect(routerTab).toBeDefined();
   });
 

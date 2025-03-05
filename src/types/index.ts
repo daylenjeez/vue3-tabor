@@ -127,7 +127,7 @@ export interface OpenProps {
 }
 
 declare module "vue" {
-  interface GlobalComponents {
-    RouterTab: typeof import("../router-tab").default;
+  export interface GlobalComponents {
+    Tabor: typeof import("../tabor").default;
   }
 }
