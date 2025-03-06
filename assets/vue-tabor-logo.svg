@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Background square (optional, remove for transparent background) -->
+  <rect width="200" height="200" fill="#f5f5f5" rx="10" ry="10" />
+  
+  <!-- Tab shapes (layered rectangles) -->
+  <!-- Back tab -->
+  <rect x="40" y="60" width="120" height="100" rx="6" ry="6" fill="#2c7a7a" />
+  
+  <!-- Middle tab (slightly offset) -->
+  <rect x="50" y="50" width="120" height="100" rx="6" ry="6" fill="#42b883" />
+  
+  <!-- Front tab (slightly offset) - with slight tilt for dynamism -->
+  <g transform="rotate(-3, 140, 40)">
+    <rect x="60" y="40" width="120" height="100" rx="6" ry="6" fill="#f5f5f5" />
+  </g>
+  
+  <!-- Stylized letter V (for Vue) integrated with tabs -->
+  <path d="M80 60 L110 120 L140 60" stroke="#42b883" stroke-width="10" stroke-linejoin="round" fill="none" />
+  
+  <!-- Route path element (curved arrow connecting tabs) -->
+  <path d="M60 100 Q90 140 140 100" stroke="#2c7a7a" stroke-width="4" fill="none" stroke-linecap="round" />
+  
+  <!-- Dynamic bouncing dot (router moving between tabs) -->
+  <circle cx="100" cy="100" r="6" fill="#2c7a7a">
+    <animate 
+      attributeName="cy" 
+      values="100;95;100;105;100" 
+      dur="2s" 
+      repeatCount="indefinite" />
+  </circle>
+</svg>
