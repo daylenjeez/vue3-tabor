@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
-  <!-- Background square (optional, remove for transparent background) -->
-  
+
   <!-- Tab shapes (layered rectangles) -->
   <!-- Back tab -->
   <rect x="40" y="60" width="120" height="100" rx="6" ry="6" fill="#2c7a7a" />
