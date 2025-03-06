@@ -61,7 +61,7 @@ app.mount("#app");
 
 ### 2. Use the tab component in your layout
 
-```vue
+```html
 <!-- App.vue or Layout.vue -->
 <template>
   <div class="app-container">
@@ -69,7 +69,6 @@ app.mount("#app");
     <main>
       <vue-tabor />
     </main>
-    <footer><!-- Your app footer --></footer>
   </div>
 </template>
 ```
@@ -83,6 +82,4 @@ app.mount("#app");
 
 ## 📚 Additional Resources
 
-- [Detailed Documentation](https://github.com/daylenjeez/vue3-tabor) (Coming soon)
-- [Live Demo](https://github.com/daylenjeez/vue3-tabor) (Coming soon)
 - [Issue Reporting](https://github.com/daylenjeez/vue3-tabor/issues)

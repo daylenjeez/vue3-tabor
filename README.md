@@ -1,8 +1,8 @@
 <div align="center">
     <div align="center"><img src="https://github.com/daylenjeez/vue3-router-tab/assets/111993029/71058201-d832-43d2-8396-04def7756971" width=240 /></div>
     <h2 align="center">vue3-tabor</h2>
-    <div align="center">🚀 A powerful Vue 3 tab routing solution that supports tab navigation with keepAlive capability</div>
-    <div align="center">Compatible with multiple component libraries and providing rich customization options</div>
+    <div align="center">🚀 基于 Vue 3 的强大标签页路由解决方案，支持标签页导航与 keepAlive 缓存功能</div>
+    <div align="center">兼容多种组件库样式，提供丰富的自定义选项</div>
     <div align="center"><strong>中文</strong> | <a href="README.en.md">English</a></div>
 </div>
 
@@ -61,7 +61,7 @@ app.mount("#app");
 
 ### 2. 在布局组件中使用标签页组件
 
-```vue
+```html
 <!-- App.vue 或 Layout.vue -->
 <template>
   <div class="app-container">
@@ -69,7 +69,6 @@ app.mount("#app");
     <main>
       <vue-tabor />
     </main>
-    <footer><!-- 你的应用底部 --></footer>
   </div>
 </template>
 ```
@@ -83,6 +82,4 @@ app.mount("#app");
 
 ## 📚 更多资源
 
-- [详细文档](https://github.com/daylenjeez/vue3-tabor) (即将提供)
-- [在线示例](https://github.com/daylenjeez/vue3-tabor) (即将提供)
 - [问题反馈](https://github.com/daylenjeez/vue3-tabor/issues)
