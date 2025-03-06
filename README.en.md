@@ -7,7 +7,7 @@
 
 ## Features
 
-- **✊Easy to use**: Low learning curve, simple to import and use, inheriting most of the functionality from [Vue Tabor](https://bhuh12.github.io/vue-router-tab).
+- **✊Easy to use**: Low learning curve, simple to import and use, inheriting most of the functionality from [vue-router-tab](https://bhuh12.github.io/vue-router-tab).
 - **🎨 Highly Customizable**: Offers a wealth of APIs and configurations. Use basic features or customize as needed.
 
 ## Functionality
