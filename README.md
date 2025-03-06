@@ -4,6 +4,16 @@
     <div align="center">🚀 基于 Vue 3 的强大标签页路由解决方案，支持标签页导航与 keepAlive 缓存功能</div>
     <div align="center">兼容多种组件库样式，提供丰富的自定义选项</div>
     <div align="center"><strong>中文</strong> | <a href="README.en.md">English</a></div>
+    <br/>
+    <div align="center">
+        <a href="https://www.npmjs.com/package/vue3-tabor"><img src="https://img.shields.io/npm/v/vue3-tabor.svg" alt="Version"></a>
+        <a href="https://www.npmjs.com/package/vue3-tabor"><img src="https://img.shields.io/npm/l/vue3-tabor.svg" alt="License"></a>
+        <a href="https://github.com/daylenjeez/vue3-tabor"><img src="https://img.shields.io/github/stars/daylenjeez/vue3-tabor.svg" alt="GitHub Stars"></a>
+        <img src="https://img.shields.io/bundlephobia/minzip/vue3-tabor" alt="Size">
+        <img src="https://img.shields.io/badge/vue-v3.x-brightgreen.svg" alt="Vue Version">
+        <img src="https://img.shields.io/badge/vue--router-v4.x-brightgreen.svg" alt="Vue Router Version">
+        <img src="https://img.shields.io/badge/TypeScript-supported-blue.svg" alt="TypeScript">
+    </div>
 </div>
 
 ## ✨ 特点
