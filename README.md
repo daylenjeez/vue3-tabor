@@ -46,6 +46,8 @@ npm install vue3-tabor
 ```js
 import { createApp } from "vue";
 import RouterTab from "vue3-tabor";
+// 必须引入样式文件
+import "vue3-tabor/dist/assets/index.css";
 import router from "./router";
 import App from "./App.vue";
 

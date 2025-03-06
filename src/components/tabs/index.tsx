@@ -1,11 +1,11 @@
 import "./index.less";
 
-import type { RouterTabStore } from "@routerTab/store";
+import type { RouterTabStore } from "@tabor/store";
 import { computed, defineComponent, inject, type PropType } from "vue";
 
 import RtTab from "./tab";
-import type { RouterTabProps, TabType } from "@routerTab/types";
-import { INITIAL_TAB_TYPE } from "@routerTab/helper/utils/constants";
+import type { RouterTabProps, TabType } from "@tabor/types";
+import { INITIAL_TAB_TYPE } from "@tabor/helper/utils/constants";
 
 export default defineComponent({
   name: "RtTabs",

@@ -1,9 +1,9 @@
 import { mount } from '@vue/test-utils';
 import { describe, it, expect } from 'vitest';
 import { defineComponent, h, provide, ref, computed } from 'vue';
-import RtIframe from '@routerTab/components/page/iframe/index';
-import type { RouterTabStore } from '@routerTab/store';
-import type { Tab } from '@routerTab/types';
+import RtIframe from '@tabor/components/page/iframe/index';
+import type { RouterTabStore } from '@tabor/store';
+import type { Tab } from '@tabor/types';
 
 // 创建一个模拟的RouterTabStore
 const createMockStore = () => {

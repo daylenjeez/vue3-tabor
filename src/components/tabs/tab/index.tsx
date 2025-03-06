@@ -1,7 +1,7 @@
 import "./index.less";
 
-import type { RouterTabStore } from "@routerTab/store";
-import type { Tab, TabType } from "@routerTab/types";
+import type { RouterTabStore } from "@tabor/store";
+import type { Tab, TabType } from "@tabor/types";
 import DropdownMenu from "../dropdown/index.vue";
 import {
   type Component,
@@ -17,7 +17,7 @@ import {
 
 import Close from "./close";
 import Tablabel from "./label";
-import clickOutside from "@routerTab/directives/clickOutside";
+import clickOutside from "@tabor/directives/clickOutside";
 
 // 创建全局共享状态，用于跟踪当前打开的菜单
 const activeDropdownId = ref<string | null>(null);

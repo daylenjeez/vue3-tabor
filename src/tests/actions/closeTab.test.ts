@@ -1,4 +1,4 @@
-import type { RouterTabStore } from "@routerTab/store";
+import type { RouterTabStore } from "@tabor/store";
 import { beforeEach, describe, it } from "vitest";
 import type { Router } from "vue-router";
 

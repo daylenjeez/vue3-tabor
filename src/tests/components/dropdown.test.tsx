@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils';
 import { describe, it, expect, vi } from 'vitest';
-import DropdownMenu from '@routerTab/components/tabs/dropdown/index.vue';
+import DropdownMenu from '@tabor/components/tabs/dropdown/index.vue';
 
 describe('DropdownMenu Component', () => {
   it('should not render when visible is false', () => {

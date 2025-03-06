@@ -19,7 +19,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': resolve(__dirname, './src'),
-      '@routerTab': resolve(__dirname, './src'),
+      '@tabor': resolve(__dirname, './src'),
     },
   },
 }); 

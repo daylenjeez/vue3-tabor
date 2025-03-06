@@ -10,7 +10,7 @@ import {
   withPreAction,
   withPostAction,
   renameComponentType
-} from '@routerTab/utils';
+} from '@tabor/utils';
 import { h } from 'vue';
 
 describe('Utils Functions', () => {

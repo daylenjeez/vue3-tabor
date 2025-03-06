@@ -1,7 +1,7 @@
 import { beforeEach, describe, it } from "vitest";
 import type { Router } from "vue-router";
 
-import Page from "@routerTab/components/page/index.vue";
+import Page from "@tabor/components/page/index.vue";
 
 import { beforeEachFn, type getWrapper } from "../unit";
 import type { VueWrapper } from "@vue/test-utils/dist/vueWrapper";

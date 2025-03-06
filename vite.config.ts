@@ -15,7 +15,7 @@ export default defineConfig({
   ],
   resolve: {
     alias: [
-      { find: '@routerTab', replacement: resolve(__dirname, './src') }
+      { find: '@tabor', replacement: resolve(__dirname, './src') }
     ]
   },
   build: {
@@ -25,6 +25,7 @@ export default defineConfig({
       fileName: (format) => `index.${format}.js`,
       formats: ['es', 'cjs', 'umd']
     },
+    cssCodeSplit: true,
     rollupOptions: {
       external: ['vue', 'vue-router'],
       output: {
@@ -32,17 +33,14 @@ export default defineConfig({
           vue: 'Vue',
           'vue-router': 'VueRouter'
         },
-        assetFileNames: (assetInfo) => {
-          const originalFileName = assetInfo.originalFileNames?.[0] || '';
-          if (originalFileName.endsWith('.css')) {
-            return 'css/style.css';
-          }
-          return 'assets/[name][extname]';
-        }
+        assetFileNames: 'assets/[name].[ext]'
       }
     },
     minify: 'terser',
     sourcemap: true,
     outDir: 'dist'
+  },
+  css: {
+    devSourcemap: true
   }
 }); 

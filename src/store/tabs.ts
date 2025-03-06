@@ -1,5 +1,5 @@
-import { createTab, createTabId } from "@routerTab/helper/utils";
-import { INITIAL_TAB_CONFIG } from "@routerTab/helper/utils/constants";
+import { createTab, createTabId } from "@tabor/helper/utils";
+import { INITIAL_TAB_CONFIG } from "@tabor/helper/utils/constants";
 import type {
   OpenProps,
   Tab,
@@ -7,13 +7,13 @@ import type {
   TabGetter,
   TabId,
   ToOptions,
-} from "@routerTab/types";
+} from "@tabor/types";
 import {
   isString,
   renameComponentType,
   throwError,
   withPostAction,
-} from "@routerTab/utils";
+} from "@tabor/utils";
 import { computed, reactive, type VNode } from "vue";
 import type {
   RouteLocationNormalizedLoaded,

@@ -46,6 +46,8 @@ npm install vue3-tabor
 ```js
 import { createApp } from "vue";
 import RouterTab from "vue3-tabor";
+// Import CSS file (required)
+import "vue3-tabor/dist/assets/index.css";
 import router from "./router";
 import App from "./App.vue";
 

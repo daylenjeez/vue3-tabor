@@ -1,8 +1,8 @@
 import { mount } from '@vue/test-utils';
 import { describe, it, expect, vi } from 'vitest';
 import { defineComponent, h, provide } from 'vue';
-import Tab from '@routerTab/components/tabs/tab/index';
-import { RouterTabStore } from '@routerTab/store';
+import Tab from '@tabor/components/tabs/tab/index';
+import { RouterTabStore } from '@tabor/store';
 
 // 创建一个模拟的RouterTabStore
 const createMockStore = () => {

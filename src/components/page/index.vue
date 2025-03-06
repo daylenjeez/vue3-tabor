@@ -13,7 +13,7 @@
   </div>
 </template>
 <script lang="ts">
-import type { RouterTabStore } from "@routerTab/store";
+import type { RouterTabStore } from "@tabor/store";
 import { computed, defineComponent, inject, onMounted } from "vue";
 import RtIframe from "./iframe";
 import "./index.less";
@@ -55,4 +55,4 @@ export default defineComponent({
   },
 });
 </script>
-@routerTab/store
+@tabor/store

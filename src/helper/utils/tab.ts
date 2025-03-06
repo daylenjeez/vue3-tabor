@@ -1,5 +1,5 @@
-import type { Tab, TabConfig, TabKey } from "@routerTab/types";
-import { isFunction, isNonEmptyString, throwError } from "@routerTab/utils";
+import type { Tab, TabConfig, TabKey } from "@tabor/types";
+import { isFunction, isNonEmptyString, throwError } from "@tabor/utils";
 import type { RouteLocationNormalized } from "vue-router";
 
 import { INITIAL_TAB_CONFIG } from "./constants";

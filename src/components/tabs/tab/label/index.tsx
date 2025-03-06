@@ -1,6 +1,6 @@
 import "./index.less";
 
-import type { Tab } from "@routerTab/types";
+import type { Tab } from "@tabor/types";
 import { defineComponent, type PropType } from "vue";
 
 export default defineComponent({

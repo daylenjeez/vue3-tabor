@@ -1,9 +1,12 @@
 import type { App, Plugin } from "vue";
 import type { RouteLocationNormalized, Router } from "vue-router";
 
+// 保留样式导入，但这仅用于构建时提取，不会自动应用于用户端
+import "./style/global.less";
+
 import Tabor from "./tabor";
 import { type RouterTabStore, useTabStore } from "./store";
-import type { RouterTabProps, Tab, TabType } from "./types";
+import type { RouterTabProps, Tab, TabConfig, TabType } from "./types";
 
 /**
  * Plugin initialization options
@@ -52,7 +55,9 @@ const TaborPlugin: Plugin = {
 	},
 };
 
-export type { Tab, RouterTabProps, RouterTabStore, TabType, PluginOptions };
+export type {
+	Tab, RouterTabProps, RouterTabStore, TabType, PluginOptions, TabConfig
+};
 
 export { Tabor, useTabStore };
 

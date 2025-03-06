@@ -1,4 +1,4 @@
-import type { Cache, RouterTabStore } from "@routerTab/store";
+import type { Cache, RouterTabStore } from "@tabor/store";
 import { beforeEach, describe, type ExpectStatic, it } from "vitest";
 import type { Router } from "vue-router";
 

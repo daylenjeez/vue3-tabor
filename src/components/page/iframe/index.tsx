@@ -1,4 +1,4 @@
-import type { RouterTabStore } from "@routerTab/store";
+import type { RouterTabStore } from "@tabor/store";
 import {
   computed,
   defineComponent,
@@ -20,7 +20,7 @@ export default defineComponent({
           const activeTabId = tabStore?.state.activeTab?.id;
           // 条件 1：是否需要保留组件 (活跃 或 keepAlive)
           const shouldKeep = iframe.id === activeTabId || iframe.keepAlive;
-          
+
           // 条件 2：是否当前活跃需要显示
           const shouldShow = iframe.id === activeTabId;
 

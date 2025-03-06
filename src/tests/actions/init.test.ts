@@ -1,4 +1,4 @@
-import type { RouterTabStore } from "@routerTab/store";
+import type { RouterTabStore } from "@tabor/store";
 import { beforeEach, describe, expectTypeOf, it } from "vitest";
 
 import type { Tab } from "../../types";

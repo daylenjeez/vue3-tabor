@@ -1,8 +1,8 @@
 import "./index.less";
 
-import InitialClose from "@routerTab/components/ui/initial/icon/close";
-import type { RouterTabStore } from "@routerTab/store";
-import type { TabId } from "@routerTab/types";
+import InitialClose from "@tabor/components/ui/initial/icon/close";
+import type { RouterTabStore } from "@tabor/store";
+import type { TabId } from "@tabor/types";
 import { defineComponent, inject, type PropType } from "vue";
 
 export default defineComponent({
