@@ -1,5 +1,5 @@
 <div align="center">
-    <div align="center"><img src="https://github.com/daylenjeez/vue3-router-tab/assets/111993029/71058201-d832-43d2-8396-04def7756971" width=240 /></div>
+    <div align="center"><img src="/assets/vue-tabor-logo.svg" width=240 /></div>
     <h2 align="center">vue3-tabor</h2>
     <div align="center">🚀 基于 Vue 3 的强大标签页路由解决方案，支持标签页导航与 keepAlive 缓存功能</div>
     <div align="center">兼容多种组件库样式，提供丰富的自定义选项</div>

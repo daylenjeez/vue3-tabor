@@ -1,5 +1,5 @@
 <div align="center">
-    <div align="center"><img src="https://github.com/daylenjeez/vue3-router-tab/assets/111993029/71058201-d832-43d2-8396-04def7756971" width=240 /></div>
+    <div align="center"><img src="/assets/vue-tabor-logo.svg" width=240 /></div>
     <h2 align="center">vue3-tabor</h2>
     <div align="center">🚀 A powerful Vue 3 tab routing solution that supports tab navigation with keepAlive capability</div>
     <div align="center">Compatible with multiple component libraries and providing rich customization options</div>
