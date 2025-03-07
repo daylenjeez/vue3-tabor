@@ -1,7 +1,7 @@
 {
   "name": "vue3-tabor",
-  "version": "0.1.0",
-  "description": "Vue 3 routing tabs with keepAlive support",
+  "version": "0.1.1",
+  "description": "Vue 3 routing tabs with keepAlive support, browser-like tab navigation for Vue applications",
   "main": "dist/index.cjs.js",
   "module": "dist/index.es.js",
   "types": "dist/index.d.ts",
@@ -24,7 +24,16 @@
     "tab-router",
     "vue-tabs",
     "vue-plugin",
-    "tabs-management"
+    "tabs-management",
+    "vue3-tabs",
+    "vue-router-tabs",
+    "keep-alive",
+    "dynamic-tabs",
+    "multiple-tabs",
+    "browser-tabs",
+    "admin-tabs",
+    "navigation-tabs",
+    "tab-component"
   ],
   "author": "Daylen Jeez",
   "license": "MIT",
