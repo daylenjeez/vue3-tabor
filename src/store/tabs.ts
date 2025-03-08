@@ -28,6 +28,19 @@ interface TabStoreOptions {
   maxCache?: number;
 }
 
+// 改变存储键名
+const IFRAME_ROUTE_STORAGE_KEY = 'vue-tabor-iframe-route';
+
+// 修改接口以简化结构
+interface StoredIframeRoute {
+  path: string;
+  name: string;
+  meta: {
+    tabConfig: TabConfig;
+    routeName: string;
+  };
+}
+
 export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
   const { maxCache = 10 } = options;
 
@@ -148,7 +161,6 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
       router.removeRoute(removedTab.routeName);
     }
 
-
     return removedTab ? { ...removedTab, index } : void 0;
   };
 
@@ -179,10 +191,86 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
   };
 
   /**
+   * 保存iframe路由到localStorage
+   * @param {StoredIframeRoute} route - 要保存的路由
+   */
+  const saveIframeRoute = (route: StoredIframeRoute) => {
+    try {
+      // 直接替换原有存储
+      localStorage.setItem(IFRAME_ROUTE_STORAGE_KEY, JSON.stringify(route));
+    } catch (error) {
+      console.error('Failed to save iframe route to localStorage:', error);
+    }
+  };
+
+  /**
+   * 检查路由是否存在
+   */
+  const doesRouteExist = (to: RouteLocationRaw) => {
+    // 使用 router.resolve 来解析路由
+    const resolvedRoute = router.resolve(to);
+
+    // 检查匹配的路由是否存在
+    return resolvedRoute.matched.length > 0;
+  };
+
+  /**
+   * 从localStorage恢复iframe路由
+   */
+  const restoreIframeRoute = () => {
+    try {
+      const storedRoute = localStorage.getItem(IFRAME_ROUTE_STORAGE_KEY);
+      if (!storedRoute) return;
+
+      const route: StoredIframeRoute = JSON.parse(storedRoute);
+
+      // 检查路由是否已存在
+      const doesExist = doesRouteExist({ path: route.path });
+      if (!doesExist) {
+        // 添加路由
+        router.addRoute({
+          path: route.path,
+          name: route.name,
+          meta: route.meta,
+          component: Page,
+        });
+      }
+    } catch (error) {
+      console.error('Failed to restore iframe route from localStorage:', error);
+    }
+  };
+
+
+  // 使用路由守卫确保在路由解析前恢复iframe路由
+  let routeRestored = false;
+  router.beforeEach((to, _, next) => {
+    // 只在第一次导航时恢复路由
+    if (!routeRestored) {
+      restoreIframeRoute();
+      routeRestored = true;
+
+      // 如果当前要访问的就是刚恢复的iframe路由，需要重新解析
+      const storedRoute = localStorage.getItem(IFRAME_ROUTE_STORAGE_KEY);
+      if (storedRoute) {
+        try {
+          const route: StoredIframeRoute = JSON.parse(storedRoute);
+          if (to.path === route.path) {
+            // 重新导航到当前URL，以便正确解析刚添加的路由
+            next({ path: to.fullPath, replace: true });
+            return;
+          }
+        } catch (e) {
+          console.error('Error parsing stored route:', e);
+        }
+      }
+    }
+    next();
+  });
+
+  /**
    * @param {RouteLocationRaw} to
    * @param {Options} options
    * @returns {Promise<RouteLocationNormalized>} route
-   * //TODO:refresh need test
    */
   const open = async (
     to: RouteLocationRaw,
@@ -210,8 +298,19 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
         },
         component: Page,
       };
+
       // 动态添加路由
       router.addRoute(route);
+
+      // 保存iframe路由到localStorage，每次添加新路由都会替换旧的
+      saveIframeRoute({
+        path: path,
+        name,
+        meta: {
+          tabConfig,
+          routeName: name,
+        }
+      });
     }
 
     if (replace) return routerReplace(to);
@@ -400,14 +499,6 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
       return cache.getComponent(key);
     }
     return Component;
-  };
-
-  const doesRouteExist = (to: RouteLocationRaw) => {
-    // 使用 router.resolve 来解析路由
-    const resolvedRoute = router.resolve(to);
-
-    // 检查匹配的路由是否存在
-    return resolvedRoute.matched.length > 0;
   };
 
   router.afterEach((to) => {
