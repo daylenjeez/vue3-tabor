@@ -85,6 +85,132 @@ app.mount("#app");
 </template>
 ```
 
+## 📖 API 文档
+
+### 全局配置
+
+在安装插件时，可以传入以下配置选项：
+
+```js
+app.use(RouterTab, {
+  router: router,       // 必需：Vue Router 实例
+  maxCache: 10,         // 可选：最大缓存数量，默认为10
+});
+```
+
+### 组件属性 (Props)
+
+`<vue-tabor>` 组件支持以下属性：
+
+| 属性 | 类型 | 默认值 | 说明 |
+|------|------|--------|------|
+| maxAlive | Number | 10 | 最大缓存数量 |
+| hideClose | Boolean | false | 是否隐藏关闭按钮 |
+| beforeClose | Function | - | 关闭标签前的钩子函数，返回Promise<boolean> |
+| tabClass | String | - | 标签的自定义CSS类名 |
+| pageClass | String | - | 页面的自定义CSS类名 |
+| dropdownClass | String | - | 下拉菜单的自定义CSS类名 |
+| tabType | String | 'line' | 标签类型，可选值：'line'、'card' |
+| style | Object | - | 自定义样式变量 |
+| tabPrefix | Component | - | 标签前缀组件 |
+
+### 样式变量
+
+可以通过style属性自定义以下CSS变量：
+
+```html
+<vue-tabor :style="{
+  '--tab-background-color': '#f5f5f5',
+  '--tab-color': '#333',
+  '--tab-border-color': '#ddd',
+  '--tab-border-radius': '4px'
+}" />
+```
+
+### 实例方法
+
+可以通过注入的 `tabStore` 访问以下方法：
+
+```js
+// 在组件中使用
+import { inject } from 'vue';
+
+export default {
+  setup() {
+    const tabStore = inject('tabStore');
+    
+    // 使用tabStore方法
+    return { tabStore };
+  }
+}
+```
+
+| 方法 | 参数 | 返回值 | 说明 |
+|------|------|--------|------|
+| open | (to: RouteLocationRaw, options?: OpenProps) | Promise\<void\> | 打开新标签 |
+| close | (item?: TabGetter, toOptions?: ToOptions) | Promise\<void\> | 关闭标签 |
+| closeOthers | (tabId?: TabId) | void | 关闭其他标签 |
+| refresh | (tabId?: TabId) | void | 刷新标签 |
+| find | (tabId: TabId) | Tab \| undefined | 查找标签 |
+| has | (tabId?: TabId) | boolean | 检查标签是否存在 |
+| setActive | (tab: Tab) | void | 设置活动标签 |
+| remove | (item: { id?: TabId; fullPath?: string }) | void | 移除标签 |
+
+### Tab相关类型
+
+```typescript
+// 标签配置
+interface TabConfig {
+  key?: "path" | "fullPath" | ((route) => string);
+  name?: string;
+  keepAlive?: boolean;
+  icon?: string;
+  iframeAttributes?: IframeAttributes;
+}
+
+// 标签信息
+interface Tab {
+  id: string;
+  name: string | symbol;
+  icon?: string;
+  keepAlive?: boolean;
+  fullPath: string;
+  allowClose?: boolean;
+  iframeAttributes?: IframeAttributes;
+  routeName?: string;
+}
+
+// 打开标签的选项
+interface OpenProps {
+  replace?: boolean;  // 是否替换当前标签
+  refresh?: boolean;  // 是否刷新
+  tabConfig?: TabConfig;  // 标签配置
+}
+```
+
+### iframe 支持
+
+vue3-tabor 支持在标签中打开外部页面：
+
+```js
+// 打开iframe标签
+tabStore.open({
+  path: '/iframe',
+  query: { 
+    src: 'https://example.com', 
+    title: '外部页面' 
+  }
+}, {
+  tabConfig: {
+    iframeAttributes: {
+      src: 'https://example.com',
+      width: '100%',
+      height: '100%'
+    }
+  }
+});
+```
+
 ## 🔧 技术栈
 
 - **💻 Vue 3**：基于最新的Vue 3.x版本开发

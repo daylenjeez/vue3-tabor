@@ -85,6 +85,132 @@ app.mount("#app");
 </template>
 ```
 
+## 📖 API Documentation
+
+### Global Configuration
+
+When installing the plugin, you can pass the following configuration options:
+
+```js
+app.use(RouterTab, {
+  router: router,       // Required: Vue Router instance
+  maxCache: 10,         // Optional: Maximum cache size, default is 10
+});
+```
+
+### Component Props
+
+The `<vue-tabor>` component supports the following properties:
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| maxAlive | Number | 10 | Maximum number of cached tabs |
+| hideClose | Boolean | false | Whether to hide the close button |
+| beforeClose | Function | - | Hook function called before closing a tab, returns Promise\<boolean> |
+| tabClass | String | - | Custom CSS class for tabs |
+| pageClass | String | - | Custom CSS class for pages |
+| dropdownClass | String | - | Custom CSS class for dropdown menu |
+| tabType | String | 'line' | Tab type, options: 'line', 'card' |
+| style | Object | - | Custom style variables |
+| tabPrefix | Component | - | Tab prefix component |
+
+### Style Variables
+
+You can customize the following CSS variables through the style prop:
+
+```html
+<vue-tabor :style="{
+  '--tab-background-color': '#f5f5f5',
+  '--tab-color': '#333',
+  '--tab-border-color': '#ddd',
+  '--tab-border-radius': '4px'
+}" />
+```
+
+### Instance Methods
+
+You can access the following methods through the injected `tabStore`:
+
+```js
+// In your component
+import { inject } from 'vue';
+
+export default {
+  setup() {
+    const tabStore = inject('tabStore');
+    
+    // Use tabStore methods
+    return { tabStore };
+  }
+}
+```
+
+| Method | Parameters | Return | Description |
+|--------|------------|--------|-------------|
+| open | (to: RouteLocationRaw, options?: OpenProps) | Promise\<void\> | Open a new tab |
+| close | (item?: TabGetter, toOptions?: ToOptions) | Promise\<void\> | Close a tab |
+| closeOthers | (tabId?: TabId) | void | Close other tabs |
+| refresh | (tabId?: TabId) | void | Refresh a tab |
+| find | (tabId: TabId) | Tab \| undefined | Find a tab by ID |
+| has | (tabId?: TabId) | boolean | Check if a tab exists |
+| setActive | (tab: Tab) | void | Set the active tab |
+| remove | (item: { id?: TabId; fullPath?: string }) | void | Remove a tab |
+
+### Tab-Related Types
+
+```typescript
+// Tab configuration
+interface TabConfig {
+  key?: "path" | "fullPath" | ((route) => string);
+  name?: string;
+  keepAlive?: boolean;
+  icon?: string;
+  iframeAttributes?: IframeAttributes;
+}
+
+// Tab information
+interface Tab {
+  id: string;
+  name: string | symbol;
+  icon?: string;
+  keepAlive?: boolean;
+  fullPath: string;
+  allowClose?: boolean;
+  iframeAttributes?: IframeAttributes;
+  routeName?: string;
+}
+
+// Options for opening a tab
+interface OpenProps {
+  replace?: boolean;  // Whether to replace the current tab
+  refresh?: boolean;  // Whether to refresh
+  tabConfig?: TabConfig;  // Tab configuration
+}
+```
+
+### iframe Support
+
+vue3-tabor supports opening external pages in tabs:
+
+```js
+// Open an iframe tab
+tabStore.open({
+  path: '/iframe',
+  query: { 
+    src: 'https://example.com', 
+    title: 'External Page' 
+  }
+}, {
+  tabConfig: {
+    iframeAttributes: {
+      src: 'https://example.com',
+      width: '100%',
+      height: '100%'
+    }
+  }
+});
+```
+
 ## 🔧 Tech Stack
 
 - **💻 Vue 3**: Developed with the latest Vue 3.x version
