@@ -116,7 +116,7 @@ app.use(RouterTab, {
 
 ### 样式变量
 
-vue3-tabor 提供了丰富的 CSS 变量，可以通过 style 属性或全局 CSS 自定义主题样式。以下是可用的样式变量，已按功能分类：
+vue3-tabor 提供了以下 CSS 变量，可以通过 style 属性或全局 CSS 自定义主题样式：
 
 #### 基础配置
 
@@ -148,9 +148,9 @@ vue3-tabor 提供了丰富的 CSS 变量，可以通过 style 属性或全局 CS
   --tab-border-color: #e2e8f0,              /* 标签边框颜色 */
   --tab-border-radius: 4px,                 /* 标签边框圆角 */
   
-  /* 标签悬停状态 */
-  --tab-hover-background-color: #f1f5f9,    /* 悬停标签的背景色 */
-  --tab-hover-text-color: #334155,          /* 悬停标签的文本颜色 */
+  /* 标签阴影 */
+  --tab-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03),  /* 标签阴影 */
+  --tab-active-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), /* 激活标签阴影 */
 }" />
 ```
 
@@ -160,28 +160,6 @@ vue3-tabor 提供了丰富的 CSS 变量，可以通过 style 属性或全局 CS
 <vue-tabor :style="{
   /* 内容区域样式 */
   --page-padding: 10px,                     /* 页面内容区域内边距 */
-  --page-background-color: #ffffff,         /* 页面内容区域背景色 */
-  --page-border-radius: 4px,                /* 页面内容区域圆角 */
-}" />
-```
-
-#### 控制按钮
-
-```html
-<vue-tabor :style="{
-  /* 关闭按钮样式 */
-  --close-icon-size: 14px,                  /* 关闭图标大小 */
-  --close-icon-color: #94a3b8,              /* 关闭图标颜色 */
-  --close-icon-hover-color: #ef4444,        /* 关闭图标悬停颜色 */
-  --close-icon-hover-bg: rgba(239, 68, 68, 0.1), /* 关闭图标悬停背景 */
-  
-  /* 右键菜单样式 */
-  --dropdown-bg-color: #ffffff,             /* 下拉菜单背景色 */
-  --dropdown-text-color: #334155,           /* 下拉菜单文本颜色 */
-  --dropdown-hover-bg-color: #f1f5f9,       /* 下拉菜单项悬停背景色 */
-  --dropdown-hover-text-color: #5a67d8,     /* 下拉菜单项悬停文本颜色 */
-  --dropdown-border-color: #e2e8f0,         /* 下拉菜单边框颜色 */
-  --dropdown-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), /* 下拉菜单阴影 */
 }" />
 ```
 
@@ -206,15 +184,7 @@ vue3-tabor 提供了丰富的 CSS 变量，可以通过 style 属性或全局 CS
   --tab-active-background-color: #1e293b,
   --tab-active-color: #818cf8,
   --tab-text-color: #cbd5e1,
-  --tab-border-color: #334155,
-  --tab-hover-background-color: #334155,
-  --tab-hover-text-color: #f8fafc,
-  --page-background-color: #0f172a,
-  --dropdown-bg-color: #1e293b,
-  --dropdown-text-color: #cbd5e1,
-  --dropdown-hover-bg-color: #334155,
-  --dropdown-hover-text-color: #818cf8,
-  --dropdown-border-color: #334155
+  --tab-border-color: #334155
 }" />
 ```
 
@@ -224,9 +194,7 @@ vue3-tabor 提供了丰富的 CSS 变量，可以通过 style 属性或全局 CS
   --primary-color: #0ea5e9,
   --tab-border-radius: 8px 8px 0 0,
   --tab-background-color: rgba(224, 242, 254, 0.5),
-  --tab-active-background-color: #fff,
-  --tab-hover-background-color: #e0f2fe,
-  --close-icon-hover-color: #0284c7
+  --tab-active-background-color: #fff
 }" />
 ```
 
@@ -237,9 +205,9 @@ vue3-tabor 提供了丰富的 CSS 变量，可以通过 style 属性或全局 CS
 ```css
 /* 在您的全局样式文件中 */
 :root {
-  --rt-primary-color: #5a67d8;
-  --rt-tab-height: 40px;
-  --rt-tab-background-color: rgba(248, 249, 250, 0.5);
+  --primary-color: #5a67d8;
+  --tab-height: 40px;
+  --tab-background-color: rgba(248, 249, 250, 0.5);
   /* 其他变量... */
 }
 ```

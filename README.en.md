@@ -116,7 +116,7 @@ The `<vue-tabor>` component supports the following properties:
 
 ### Style Variables
 
-vue3-tabor provides rich CSS variables that can be customized through the style prop or global CSS. Below are the available style variables, categorized by function:
+vue3-tabor provides CSS variables that can be customized through the style prop or global CSS. Below are the available style variables:
 
 #### Basic Configuration
 
@@ -148,9 +148,9 @@ vue3-tabor provides rich CSS variables that can be customized through the style 
   '--tab-border-color': '#e2e8f0',          /* Tab border color */
   '--tab-border-radius': '4px',             /* Tab border radius */
   
-  /* Tab hover states */
-  '--tab-hover-background-color': '#f1f5f9', /* Hover tab background color */
-  '--tab-hover-text-color': '#334155',      /* Hover tab text color */
+  /* Tab shadows */
+  '--tab-box-shadow': '0 1px 2px rgba(0, 0, 0, 0.03)',  /* Tab shadow */
+  '--tab-active-box-shadow': '0 1px 3px rgba(0, 0, 0, 0.05)', /* Active tab shadow */
 }" />
 ```
 
@@ -160,28 +160,6 @@ vue3-tabor provides rich CSS variables that can be customized through the style 
 <vue-tabor :style="{
   /* Content area styles */
   '--page-padding': '10px',                 /* Page content area padding */
-  '--page-background-color': '#ffffff',     /* Page content area background color */
-  '--page-border-radius': '4px',            /* Page content area border radius */
-}" />
-```
-
-#### Control Buttons
-
-```html
-<vue-tabor :style="{
-  /* Close button styles */
-  '--close-icon-size': '14px',              /* Close icon size */
-  '--close-icon-color': '#94a3b8',          /* Close icon color */
-  '--close-icon-hover-color': '#ef4444',    /* Close icon hover color */
-  '--close-icon-hover-bg': 'rgba(239, 68, 68, 0.1)', /* Close icon hover background */
-  
-  /* Right-click menu styles */
-  '--dropdown-bg-color': '#ffffff',         /* Dropdown menu background color */
-  '--dropdown-text-color': '#334155',       /* Dropdown menu text color */
-  '--dropdown-hover-bg-color': '#f1f5f9',   /* Dropdown menu item hover background color */
-  '--dropdown-hover-text-color': '#5a67d8', /* Dropdown menu item hover text color */
-  '--dropdown-border-color': '#e2e8f0',     /* Dropdown menu border color */
-  '--dropdown-shadow': '0 4px 6px -1px rgba(0, 0, 0, 0.1)', /* Dropdown menu shadow */
 }" />
 ```
 
@@ -206,15 +184,7 @@ vue3-tabor provides rich CSS variables that can be customized through the style 
   '--tab-active-background-color': '#1e293b',
   '--tab-active-color': '#818cf8',
   '--tab-text-color': '#cbd5e1',
-  '--tab-border-color': '#334155',
-  '--tab-hover-background-color': '#334155',
-  '--tab-hover-text-color': '#f8fafc',
-  '--page-background-color': '#0f172a',
-  '--dropdown-bg-color': '#1e293b',
-  '--dropdown-text-color': '#cbd5e1',
-  '--dropdown-hover-bg-color': '#334155',
-  '--dropdown-hover-text-color': '#818cf8',
-  '--dropdown-border-color': '#334155'
+  '--tab-border-color': '#334155'
 }" />
 ```
 
@@ -224,9 +194,7 @@ vue3-tabor provides rich CSS variables that can be customized through the style 
   '--primary-color': '#0ea5e9',
   '--tab-border-radius': '8px 8px 0 0',
   '--tab-background-color': 'rgba(224, 242, 254, 0.5)',
-  '--tab-active-background-color': '#fff',
-  '--tab-hover-background-color': '#e0f2fe',
-  '--close-icon-hover-color': '#0284c7'
+  '--tab-active-background-color': '#fff'
 }" />
 ```
 
@@ -237,9 +205,9 @@ In addition to using the component's style prop, you can customize styles throug
 ```css
 /* In your global CSS file */
 :root {
-  --rt-primary-color: #5a67d8;
-  --rt-tab-height: 40px;
-  --rt-tab-background-color: rgba(248, 249, 250, 0.5);
+  --primary-color: #5a67d8;
+  --tab-height: 40px;
+  --tab-background-color: rgba(248, 249, 250, 0.5);
   /* Other variables... */
 }
 ```
