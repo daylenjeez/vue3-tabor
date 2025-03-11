@@ -116,16 +116,167 @@ The `<vue-tabor>` component supports the following properties:
 
 ### Style Variables
 
-You can customize the following CSS variables through the style prop:
+vue3-tabor provides rich CSS variables that can be customized through the style prop or global CSS. Below are the available style variables, categorized by function:
+
+#### Basic Configuration
 
 ```html
 <vue-tabor :style="{
-  '--tab-background-color': '#f5f5f5',
-  '--tab-color': '#333',
-  '--tab-border-color': '#ddd',
-  '--tab-border-radius': '4px'
+  /* Basic colors and sizes */
+  '--primary-color': '#5a67d8',             /* Primary theme color for active states and highlights */
+  '--font-size-base': '14px',               /* Base font size */
 }" />
 ```
+
+#### Tab Appearance
+
+```html
+<vue-tabor :style="{
+  /* Tab size and spacing */
+  '--tab-height': '40px',                   /* Tab height */
+  '--tab-min-width': '83px',                /* Tab minimum width */
+  '--tab-padding': '0 12px',                /* Tab padding */
+  '--tabs-gap': '6px',                      /* Gap between tabs */
+  '--tab-label-min-width': '30px',          /* Minimum width for tab label text */
+  '--tab-label-max-width': '100px',         /* Maximum width for tab label text, text will truncate beyond this */
+  
+  /* Tab colors and borders */
+  '--tab-background-color': 'rgba(248, 249, 250, 0.5)', /* Tab background color */
+  '--tab-active-background-color': '#fff',  /* Active tab background color */
+  '--tab-active-color': 'var(--primary-color)', /* Active tab text color */
+  '--tab-text-color': '#64748b',            /* Normal tab text color */
+  '--tab-border-color': '#e2e8f0',          /* Tab border color */
+  '--tab-border-radius': '4px',             /* Tab border radius */
+  
+  /* Tab hover states */
+  '--tab-hover-background-color': '#f1f5f9', /* Hover tab background color */
+  '--tab-hover-text-color': '#334155',      /* Hover tab text color */
+}" />
+```
+
+#### Content Area
+
+```html
+<vue-tabor :style="{
+  /* Content area styles */
+  '--page-padding': '10px',                 /* Page content area padding */
+  '--page-background-color': '#ffffff',     /* Page content area background color */
+  '--page-border-radius': '4px',            /* Page content area border radius */
+}" />
+```
+
+#### Control Buttons
+
+```html
+<vue-tabor :style="{
+  /* Close button styles */
+  '--close-icon-size': '14px',              /* Close icon size */
+  '--close-icon-color': '#94a3b8',          /* Close icon color */
+  '--close-icon-hover-color': '#ef4444',    /* Close icon hover color */
+  '--close-icon-hover-bg': 'rgba(239, 68, 68, 0.1)', /* Close icon hover background */
+  
+  /* Right-click menu styles */
+  '--dropdown-bg-color': '#ffffff',         /* Dropdown menu background color */
+  '--dropdown-text-color': '#334155',       /* Dropdown menu text color */
+  '--dropdown-hover-bg-color': '#f1f5f9',   /* Dropdown menu item hover background color */
+  '--dropdown-hover-text-color': '#5a67d8', /* Dropdown menu item hover text color */
+  '--dropdown-border-color': '#e2e8f0',     /* Dropdown menu border color */
+  '--dropdown-shadow': '0 4px 6px -1px rgba(0, 0, 0, 0.1)', /* Dropdown menu shadow */
+}" />
+```
+
+#### Preset Theme Examples
+
+**Default Theme (Light)**
+```html
+<vue-tabor :style="{
+  '--primary-color': '#5a67d8',
+  '--tab-background-color': 'rgba(248, 249, 250, 0.5)',
+  '--tab-active-background-color': '#fff',
+  '--tab-text-color': '#64748b',
+  '--tab-border-color': '#e2e8f0'
+}" />
+```
+
+**Dark Theme**
+```html
+<vue-tabor :style="{
+  '--primary-color': '#818cf8',
+  '--tab-background-color': 'rgba(30, 41, 59, 0.5)',
+  '--tab-active-background-color': '#1e293b',
+  '--tab-active-color': '#818cf8',
+  '--tab-text-color': '#cbd5e1',
+  '--tab-border-color': '#334155',
+  '--tab-hover-background-color': '#334155',
+  '--tab-hover-text-color': '#f8fafc',
+  '--page-background-color': '#0f172a',
+  '--dropdown-bg-color': '#1e293b',
+  '--dropdown-text-color': '#cbd5e1',
+  '--dropdown-hover-bg-color': '#334155',
+  '--dropdown-hover-text-color': '#818cf8',
+  '--dropdown-border-color': '#334155'
+}" />
+```
+
+**Bright Blue Theme**
+```html
+<vue-tabor :style="{
+  '--primary-color': '#0ea5e9',
+  '--tab-border-radius': '8px 8px 0 0',
+  '--tab-background-color': 'rgba(224, 242, 254, 0.5)',
+  '--tab-active-background-color': '#fff',
+  '--tab-hover-background-color': '#e0f2fe',
+  '--close-icon-hover-color': '#0284c7'
+}" />
+```
+
+#### Customizing Styles with Global CSS
+
+In addition to using the component's style prop, you can customize styles through global CSS variables:
+
+```css
+/* In your global CSS file */
+:root {
+  --rt-primary-color: #5a67d8;
+  --rt-tab-height: 40px;
+  --rt-tab-background-color: rgba(248, 249, 250, 0.5);
+  /* Other variables... */
+}
+```
+
+#### Advanced Style Customization
+
+For deeper customization needs, you can use the following methods:
+
+1. **Add custom styles using provided class names**:
+   ```css
+   /* Custom tab styles */
+   .rt-tabs .tab {
+     /* Custom styles */
+   }
+   
+   /* Custom active tab styles */
+   .rt-tabs .tab.active {
+     /* Custom styles */
+   }
+   ```
+
+2. **Customize tab content using slots**:
+   ```html
+   <vue-tabor>
+     <template #tab="{ tab }">
+       <div class="custom-tab">
+         <img v-if="tab.icon" :src="tab.icon" class="tab-icon" />
+         <span>{{ tab.name }}</span>
+       </div>
+     </template>
+   </vue-tabor>
+   ```
+
+3. **Add prefix content using the tabPrefix prop**:
+   ```html
+   <vue-tabor :tabPrefix="YourPrefixComponent" />
+   ```
 
 ### Instance Methods
 

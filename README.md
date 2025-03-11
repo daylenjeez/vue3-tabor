@@ -116,16 +116,167 @@ app.use(RouterTab, {
 
 ### 样式变量
 
-可以通过style属性自定义以下CSS变量：
+vue3-tabor 提供了丰富的 CSS 变量，可以通过 style 属性或全局 CSS 自定义主题样式。以下是可用的样式变量，已按功能分类：
+
+#### 基础配置
 
 ```html
 <vue-tabor :style="{
-  '--tab-background-color': '#f5f5f5',
-  '--tab-color': '#333',
-  '--tab-border-color': '#ddd',
-  '--tab-border-radius': '4px'
+  /* 基础颜色与尺寸 */
+  --primary-color: #5a67d8,                 /* 主题色，用于激活状态和高亮效果 */
+  --font-size-base: 14px,                   /* 基础字体大小 */
 }" />
 ```
+
+#### 标签外观
+
+```html
+<vue-tabor :style="{
+  /* 标签尺寸与间距 */
+  --tab-height: 40px,                       /* 标签高度 */
+  --tab-min-width: 83px,                    /* 标签最小宽度 */
+  --tab-padding: 0 12px,                    /* 标签内边距 */
+  --tabs-gap: 6px,                          /* 标签之间的间距 */
+  --tab-label-min-width: 30px,              /* 标签文本最小宽度 */
+  --tab-label-max-width: 100px,             /* 标签文本最大宽度，超出将显示省略号 */
+  
+  /* 标签颜色与边框 */
+  --tab-background-color: rgba(248, 249, 250, 0.5), /* 标签背景色 */
+  --tab-active-background-color: #fff,      /* 激活标签的背景色 */
+  --tab-active-color: var(--primary-color), /* 激活标签的文本颜色 */
+  --tab-text-color: #64748b,                /* 普通标签的文本颜色 */
+  --tab-border-color: #e2e8f0,              /* 标签边框颜色 */
+  --tab-border-radius: 4px,                 /* 标签边框圆角 */
+  
+  /* 标签悬停状态 */
+  --tab-hover-background-color: #f1f5f9,    /* 悬停标签的背景色 */
+  --tab-hover-text-color: #334155,          /* 悬停标签的文本颜色 */
+}" />
+```
+
+#### 内容区域
+
+```html
+<vue-tabor :style="{
+  /* 内容区域样式 */
+  --page-padding: 10px,                     /* 页面内容区域内边距 */
+  --page-background-color: #ffffff,         /* 页面内容区域背景色 */
+  --page-border-radius: 4px,                /* 页面内容区域圆角 */
+}" />
+```
+
+#### 控制按钮
+
+```html
+<vue-tabor :style="{
+  /* 关闭按钮样式 */
+  --close-icon-size: 14px,                  /* 关闭图标大小 */
+  --close-icon-color: #94a3b8,              /* 关闭图标颜色 */
+  --close-icon-hover-color: #ef4444,        /* 关闭图标悬停颜色 */
+  --close-icon-hover-bg: rgba(239, 68, 68, 0.1), /* 关闭图标悬停背景 */
+  
+  /* 右键菜单样式 */
+  --dropdown-bg-color: #ffffff,             /* 下拉菜单背景色 */
+  --dropdown-text-color: #334155,           /* 下拉菜单文本颜色 */
+  --dropdown-hover-bg-color: #f1f5f9,       /* 下拉菜单项悬停背景色 */
+  --dropdown-hover-text-color: #5a67d8,     /* 下拉菜单项悬停文本颜色 */
+  --dropdown-border-color: #e2e8f0,         /* 下拉菜单边框颜色 */
+  --dropdown-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), /* 下拉菜单阴影 */
+}" />
+```
+
+#### 预设主题示例
+
+**默认主题 (浅色)**
+```html
+<vue-tabor :style="{
+  --primary-color: #5a67d8,
+  --tab-background-color: rgba(248, 249, 250, 0.5),
+  --tab-active-background-color: #fff,
+  --tab-text-color: #64748b,
+  --tab-border-color: #e2e8f0
+}" />
+```
+
+**暗色主题**
+```html
+<vue-tabor :style="{
+  --primary-color: #818cf8,
+  --tab-background-color: rgba(30, 41, 59, 0.5),
+  --tab-active-background-color: #1e293b,
+  --tab-active-color: #818cf8,
+  --tab-text-color: #cbd5e1,
+  --tab-border-color: #334155,
+  --tab-hover-background-color: #334155,
+  --tab-hover-text-color: #f8fafc,
+  --page-background-color: #0f172a,
+  --dropdown-bg-color: #1e293b,
+  --dropdown-text-color: #cbd5e1,
+  --dropdown-hover-bg-color: #334155,
+  --dropdown-hover-text-color: #818cf8,
+  --dropdown-border-color: #334155
+}" />
+```
+
+**亮蓝主题**
+```html
+<vue-tabor :style="{
+  --primary-color: #0ea5e9,
+  --tab-border-radius: 8px 8px 0 0,
+  --tab-background-color: rgba(224, 242, 254, 0.5),
+  --tab-active-background-color: #fff,
+  --tab-hover-background-color: #e0f2fe,
+  --close-icon-hover-color: #0284c7
+}" />
+```
+
+#### 通过全局 CSS 自定义样式
+
+除了使用组件的 style 属性外，您还可以通过全局 CSS 变量设置来自定义样式：
+
+```css
+/* 在您的全局样式文件中 */
+:root {
+  --rt-primary-color: #5a67d8;
+  --rt-tab-height: 40px;
+  --rt-tab-background-color: rgba(248, 249, 250, 0.5);
+  /* 其他变量... */
+}
+```
+
+#### 高级样式定制
+
+对于需要更深层次自定义的场景，您可以使用以下方法：
+
+1. **使用提供的类名添加自定义样式**：
+   ```css
+   /* 自定义标签样式 */
+   .rt-tabs .tab {
+     /* 自定义样式 */
+   }
+   
+   /* 自定义激活标签样式 */
+   .rt-tabs .tab.active {
+     /* 自定义样式 */
+   }
+   ```
+
+2. **通过插槽自定义标签内容**：
+   ```html
+   <vue-tabor>
+     <template #tab="{ tab }">
+       <div class="custom-tab">
+         <img v-if="tab.icon" :src="tab.icon" class="tab-icon" />
+         <span>{{ tab.name }}</span>
+       </div>
+     </template>
+   </vue-tabor>
+   ```
+
+3. **使用 tabPrefix 属性添加前缀内容**：
+   ```html
+   <vue-tabor :tabPrefix="YourPrefixComponent" />
+   ```
 
 ### 实例方法
 
