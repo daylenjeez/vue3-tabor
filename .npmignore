@@ -6,8 +6,11 @@ tsconfig.json
 .git/
 
 tests/
+src/tests/
 coverage/
 *.test.js
 *.spec.js
+*.test.ts
+*.spec.ts
 
 .vscode/

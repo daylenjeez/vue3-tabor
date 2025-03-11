@@ -10,6 +10,7 @@ export default defineConfig({
     vueJsx(),
     dts({
       include: ['src/**/*.ts', 'src/**/*.tsx', 'src/**/*.vue'],
+      exclude: ['src/tests/**/*', '**/*.test.ts', '**/*.spec.ts'],
       outDir: 'dist'
     }),
   ],
