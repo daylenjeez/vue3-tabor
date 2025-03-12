@@ -15,14 +15,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "prepublishOnly": "npm run test && npm run build",
-    "example:install": "cd example && rm -rf node_modules && npm install",
-    "example:dev": "cd example && npm run dev",
-    "example:local": "cd example && npm run dev:local",
-    "example:debug": "cd example && bash debug.sh",
-    "example:advanced-debug": "cd example && bash advanced-debug.sh",
-    "example:test-paths": "cd example && npm run test:paths",
-    "example": "npm run example:install && npm run example:dev"
+    "prepublishOnly": "npm run test && npm run build"
   },
   "keywords": [
     "vue3",
