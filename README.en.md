@@ -18,7 +18,7 @@
 
 ## ✨ Features
 
-- **🔥 Easy to Use**: Zero learning curve, just import and use, inheriting the excellent design principles of [vue-router-tab](https://bhuh12.github.io/vue-router-tab)
+- **🔥 Easy to Use**: Zero learning curve, just import and use
 - **🎨 Highly Customizable**: Rich APIs and configurations to meet requirements from basic to complex
 - **📦 Lightweight & Efficient**: Optimized for Vue 3 and Vue Router 4, delivering excellent performance with a small footprint
 - **💪 TypeScript Support**: Developed with TypeScript, providing complete type definitions for superior development experience
