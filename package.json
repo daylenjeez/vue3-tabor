@@ -1,6 +1,6 @@
 {
   "name": "vue3-tabor",
-  "version": "0.1.4",
+  "version": "0.1.6",
   "description": "Vue 3 routing tabs with keepAlive support, browser-like tab navigation for Vue applications",
   "main": "dist/index.cjs.js",
   "module": "dist/index.es.js",

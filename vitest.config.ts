@@ -12,9 +12,6 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     include: ['src/tests/**/*.{test,spec}.{ts,tsx}'],
-    deps: {
-      inline: ['vue', 'vue-router']
-    },
     coverage: {
       provider: 'istanbul' // or 'v8'
     },
