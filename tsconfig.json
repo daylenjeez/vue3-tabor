@@ -29,11 +29,18 @@
       "@tabor/*": [
         "src/*"
       ]
-    }
+    },
+    "types": [
+      "vitest/globals",
+      "vitest/importMeta",
+      "@vue/test-utils"
+    ]
   },
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
-    "src/**/*.vue"
+    "src/**/*.vue",
+    "src/tests/**/*.ts",
+    "src/tests/**/*.tsx"
   ]
 }

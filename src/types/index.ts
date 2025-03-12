@@ -1,5 +1,6 @@
 import type { CSSProperties, IframeHTMLAttributes, Component } from "vue";
 import type { RouteLocationNormalized } from "vue-router";
+import type { Language } from '../utils/i18n';
 
 export type TabKey =
   | "path"
@@ -82,6 +83,7 @@ export type TabType = "line" | "card";
  * @property {boolean} restore - Whether to restore tabs after refresh
  * @property {CustomCssVariables & CSSProperties} style - Custom styles
  * @property {Component | ((tab: Tab) => Component | VNode)} tabPrefix - Vue component or function returning component to use as tab prefix
+ * @property {Language} language - The language to use for the UI
  */
 export interface RouterTabProps {
   maxAlive: number;
@@ -95,6 +97,7 @@ export interface RouterTabProps {
   restore?: boolean;
   style?: CustomCssVariables & CSSProperties;
   tabPrefix?: Component;
+  language?: Language;
 }
 
 /**

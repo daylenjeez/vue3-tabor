@@ -113,6 +113,7 @@ The `<vue-tabor>` component supports the following properties:
 | tabType | String | 'line' | Tab type, options: 'line', 'card' |
 | style | Object | - | Custom style variables |
 | tabPrefix | Component | - | Tab prefix component |
+| language | String | 'zh' | UI language, options: 'zh', 'en' |
 
 ### Style Variables
 
@@ -330,6 +331,33 @@ tabStore.open({
 });
 ```
 
+### Internationalization
+
+vue3-tabor supports both Chinese and English languages, which can be configured as follows:
+
+```html
+<!-- Set to English -->
+<vue-tabor language="en" />
+
+<!-- Set to Chinese -->
+<vue-tabor language="zh" />
+
+<!-- Hide language switch button -->
+<vue-tabor :showLanguageSwitch="false" />
+```
+
+You can also dynamically change the language using the API:
+
+```js
+import { setLanguage } from 'vue3-tabor/utils/i18n';
+
+// Switch to English
+setLanguage('en');
+
+// Switch to Chinese
+setLanguage('zh');
+```
+
 ## 🔧 Tech Stack
 
 - **💻 Vue 3**: Developed with the latest Vue 3.x version
@@ -340,3 +368,42 @@ tabStore.open({
 ## 📚 Additional Resources
 
 - [Issue Reporting](https://github.com/daylenjeez/vue3-tabor/issues)
+
+## Testing i18n Features
+
+To ensure the i18n functionality works correctly, we've added dedicated unit tests for internationalization. Run the following command to execute the tests:
+
+```bash
+npm run test
+```
+
+The i18n tests cover the following aspects:
+
+1. **Core i18n Utility Tests** (`src/tests/i18n.test.ts`):
+   - Language switching functionality
+   - Translation retrieval
+   - Default language handling
+
+2. **Dropdown Menu Component Translation Tests** (`src/tests/components/dropdown.test.tsx`):
+   - Default Chinese text display
+   - English text display when configured
+   - Text updates during language changes
+
+3. **Language Switch Component Tests** (`src/tests/components/languageSwitch.test.tsx`):
+   - Language switch button rendering
+   - Language toggle functionality
+   - Button display in different languages
+
+4. **Integration Tests** (`src/tests/i18n-integration.test.tsx`):
+   - Language prop propagation in the Tabor component
+   - Language switch button show/hide
+   - Default language handling
+
+### Adding New Translations
+
+To add new translations, follow these steps:
+
+1. Add new key-value pairs to the translations object in `src/utils/i18n.ts`
+2. Update the `TranslationKey` type
+3. Use `t('newKey')` in components to retrieve the translation
+4. Write test cases for the newly added translations

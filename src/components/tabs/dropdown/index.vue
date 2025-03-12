@@ -5,16 +5,16 @@
        @contextmenu="handleRightClick">
     <ul>
       <li @click="handleAction('refresh')">
-        <span>刷新</span>
+        <span>{{ translations.refresh }}</span>
       </li>
       <li @click="!disabledActions.includes('close') && handleAction('close')"
           :class="{ 'rt-dropdown-item-disabled': disabledActions.includes('close') }">
-        <span>关闭</span>
+        <span>{{ translations.close }}</span>
       </li>
       <li class="rt-dropdown-divider"></li>
       <li @click="!disabledActions.includes('closeOthers') && handleAction('closeOthers')"
           :class="{ 'rt-dropdown-item-disabled': disabledActions.includes('closeOthers') }">
-        <span>关闭其他</span>
+        <span>{{ translations.closeOthers }}</span>
       </li>
     </ul>
   </div>
@@ -22,6 +22,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { t, getLanguage, Language, setLanguage } from '../../../utils/i18n';
 
 export default defineComponent({
   name: 'DropdownMenu',
@@ -37,10 +38,26 @@ export default defineComponent({
     disabledActions: {
       type: Array as () => string[],
       default: () => []
+    },
+    language: {
+      type: String as () => Language,
+      default: 'zh'
     }
   },
   emits: ['action'],
-  setup(props, { emit }) {
+  setup(props: any, { emit }: any) {
+    // Set language based on props
+    if (props.language && props.language !== getLanguage()) {
+      setLanguage(props.language);
+    }
+
+    // Create translations object
+    const translations = {
+      refresh: t('refresh'),
+      close: t('close'),
+      closeOthers: t('closeOthers')
+    };
+
     const handleAction = (action: string) => {
       // 如果该操作被禁用，则不触发事件
       if (props.disabledActions.includes(action)) {
@@ -55,6 +72,7 @@ export default defineComponent({
     };
 
     return {
+      translations,
       handleAction,
       handleRightClick
     };

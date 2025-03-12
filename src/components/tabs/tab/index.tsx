@@ -14,6 +14,7 @@ import {
   h,
   withDirectives,
 } from "vue";
+import { Language } from "@tabor/utils/i18n";
 
 import Close from "./close";
 import Tablabel from "./label";
@@ -46,6 +47,7 @@ export default defineComponent({
     const store = inject<RouterTabStore>("tabStore");
     const tabClass = inject<string>("tabClass");
     const tabType = inject<TabType>("tabType") ?? "line";
+    const language = inject<Language>("language") ?? "zh";
     const tabsLength = computed(() => store?.state.tabs.length ?? 0);
     const isActive = computed(() => store?.state.activeTab?.id === props.id);
     const showClose = computed(() => tabsLength.value > 1);
@@ -157,17 +159,16 @@ export default defineComponent({
           disabledActions.push("closeOthers");
         }
 
-        const vnode = h(DropdownMenu, {
-          visible: dropdownVisible.value,
-          position: dropdownPosition.value,
-          disabledActions,
-          onAction: handleDropdownAction,
-        });
-
-        // 使用withDirectives添加v-click-outside指令
-        dropdownMenu = withDirectives(vnode, [
-          [clickOutside, handleClickOutside],
-        ]);
+        dropdownMenu = withDirectives(
+          h(DropdownMenu, {
+            visible: dropdownVisible.value,
+            position: dropdownPosition.value,
+            disabledActions: disabledActions,
+            language: language,
+            onAction: handleDropdownAction,
+          }),
+          [[clickOutside, handleClickOutside]]
+        );
       }
 
       return (
