@@ -12,7 +12,6 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     include: ['src/tests/**/*.{test,spec}.{ts,tsx}'],
-    setupFiles: ['./src/tests/setup.ts'],
     deps: {
       inline: ['vue', 'vue-router']
     },

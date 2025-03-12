@@ -5,7 +5,6 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "dev:minimal": "vite --config vite.minimal.config.js",
     "dev:local": "vite --config vite.local.config.js serve index-local.html",
     "test:paths": "node test-path-resolution.cjs",
     "build": "vite build",

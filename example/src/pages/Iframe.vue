@@ -5,23 +5,26 @@
     
     <div class="iframe-controls">
       <input v-model="iframeUrl" placeholder="输入URL（例如：https://www.example.com）" />
-      <button @click="openIframeTab">打开iframe标签页</button>
+      <button @click="openIframeTab">在新标签页中打开</button>
     </div>
     
     <div class="iframe-examples">
-      <h3>常用示例：</h3>
-      <button @click="openPresetIframe('https://www.bing.com')">Bing</button>
-      <button @click="openPresetIframe('https://www.github.com')">GitHub</button>
-      <button @click="openPresetIframe('https://www.vuejs.org')">Vue.js</button>
+      <h3>快速访问：</h3>
+      <button @click="openPresetIframe({url: 'https://www.bing.com', path: 'Bing'})">打开Bing</button>
+      <button @click="openPresetIframe({url: 'https://www.github.com', path: 'GitHub'})">打开GitHub</button>
+      <button @click="openPresetIframe({url: 'https://www.vuejs.org', path: 'Vue.js'})">打开Vue.js</button>
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref, inject } from 'vue';
+import { useRouter } from 'vue-router';
+import IframeView from './IframeView.vue';
 
 const iframeUrl = ref('');
 const tabStore = inject('tabStore');
+const router = useRouter();
 
 const openIframeTab = () => {
   if (!iframeUrl.value) return;
@@ -32,9 +35,29 @@ const openIframeTab = () => {
     url = 'https://' + url;
   }
   
+  // 为URL创建一个安全的ID
+  const urlId = encodeURIComponent(url);
+  
+  // 创建动态路由路径
+  const routePath = `/iframe/${urlId}`;
+  
+  // 生成唯一的tabKey
+  const tabKey = `iframe-${urlId}`;
+  
+  // 动态添加路由
+  const routeName = `iframe-${urlId}`;
+  router.addRoute({
+    path: routePath,
+    name: routeName,
+    component: IframeView,
+    props: { url }
+  });
+  
   // 使用tabStore的open方法打开iframe
-  tabStore.open(url, {
+  tabStore.open(routePath, {
+    tabKey: tabKey,
     tabConfig: {
+      title: new URL(url).hostname,
       iframeAttributes: {
         src: url,
         allow: 'fullscreen',
@@ -47,9 +70,43 @@ const openIframeTab = () => {
   iframeUrl.value = '';
 };
 
-const openPresetIframe = (url) => {
-  iframeUrl.value = url;
-  openIframeTab();
+const openPresetIframe = ({url, path}) => {
+  // 确保URL包含协议
+  if (!url.startsWith('http://') && !url.startsWith('https://')) {
+    url = 'https://' + url;
+  }
+  
+  // 为URL创建一个安全的ID
+  const urlId = encodeURIComponent(url);
+  
+  // 创建动态路由路径
+  const routePath = `/iframe/${path}`;
+
+
+  const tabConfig = {
+    key: 'path',
+    title: path,
+    iframeAttributes: {
+      src: url,
+      allow: 'fullscreen',
+    },
+  }
+  
+  // 动态添加路由
+  const routeName = `iframe-${path}`;
+  router.addRoute({
+    path: routePath,
+    name: routeName,
+    component: IframeView,
+    meta:{
+      tabConfig
+    }
+  });
+  
+  // 使用tabStore的open方法打开iframe
+  tabStore.open(routePath, {
+    tabConfig
+  });
 };
 </script>
 
