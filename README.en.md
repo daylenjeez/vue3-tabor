@@ -55,7 +55,7 @@ npm install vue3-tabor
 
 ```js
 import { createApp } from "vue";
-import RouterTab from "vue3-tabor";
+import Tabor from "vue3-tabor";
 // Import CSS file (required)
 import "vue3-tabor/dist/assets/index.css";
 import router from "./router";
@@ -63,7 +63,7 @@ import App from "./App.vue";
 
 const app = createApp(App);
 app.use(router);
-app.use(RouterTab, { 
+app.use(Tabor, { 
   router,  // Pass the router instance
   maxCache: 10  // Optional: maximum cache size
 });
