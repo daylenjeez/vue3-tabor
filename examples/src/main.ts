@@ -2,11 +2,13 @@ import { createApp } from 'vue'
 import './style.css'
 import App from './App.vue'
 import router from './router/index'
-import tabor from 'vue3-tabor'
+import Tabor from 'vue3-tabor'
+
+import 'vue3-tabor/dist/assets/index.css'
 
 const app = createApp(App)
 app.use(router)
-app.use(tabor, {
+app.use(Tabor, {
   router,
   maxCache: 10
 })

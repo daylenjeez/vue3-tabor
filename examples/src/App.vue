@@ -3,17 +3,14 @@
 
 <template>
   <div class="app">
-    <nav class="nav">
-      <router-link to="/">Home</router-link> |
-    </nav>
-    <router-view></router-view>
+    <vue-tabor />
   </div>
 </template>
 
 <style scoped>
 .app {
-  max-width: 1200px;
-  margin: 0 auto;
+  width: 100vw;
+  height: 100vh;
   padding: 20px;
 }
 </style>
