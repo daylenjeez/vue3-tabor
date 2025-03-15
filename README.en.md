@@ -6,7 +6,7 @@
     <div align="center"><strong>English</strong> | <a href="README.md">中文</a></div>
     <br/>
     <div align="center">
-        <a href="https://www.npmjs.com/package/vue3-tabor"><img src="https://img.shields.io/npm/v/vue3-tabor.svg" alt="Version"></a>
+        <a href="https://www.npmjs.com/package/vue3-tabor"><img src="https://img.shields.io/npm/v/vue3-tabor?color=blue" alt="Version"></a>
         <a href="https://www.npmjs.com/package/vue3-tabor"><img src="https://img.shields.io/npm/l/vue3-tabor.svg" alt="License"></a>
         <a href="https://github.com/daylenjeez/vue3-tabor"><img src="https://img.shields.io/github/stars/daylenjeez/vue3-tabor.svg" alt="GitHub Stars"></a>
         <img src="https://img.shields.io/github/last-commit/daylenjeez/vue3-tabor" alt="Last Commit">
