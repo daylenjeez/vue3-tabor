@@ -20,7 +20,7 @@ export type IframeAttributes = Pick<
  */
 export interface TabConfig {
   key?: TabKey;
-  name?: string;
+  name?: string | ((route: RouteLocationNormalized) => string);
   keepAlive?: boolean;
   icon?: string;
   iframeAttributes?: IframeAttributes;

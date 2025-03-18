@@ -1,7 +1,6 @@
 import type { App, Plugin } from "vue";
 import type { RouteLocationNormalized, Router } from "vue-router";
 
-// 保留样式导入，但这仅用于构建时提取，不会自动应用于用户端
 import "./style/global.less";
 
 import Tabor from "./tabor";

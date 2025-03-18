@@ -20,7 +20,7 @@ import Close from "./close";
 import Tablabel from "./label";
 import clickOutside from "@tabor/directives/clickOutside";
 
-// 创建全局共享状态，用于跟踪当前打开的菜单
+// create global shared state, used to track the current opened menu
 const activeDropdownId = ref<string | null>(null);
 
 export default defineComponent({
@@ -68,7 +68,7 @@ export default defineComponent({
     ]);
 
     const click = () => {
-      // 点击任何标签时，关闭所有下拉菜单
+      // when clicking any tab, close all dropdown menus
       activeDropdownId.value = null;
 
       if (isActive.value) return;
@@ -85,27 +85,27 @@ export default defineComponent({
       event.preventDefault();
       event.stopPropagation();
 
-      // 计算合适的位置，确保菜单不会超出视窗
+      // calculate the appropriate position, ensure the menu does not exceed the viewport
       let x = event.clientX;
       let y = event.clientY;
 
-      // 考虑菜单宽度和窗口右边界，避免菜单超出窗口右侧
-      const menuWidth = 120; // 估计菜单宽度
+      // consider the menu width and the right boundary of the window, avoid the menu exceeding the right side of the window
+      const menuWidth = 120; // estimated menu width
       if (x + menuWidth > window.innerWidth) {
-        x = window.innerWidth - menuWidth - 5; // 留5px边距
+        x = window.innerWidth - menuWidth - 5; // leave 5px margin
       }
 
-      // 考虑菜单高度和窗口下边界，避免菜单超出窗口底部
-      const menuHeight = 110; // 估计菜单高度（适应新的间距设置）
+      // consider the menu height and the bottom boundary of the window, avoid the menu exceeding the bottom side of the window
+      const menuHeight = 110; // estimated menu height (adapted to the new spacing settings)
       if (y + menuHeight > window.innerHeight) {
-        y = window.innerHeight - menuHeight - 5; // 留5px边距
+        y = window.innerHeight - menuHeight - 5; // leave 5px margin
       }
 
-      // 更新菜单位置
+      // update the menu position
       dropdownPosition.value = { x, y };
       dropdownVisible.value = true;
 
-      // 更新激活的下拉菜单ID
+      // update the active dropdown menu ID
       activeDropdownId.value = props.id;
 
       console.log("Right clicked, menu position:", dropdownPosition.value);
@@ -144,13 +144,13 @@ export default defineComponent({
     };
 
     return () => {
-      // 创建DropdownMenu，如果可见则用withDirectives处理
+      // create DropdownMenu, if visible, use withDirectives to process
       let dropdownMenu = null;
       if (dropdownVisible.value && activeDropdownId.value === props.id) {
-        // 计算哪些操作需要禁用
+        // calculate which operations need to be disabled
         const disabledActions: string[] = [];
 
-        // 如果只有一个标签页，禁用"关闭"操作
+        // if there is only one tab, disable the "close" operation
         if (tabsLength.value <= 1) {
           disabledActions.push("close");
         }

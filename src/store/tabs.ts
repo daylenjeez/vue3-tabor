@@ -28,10 +28,10 @@ interface TabStoreOptions {
   maxCache?: number;
 }
 
-// 改变存储键名
+// change storage key
 const IFRAME_ROUTE_STORAGE_KEY = 'vue-tabor-iframe-route';
 
-// 修改接口以简化结构
+// modify interface to simplify structure
 interface StoredIframeRoute {
   path: string;
   name: string;
@@ -191,12 +191,12 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
   };
 
   /**
-   * 保存iframe路由到localStorage
-   * @param {StoredIframeRoute} route - 要保存的路由
+   * save iframe route to localStorage
+   * @param {StoredIframeRoute} route - route to save
    */
   const saveIframeRoute = (route: StoredIframeRoute) => {
     try {
-      // 直接替换原有存储
+      // replace existing storage
       localStorage.setItem(IFRAME_ROUTE_STORAGE_KEY, JSON.stringify(route));
     } catch (error) {
       console.error('Failed to save iframe route to localStorage:', error);
@@ -204,18 +204,18 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
   };
 
   /**
-   * 检查路由是否存在
+   * check if route exists
    */
   const doesRouteExist = (to: RouteLocationRaw) => {
-    // 使用 router.resolve 来解析路由
+    // use router.resolve to resolve route
     const resolvedRoute = router.resolve(to);
 
-    // 检查匹配的路由是否存在
+    // check if matched route exists
     return resolvedRoute.matched.length > 0;
   };
 
   /**
-   * 从localStorage恢复iframe路由
+   * restore iframe route from localStorage
    */
   const restoreIframeRoute = () => {
     try {
@@ -224,10 +224,10 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
 
       const route: StoredIframeRoute = JSON.parse(storedRoute);
 
-      // 检查路由是否已存在
+      // check if route exists
       const doesExist = doesRouteExist({ path: route.path });
       if (!doesExist) {
-        // 添加路由
+        // add route
         router.addRoute({
           path: route.path,
           name: route.name,
@@ -241,21 +241,21 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
   };
 
 
-  // 使用路由守卫确保在路由解析前恢复iframe路由
+  // use router guard to ensure iframe route is restored before route parsing
   let routeRestored = false;
   router.beforeEach((to, _, next) => {
-    // 只在第一次导航时恢复路由
+    // restore route only on the first navigation
     if (!routeRestored) {
       restoreIframeRoute();
       routeRestored = true;
 
-      // 如果当前要访问的就是刚恢复的iframe路由，需要重新解析
+      // if the current route is the same as the restored iframe route, need to parse again
       const storedRoute = localStorage.getItem(IFRAME_ROUTE_STORAGE_KEY);
       if (storedRoute) {
         try {
           const route: StoredIframeRoute = JSON.parse(storedRoute);
           if (to.path === route.path) {
-            // 重新导航到当前URL，以便正确解析刚添加的路由
+            // navigate to the current URL again to parse the newly added route
             next({ path: to.fullPath, replace: true });
             return;
           }
@@ -281,7 +281,7 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
   ) => {
     const { replace, tabConfig } = options;
 
-    const routeExist = doesRouteExist(to); //判断路由是否存在
+    const routeExist = doesRouteExist(to); 
 
     if (!routeExist && tabConfig?.iframeAttributes) {
       const path = typeof to === "string" ? to : to.path;
@@ -299,10 +299,10 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
         component: Page,
       };
 
-      // 动态添加路由
+      // add route dynamically
       router.addRoute(route);
 
-      // 保存iframe路由到localStorage，每次添加新路由都会替换旧的
+      // save iframe route to localStorage, each time a new route is added, it will replace the old one
       saveIframeRoute({
         path: path,
         name,
@@ -515,7 +515,7 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
     if (!tab)
       return throwError(`Tab not found, please check the tab id: ${tabId}`);
 
-    //有可能tabId一样但是fullPath不一样，这种情况需要刷新页面（避免keepalive）
+    // there may be a situation where the tabId is the same but the fullPath is different, in this case, the page needs to be refreshed (to avoid keepalive)
     const fullPathIsSame = to.fullPath === tab.fullPath;
 
     const newTab = fullPathIsSame

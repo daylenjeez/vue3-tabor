@@ -1,6 +1,6 @@
 import { computed, markRaw, nextTick, reactive, type VNode } from "vue";
 
-// VNode包装器，用于存储VNode和访问时间
+// VNode wrapper, used to store VNode and access time
 class VNodeWrapper {
 	constructor(
 		public vnode: VNode,
@@ -17,9 +17,9 @@ export const useCache = (options: CacheOptions) => {
 
 	const state = reactive<{
 		keySet: Set<string>;
-		// 使用Map存储key到VNodeWrapper的映射
+		// use Map to store the mapping from key to VNodeWrapper
 		keyToWrapper: Map<string, VNodeWrapper>;
-		// 使用WeakMap存储VNodeWrapper到VNode的映射，减少内存泄漏风险
+		// use WeakMap to store the mapping from VNodeWrapper to VNode, reduce memory leak risk
 		componentMap: WeakMap<VNodeWrapper, VNode>;
 		refreshing: boolean;
 		activeKey: string | undefined;
@@ -34,7 +34,7 @@ export const useCache = (options: CacheOptions) => {
 	const keys = computed(() => Array.from(state.keySet));
 
 	/**
-	 * 设置当前活动的key，并更新其最后访问时间
+	 * set the current active key, and update its last accessed time
 	 */
 	const setActiveKey = (key: string | undefined) => {
 		state.activeKey = key;
@@ -45,21 +45,21 @@ export const useCache = (options: CacheOptions) => {
 	};
 
 	/**
-	 * 添加key到缓存集合中
+	 * add key to cache set
 	 */
 	const add = (key: string) => {
 		state.keySet.add(key);
 	};
 
 	/**
-	 * 检查key是否存在于缓存中
+	 * check if the key exists in cache
 	 */
 	const has = (key: string) => {
 		return state.keySet.has(key);
 	};
 
 	/**
-	 * 检查key对应的组件是否存在
+	 * check if the component of a specific key exists
 	 */
 	const hasComponent = (key: string) => {
 		const wrapper = state.keyToWrapper.get(key);
@@ -67,7 +67,7 @@ export const useCache = (options: CacheOptions) => {
 	};
 
 	/**
-	 * 获取key对应的组件
+	 * get the component of a specific key
 	 */
 	const getComponent = (key: string) => {
 		const wrapper = state.keyToWrapper.get(key);
@@ -75,8 +75,8 @@ export const useCache = (options: CacheOptions) => {
 	};
 
 	/**
-	 * 移除最久未使用的键
-	 * 返回被移除的键，如果没有键被移除则返回undefined
+	 * remove the oldest key
+	 * return the removed key, if no key is removed, return undefined
 	 */
 	const removeOldestEntry = (): string | undefined => {
 		if (state.keyToWrapper.size === 0) return undefined;
@@ -99,21 +99,21 @@ export const useCache = (options: CacheOptions) => {
 	};
 
 	/**
-	 * 添加组件到缓存中
+	 * add component to cache
 	 */
 	const addComponent = (key: string, vNode: VNode) => {
-		// 确保key已添加到keySet
+		// ensure key is added to keySet
 		add(key);
 
-		// 如果已达到最大缓存数，移除最旧的项
+		// if the maximum cache number is reached, remove the oldest item
 		if (state.keySet.size > max) {
 			removeOldestEntry();
 		}
 
-		// 创建新的包装器，使用markRaw避免Vue对VNode的响应式处理
+		// create new wrapper, use markRaw to avoid Vue's reactive processing of VNode
 		const wrapper = new VNodeWrapper(markRaw(vNode), Date.now());
 
-		// 更新映射
+		// update mapping
 		state.keyToWrapper.set(key, wrapper);
 		state.componentMap.set(wrapper, vNode);
 	};
@@ -126,20 +126,20 @@ export const useCache = (options: CacheOptions) => {
 
 		state.keySet.delete(key);
 		state.keyToWrapper.delete(key);
-		// componentMap作为WeakMap会自动处理未引用的对象
+		// componentMap as WeakMap will automatically handle objects that are not referenced
 	};
 
 	/**
-	 * 重置缓存
+	 * reset cache
 	 */
 	const reset = () => {
 		state.keySet.clear();
 		state.keyToWrapper.clear();
-		// componentMap作为WeakMap会自动处理未引用的对象
+		// componentMap as WeakMap will automatically handle objects that are not referenced
 	};
 
 	/**
-	 * 刷新特定key的组件
+	 * refresh the component of a specific key
 	 */
 	const refresh = async (key: string) => {
 		if (!key) return;
@@ -161,7 +161,7 @@ export const useCache = (options: CacheOptions) => {
 
 		await nextTick();
 
-		// 创建新的包装器
+		// create new wrapper
 		const newWrapper = new VNodeWrapper(markRaw(component), Date.now());
 		state.keyToWrapper.set(key, newWrapper);
 		state.componentMap.set(newWrapper, component);
@@ -173,22 +173,22 @@ export const useCache = (options: CacheOptions) => {
 	};
 
 	/**
-	 * 强制清理未使用的缓存条目
-	 * 可以定期调用此函数以防止内存泄漏
+	 * force clean unused cache entries
+	 * can be called periodically to prevent memory leaks
 	 */
 	const cleanup = () => {
 		if (state.keySet.size <= max) {
 			return;
 		}
 
-		// 获取并排序所有条目
+		// get and sort all entries
 		const sortedEntries = Array.from(state.keyToWrapper.entries())
 			.sort(([, a], [, b]) => a.lastAccessed - b.lastAccessed);
 
-		// 计算需要移除的条目数量
+		// calculate the number of entries to remove
 		const entriesToRemove = sortedEntries.slice(0, sortedEntries.length - max);
 
-		// 移除过期条目
+		// remove expired entries
 		for (const [key] of entriesToRemove) {
 			remove(key);
 		}
