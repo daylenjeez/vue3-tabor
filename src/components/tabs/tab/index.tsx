@@ -19,7 +19,6 @@ import { Language } from "@tabor/utils/i18n";
 import Close from "./close";
 import Tablabel from "./label";
 import clickOutside from "@tabor/directives/clickOutside";
-import { RouteLocationNormalized } from "vue-router";
 
 // create global shared state, used to track the current opened menu
 const activeDropdownId = ref<string | null>(null);
