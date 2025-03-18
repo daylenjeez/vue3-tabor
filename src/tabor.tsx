@@ -51,7 +51,6 @@ export default defineComponent({
   },
 
   setup(props) {
-    // Set the language
     if (props.language) {
       setLanguage(props.language);
     }
