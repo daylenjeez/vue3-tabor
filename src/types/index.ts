@@ -31,7 +31,7 @@ export interface TabConfig {
  */
 export interface Tab {
   id: string;
-  name: string | symbol;
+  name: string | symbol | ((route: RouteLocationNormalized) => string);
   icon?: string;
   keepAlive?: boolean;
   fullPath: string;

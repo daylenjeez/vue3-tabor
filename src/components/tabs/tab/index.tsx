@@ -19,6 +19,7 @@ import { Language } from "@tabor/utils/i18n";
 import Close from "./close";
 import Tablabel from "./label";
 import clickOutside from "@tabor/directives/clickOutside";
+import { RouteLocationNormalized } from "vue-router";
 
 // create global shared state, used to track the current opened menu
 const activeDropdownId = ref<string | null>(null);
@@ -30,7 +31,7 @@ export default defineComponent({
   },
   props: {
     name: {
-      type: [String, Symbol] satisfies PropType<Tab["name"]>,
+      type: [String, Symbol, Object] as PropType<Tab["name"]>,
       required: true,
     },
     id: {
@@ -51,6 +52,14 @@ export default defineComponent({
     const tabsLength = computed(() => store?.state.tabs.length ?? 0);
     const isActive = computed(() => store?.state.activeTab?.id === props.id);
     const showClose = computed(() => tabsLength.value > 1);
+
+    const name = computed(() => {
+      if (typeof props.name === "function") {
+        const route = store?.$router.currentRoute.value;
+        return route ? props.name(route) : String(props.name);
+      }
+      return props.name;
+    });
 
     const dropdownVisible = ref(false);
     const dropdownPosition = ref({ x: 0, y: 0 });
@@ -178,7 +187,7 @@ export default defineComponent({
           onContextmenu={handleRightClick}
         >
           {props.prefix && <div class="rt-tab--prefix">{renderPrefix()}</div>}
-          <Tablabel name={props.name} />
+          <Tablabel name={name.value} />
           {showClose.value && <Close id={props.id} />}
           {dropdownMenu}
         </div>
