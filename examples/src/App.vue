@@ -11,6 +11,5 @@
 .app {
   width: 100vw;
   height: 100vh;
-  padding: 20px;
 }
 </style>
