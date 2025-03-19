@@ -256,19 +256,7 @@ vue3-tabor 提供了以下 CSS 变量，可以通过 style 属性或全局 CSS �
    }
    ```
 
-2. **通过插槽自定义标签内容**：
-   ```html
-   <vue-tabor>
-     <template #tab="{ tab }">
-       <div class="custom-tab">
-         <img v-if="tab.icon" :src="tab.icon" class="tab-icon" />
-         <span>{{ tab.name }}</span>
-       </div>
-     </template>
-   </vue-tabor>
-   ```
-
-3. **使用 tabPrefix 属性添加前缀内容**：
+2. **使用 tabPrefix 属性添加前缀内容**：
    ```html
    <vue-tabor :tabPrefix="YourPrefixComponent" />
    ```
@@ -308,7 +296,7 @@ export default {
 // 标签配置
 interface TabConfig {
   key?: "path" | "fullPath" | ((route) => string);
-  name?: string;
+  name?: string | (route:RouteLocationNormalized) => string;
   keepAlive?: boolean;
   icon?: string;
   iframeAttributes?: IframeAttributes;
@@ -317,7 +305,7 @@ interface TabConfig {
 // 标签信息
 interface Tab {
   id: string;
-  name: string | symbol;
+  name: string | symbol | (route:RouteLocationNormalized) => string;
   icon?: string;
   keepAlive?: boolean;
   fullPath: string;

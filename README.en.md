@@ -232,19 +232,7 @@ For deeper customization needs, you can use the following methods:
    }
    ```
 
-2. **Customize tab content using slots**:
-   ```html
-   <vue-tabor>
-     <template #tab="{ tab }">
-       <div class="custom-tab">
-         <img v-if="tab.icon" :src="tab.icon" class="tab-icon" />
-         <span>{{ tab.name }}</span>
-       </div>
-     </template>
-   </vue-tabor>
-   ```
-
-3. **Add prefix content using the tabPrefix prop**:
+2. **Add prefix content using the tabPrefix prop**:
    ```html
    <vue-tabor :tabPrefix="YourPrefixComponent" />
    ```
@@ -284,7 +272,7 @@ export default {
 // Tab configuration
 interface TabConfig {
   key?: "path" | "fullPath" | ((route) => string);
-  name?: string;
+  name?: string | (route:RouteLocationNormalized) => string;
   keepAlive?: boolean;
   icon?: string;
   iframeAttributes?: IframeAttributes;
@@ -293,7 +281,7 @@ interface TabConfig {
 // Tab information
 interface Tab {
   id: string;
-  name: string | symbol;
+  name: string | symbol | (route:RouteLocationNormalized) => string;
   icon?: string;
   keepAlive?: boolean;
   fullPath: string;

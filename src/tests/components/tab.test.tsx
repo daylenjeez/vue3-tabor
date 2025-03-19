@@ -3,24 +3,37 @@ import { describe, it, expect, vi } from 'vitest';
 import { defineComponent, h, provide } from 'vue';
 import Tab from '@tabor/components/tabs/tab/index';
 import { RouterTabStore } from '@tabor/store';
+import { createRouter, createWebHistory, RouteLocationNormalized, Router } from 'vue-router';
 
-// 创建一个模拟的RouterTabStore
+// 创建一个模拟的TaborStore
 const createMockStore = () => {
+    // 创建一个简单的VueRouter实例
+    const router = createRouter({
+      history: createWebHistory(),
+      routes: [
+        { path: '/tab1', name: 'tab1', component: {} ,meta:{tabConfig:{name:'tab1',key:'path'}}},
+        { path: '/tab2', name: 'tab2', component: {} ,meta:{tabConfig:{name:'tab2',key:'path'}}},
+        { path: '/tab3', name: 'tab3', component: {} ,meta:{tabConfig:{name:(route:RouteLocationNormalized)=>`${route.query.name}`,key:'fullpath'}}}
+      ]
+    });
+    
   const mockStore: {
     state: {
-      tabs: Array<{ id: string; name: string; fullPath: string }>;
-      activeTab: { id: string; name: string; fullPath: string };
+      tabs: Array<{ id: string; name: string | ((route: RouteLocationNormalized) => string); fullPath: string }>;
+      activeTab: { id: string; name: string | ((route: RouteLocationNormalized) => string); fullPath: string };
     };
-    find: (id: string) => { id: string; name: string; fullPath: string } | undefined;
+    find: (id: string) => { id: string; name: string | ((route: RouteLocationNormalized) => string); fullPath: string } | undefined;
     open: ReturnType<typeof vi.fn>;
     close: ReturnType<typeof vi.fn>;
     closeOthers: ReturnType<typeof vi.fn>;
     refresh: ReturnType<typeof vi.fn>;
+    $router: Router;
   } = {
     state: {
       tabs: [
         { id: 'tab1', name: 'Tab 1', fullPath: '/tab1' },
-        { id: 'tab2', name: 'Tab 2', fullPath: '/tab2' }
+        { id: 'tab2', name: 'Tab 2', fullPath: '/tab2' },
+        { id: 'tab3', name: (route: RouteLocationNormalized) => `${route.query.name}`, fullPath: '/tab3?name={name}' }
       ],
       activeTab: { id: 'tab1', name: 'Tab 1', fullPath: '/tab1' }
     },
@@ -28,7 +41,8 @@ const createMockStore = () => {
     open: vi.fn(),
     close: vi.fn(),
     closeOthers: vi.fn(),
-    refresh: vi.fn()
+    refresh: vi.fn(),
+    $router: router
   };
 
   return mockStore as unknown as RouterTabStore;
@@ -44,6 +58,10 @@ const TabWrapper = defineComponent({
     tabName: {
       type: String,
       required: true
+    },
+    fullPath: {
+      type: String,
+      required: true
     }
   },
   setup(props) {
@@ -56,8 +74,9 @@ const TabWrapper = defineComponent({
     return () => {
       return h('div', { class: 'tab-wrapper' }, [
         h(Tab, {
+          name: props.tabName,
           id: props.tabId,
-          name: props.tabName
+          fullPath: props.fullPath
         })
       ]);
     };
@@ -69,7 +88,8 @@ describe('Tab Component', () => {
     const wrapper = mount(TabWrapper, {
       props: {
         tabId: 'tab1',
-        tabName: 'Tab 1'
+        tabName: 'Tab 1',
+        fullPath: '/tab1'
       }
     });
 
@@ -86,7 +106,8 @@ describe('Tab Component', () => {
     const wrapper = mount(TabWrapper, {
       props: {
         tabId: 'tab1', // tab1 is active in our mock store
-        tabName: 'Tab 1'
+        tabName: 'Tab 1',
+        fullPath: '/tab1'
       }
     });
 
@@ -97,7 +118,8 @@ describe('Tab Component', () => {
     const wrapper = mount(TabWrapper, {
       props: {
         tabId: 'tab2', // tab2 is not active in our mock store
-        tabName: 'Tab 2'
+        tabName: 'Tab 2',
+        fullPath: '/tab2'
       }
     });
 
@@ -116,7 +138,8 @@ describe('Tab Component', () => {
 
         return () => h(Tab, {
           id: 'tab2',
-          name: 'Tab 2'
+          name: 'Tab 2',
+          fullPath: '/tab2'
         });
       }
     });
@@ -140,7 +163,8 @@ describe('Tab Component', () => {
 
         return () => h(Tab, {
           id: 'tab1', // 活跃标签
-          name: 'Tab 1'
+          name: 'Tab 1',
+          fullPath: '/tab1'
         });
       }
     });
@@ -156,7 +180,8 @@ describe('Tab Component', () => {
     const wrapper = mount(TabWrapper, {
       props: {
         tabId: 'tab1',
-        tabName: 'Tab 1'
+        tabName: 'Tab 1',
+        fullPath: '/tab1'
       }
     });
 
@@ -170,7 +195,8 @@ describe('Tab Component', () => {
     const wrapper = mount(TabWrapper, {
       props: {
         tabId: 'tab1',
-        tabName: 'Tab 1'
+        tabName: 'Tab 1',
+        fullPath: '/tab1'
       },
       attachTo: document.body // 附加到DOM以便正确处理事件
     });
@@ -191,5 +217,37 @@ describe('Tab Component', () => {
 
     // 清理
     wrapper.unmount();
+  });
+
+  it('should handle function name prop correctly', async () => {
+    // 创建一个独立的store用于测试
+    const store = createMockStore();
+
+
+    // 创建名称函数
+    const nameFunction = vi.fn((route) => `Route: ${route.query.name}`);
+
+    const wrapper = mount({
+      setup() {
+        provide('tabStore', store);
+        provide('tabClass', 'custom-tab-class');
+        provide('tabType', 'line');
+
+        return () => h(Tab, {
+          id: 'tab3',
+          name: nameFunction,
+          fullPath: '/tab3?name=test'
+        });
+      }
+    });
+
+    // 等待组件更新
+    await wrapper.vm.$nextTick();
+
+    // 验证名称函数被调用，且使用了resolve后的路由对象
+    expect(nameFunction).toHaveBeenCalled();
+    
+    // 验证渲染的文本包含函数返回的字符串
+    expect(wrapper.text()).toContain('Route: test');
   });
 }); 
