@@ -14,7 +14,7 @@ import {
   throwError,
   withPostAction,
 } from "@tabor/utils";
-import { computed, reactive, type VNode } from "vue";
+import { computed, inject, InjectionKey, provide, reactive, type VNode } from "vue";
 import type {
   RouteLocationNormalizedLoaded,
   RouteLocationRaw,
@@ -24,12 +24,14 @@ import type {
 import { useCache } from "./cache";
 import Page from "../components/page/index.vue";
 
+const TABOR_STORE_KEY = Symbol('tabor-store') satisfies InjectionKey<ReturnType<typeof createTaborStore>>;
+
 interface TabStoreOptions {
   maxCache?: number;
 }
 
 // change storage key
-const IFRAME_ROUTE_STORAGE_KEY = 'vue-tabor-iframe-route';
+const IFRAME_ROUTE_STORAGE_KEY = 'tabor-iframe-route';
 
 // modify interface to simplify structure
 interface StoredIframeRoute {
@@ -41,7 +43,13 @@ interface StoredIframeRoute {
   };
 }
 
-export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
+/**
+ * create tab store
+ * @param router 
+ * @param options 
+ * @returns Tabor Store
+ */
+export const createTaborStore = (router: Router, options: TabStoreOptions = {}) => {
   const { maxCache = 10 } = options;
 
   const state = reactive<{
@@ -281,7 +289,7 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
   ) => {
     const { replace, tabConfig } = options;
 
-    const routeExist = doesRouteExist(to); 
+    const routeExist = doesRouteExist(to);
 
     if (!routeExist && tabConfig?.iframeAttributes) {
       const path = typeof to === "string" ? to : to.path;
@@ -560,4 +568,29 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
   };
 };
 
-export type RouterTabStore = ReturnType<typeof useTabStore>;
+/**
+ * Tabor Store
+ */
+export type TaborStore = ReturnType<typeof createTaborStore>;
+
+/**
+ * initialize tabor store
+ * @param router 
+ * @param options 
+ * @returns Tabor Store
+ */
+export const initTaborStore = (router: Router, options: TabStoreOptions = {}) => {
+  const store = createTaborStore(router, options);
+  provide(TABOR_STORE_KEY, store);
+  return store;
+};
+
+/**
+ * use tabor store in setup
+ * @returns Tabor Store
+ */
+export const useTaborStore = () => {
+  const store = inject<TaborStore>(TABOR_STORE_KEY);
+  if (!store) throwError('Tabor store not found');
+  return store;
+};

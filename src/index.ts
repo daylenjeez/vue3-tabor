@@ -4,7 +4,7 @@ import type { RouteLocationNormalized, Router } from "vue-router";
 import "./style/global.less";
 
 import Tabor from "./tabor";
-import { type RouterTabStore, useTabStore } from "./store";
+import { initTaborStore, type TaborStore, useTaborStore } from "./store";
 import type { RouterTabProps, Tab, TabConfig, TabType } from "./types";
 
 /**
@@ -22,7 +22,7 @@ interface PluginOptions {
  */
 export const updateTabOnRouteChange = (
 	guard: RouteLocationNormalized,
-	store: RouterTabStore,
+	store: TaborStore,
 ) => {
 	const tabId = store.getTabIdByRoute(guard);
 
@@ -42,8 +42,7 @@ export const updateTabOnRouteChange = (
  */
 const init = (app: App, options: PluginOptions) => {
 	const { router } = options;
-	const tabStore = useTabStore(router, options);
-	app.provide("tabStore", tabStore);
+	const tabStore = initTaborStore(router, options);
 	app.config.globalProperties.$tabStore = tabStore;
 };
 
@@ -55,9 +54,9 @@ const TaborPlugin: Plugin = {
 };
 
 export type {
-	Tab, RouterTabProps, RouterTabStore, TabType, PluginOptions, TabConfig
+	Tab, TaborStore, RouterTabProps, TabType, PluginOptions, TabConfig
 };
 
-export { Tabor, useTabStore };
+export { Tabor, useTaborStore };
 
 export default TaborPlugin;
