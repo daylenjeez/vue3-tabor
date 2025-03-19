@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory, type RouteLocationNormalized } from 'vue-router'
 import type { TabConfig } from 'vue3-tabor'
 
 const router = createRouter({
@@ -31,6 +31,7 @@ const router = createRouter({
       meta:{
         tabConfig:{
           key: 'fullPath',
+          name: (route:RouteLocationNormalized) =>  route.query.name as string
         } satisfies TabConfig
       }
     }

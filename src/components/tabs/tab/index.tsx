@@ -19,6 +19,7 @@ import { Language } from "@tabor/utils/i18n";
 import Close from "./close";
 import Tablabel from "./label";
 import clickOutside from "@tabor/directives/clickOutside";
+import { RouteLocationNormalized } from "vue-router";
 
 // create global shared state, used to track the current opened menu
 const activeDropdownId = ref<string | null>(null);
@@ -30,11 +31,15 @@ export default defineComponent({
   },
   props: {
     name: {
-      type: [String, Symbol, Object] as PropType<Tab["name"]>,
+      type: [String, Symbol, Function] as PropType<Tab["name"]>,
       required: true,
     },
     id: {
       type: String satisfies PropType<Tab["id"]>,
+      required: true,
+    },
+    fullPath: {
+      type: String satisfies PropType<Tab["fullPath"]>,
       required: true,
     },
     prefix: {
@@ -54,8 +59,13 @@ export default defineComponent({
 
     const name = computed(() => {
       if (typeof props.name === "function") {
-        const route = store?.$router.currentRoute.value;
-        return route ? props.name(route) : String(props.name);
+        const route = store?.$router.resolve(props.fullPath);
+        if(route) {
+          return props.name(route as RouteLocationNormalized)
+        }else{
+          console.warn(`Route not found for fullPath: ${props.fullPath}`);
+          return String(props.name);
+        }
       }
       return props.name;
     });

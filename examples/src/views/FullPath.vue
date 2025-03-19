@@ -3,7 +3,7 @@
 
 <template>
   <div class="full-path">
-    this is full path
+    this is full path:{{ $route.query.name }}
   </div>
 </template>
 
