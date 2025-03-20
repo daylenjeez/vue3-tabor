@@ -1,12 +1,12 @@
 import "./index.less";
 
 import InitialClose from "@tabor/components/ui/initial/icon/close";
-import type { RouterTabStore } from "@tabor/store";
+import { TABOR_STORE_KEY, type TaborStore } from "@tabor/store";
 import type { TabId } from "@tabor/types";
 import { defineComponent, inject, type PropType } from "vue";
 
 export default defineComponent({
-  name: "RtTabClose",
+  name: "TaborTabClose",
   props: {
     id: {
       type: String satisfies PropType<TabId>,
@@ -14,7 +14,7 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const store = inject<RouterTabStore>("tabStore");
+    const store = inject<TaborStore>(TABOR_STORE_KEY);
 
     const close = (e: MouseEvent) => {
       store?.close({ id: props.id });
@@ -22,7 +22,7 @@ export default defineComponent({
     };
 
     return () => (
-      <div class="remove-icon" onClick={close}>
+      <div class="tabor-remove-icon" onClick={close}>
         <InitialClose />
       </div>
     );

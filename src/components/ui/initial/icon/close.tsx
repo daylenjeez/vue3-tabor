@@ -6,7 +6,6 @@ export default defineComponent({
     style: {
       type: Object as PropType<CSSProperties>,
       required: false,
-      default: () => ({}),
     },
   },
   setup(props) {

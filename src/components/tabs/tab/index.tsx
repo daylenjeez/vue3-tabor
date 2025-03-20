@@ -1,6 +1,6 @@
 import "./index.less";
 
-import type { RouterTabStore } from "@tabor/store";
+import { TABOR_STORE_KEY, type TaborStore } from "@tabor/store";
 import type { Tab, TabType } from "@tabor/types";
 import DropdownMenu from "../dropdown/index.vue";
 import {
@@ -25,7 +25,7 @@ import { RouteLocationNormalized } from "vue-router";
 const activeDropdownId = ref<string | null>(null);
 
 export default defineComponent({
-  name: "RtTab",
+  name: "TaborTab",
   directives: {
     clickOutside, // Register the directive
   },
@@ -49,10 +49,10 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const store = inject<RouterTabStore>("tabStore");
+    const store = inject<TaborStore>(TABOR_STORE_KEY);
     const tabClass = inject<string>("tabClass");
-    const tabType = inject<TabType>("tabType") ?? "line";
-    const language = inject<Language>("language") ?? "zh";
+    const tabType = inject<TabType>("tabType");
+    const language = inject<Language>("language");
     const tabsLength = computed(() => store?.state.tabs.length ?? 0);
     const isActive = computed(() => store?.state.activeTab?.id === props.id);
     const showClose = computed(() => tabsLength.value > 1);
@@ -60,9 +60,9 @@ export default defineComponent({
     const name = computed(() => {
       if (typeof props.name === "function") {
         const route = store?.$router.resolve(props.fullPath);
-        if(route) {
+        if (route) {
           return props.name(route as RouteLocationNormalized)
-        }else{
+        } else {
           console.warn(`Route not found for fullPath: ${props.fullPath}`);
           return String(props.name);
         }
@@ -80,13 +80,12 @@ export default defineComponent({
     });
 
     const classNames = computed(() => [
-      "rt-tab",
-      `rt-tab--${tabType}`,
-      isActive.value && "rt-tab-active",
+      "tabor-tab",
+      `tabor-tab--${tabType}`,
+      isActive.value && "tabor-tab-active",
     ]);
 
     const click = () => {
-      // when clicking any tab, close all dropdown menus
       activeDropdownId.value = null;
 
       if (isActive.value) return;
@@ -148,7 +147,7 @@ export default defineComponent({
           break;
         }
         default:
-          console.log(`未处理的操作: ${action}`);
+          break;
       }
     };
 
@@ -195,7 +194,7 @@ export default defineComponent({
           onClick={click}
           onContextmenu={handleRightClick}
         >
-          {props.prefix && <div class="rt-tab--prefix">{renderPrefix()}</div>}
+          {props.prefix && <div class="tabor-tab--prefix">{renderPrefix()}</div>}
           <Tablabel name={name.value} />
           {showClose.value && <Close id={props.id} />}
           {dropdownMenu}

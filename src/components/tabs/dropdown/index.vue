@@ -1,6 +1,6 @@
 <template>
   <div v-if="visible"
-       class="rt-dropdown-menu"
+       class="tabor-dropdown-menu"
        :style="{ top: position.y + 'px', left: position.x + 'px' }"
        @contextmenu="handleRightClick">
     <ul>
@@ -8,12 +8,12 @@
         <span>{{ translations.refresh }}</span>
       </li>
       <li @click="!disabledActions.includes('close') && handleAction('close')"
-          :class="{ 'rt-dropdown-item-disabled': disabledActions.includes('close') }">
+          :class="{ 'tabor-dropdown-item-disabled': disabledActions.includes('close') }">
         <span>{{ translations.close }}</span>
       </li>
-      <li class="rt-dropdown-divider"></li>
+      <li class="tabor-dropdown-divider"></li>
       <li @click="!disabledActions.includes('closeOthers') && handleAction('closeOthers')"
-          :class="{ 'rt-dropdown-item-disabled': disabledActions.includes('closeOthers') }">
+          :class="{ 'tabor-dropdown-item-disabled': disabledActions.includes('closeOthers') }">
         <span>{{ translations.closeOthers }}</span>
       </li>
     </ul>
@@ -22,7 +22,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { t, getLanguage, Language, setLanguage } from '../../../utils/i18n';
+import { t, getLanguage, Language, setLanguage } from '@tabor/utils/i18n';
 
 export default defineComponent({
   name: 'DropdownMenu',
@@ -59,7 +59,6 @@ export default defineComponent({
     };
 
     const handleAction = (action: string) => {
-      // 如果该操作被禁用，则不触发事件
       if (props.disabledActions.includes(action)) {
         return;
       }
@@ -81,7 +80,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.rt-dropdown-menu {
+.tabor-dropdown-menu {
   position: fixed;
   background-color: var(--tab-active-background-color, white);
   border: 1px solid var(--tab-border-color, #e2e8f0);
@@ -95,13 +94,13 @@ export default defineComponent({
   animation: fadeIn 0.15s ease-out;
 }
 
-.rt-dropdown-menu ul {
+.tabor-dropdown-menu ul {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.rt-dropdown-menu li {
+.tabor-dropdown-menu li {
   padding: 6px 12px;
   cursor: pointer;
   display: flex;
@@ -114,18 +113,18 @@ export default defineComponent({
   margin: 0 3px;
 }
 
-.rt-dropdown-menu li.rt-dropdown-item-disabled {
+.tabor-dropdown-menu li.tabor-dropdown-item-disabled {
   opacity: 0.5;
   cursor: not-allowed;
   pointer-events: none;
 }
 
-.rt-dropdown-menu li:not(.rt-dropdown-item-disabled):hover {
+.tabor-dropdown-menu li:not(.tabor-dropdown-item-disabled):hover {
   background-color: rgba(90, 103, 216, 0.08);
   color: var(--primary-color);
 }
 
-.rt-dropdown-icon {
+.tabor-dropdown-icon {
   margin-right: 6px;
   font-size: 12px;
   display: inline-flex;
@@ -134,7 +133,7 @@ export default defineComponent({
   width: 12px;
 }
 
-.rt-dropdown-divider {
+.tabor-dropdown-divider {
   height: 1px;
   margin: 3px 6px;
   overflow: hidden;
@@ -144,7 +143,7 @@ export default defineComponent({
   min-height: auto !important;
 }
 
-.rt-dropdown-divider:hover {
+.tabor-dropdown-divider:hover {
   background-color: var(--tab-border-color, #e2e8f0) !important;
 }
 

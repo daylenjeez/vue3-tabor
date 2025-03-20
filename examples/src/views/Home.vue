@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-import { useTabStore } from 'vue3-tabor'
+import { useTaborStore } from 'vue3-tabor'
+const tabor = useTaborStore()
 
 const router = useRouter()
-const tabor = useTabStore(router)
 
 const goToPath = () => {
   tabor.open({
@@ -47,7 +47,7 @@ h1 {
   margin-bottom: 20px;
 }
 
-button{
+button {
   margin-right: 10px;
 }
 </style>

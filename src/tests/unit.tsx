@@ -7,8 +7,8 @@ import {
   type Router,
 } from "vue-router";
 
-import RouterTabPlugin from "..";
-import { type RouterTabStore, useTabStore } from "../store";
+import TaborPlugin from "..";
+import { type TaborStore } from "../store";
 import type { Cache } from "../store/cache";
 
 export const getRouter = () =>
@@ -95,24 +95,28 @@ export const getWrapper = (router: Router) =>
         );
       },
     },
-    { global: { plugins: [router, [RouterTabPlugin, { router }]] } },
+    { global: { plugins: [router, [TaborPlugin, { router }]] } },
   );
 
 export const beforeEachFn = async () => {
   const router = getRouter();
+
+  // Mount component with plugins
   const wrapper = await getWrapper(router);
-  const routerTab = useTabStore(router);
+
+  // Access the store that was already created by the plugin
+  const taborStore = wrapper.vm.$.appContext.app.config.globalProperties.$taborStore;
 
   return {
     router,
     wrapper,
-    routerTab,
+    taborStore,
   };
 };
 
-export const sameLength = (cache: Cache, routerTab: RouterTabStore) => {
-  return (expect: ExpectStatic, length: number) => {
+export const sameLength = (cache: Cache, taborStore: TaborStore) => {
+  return async (expect: ExpectStatic, length: number) => {
     expect(cache.keys.value).length(length + 1); //router会默认加个{path:'/'}
-    expect(routerTab.state.tabs.length).toBe(length + 1);
+    expect(taborStore.state.tabs.length).toBe(length + 1);
   };
 };

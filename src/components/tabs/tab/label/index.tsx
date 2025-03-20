@@ -4,7 +4,7 @@ import type { Tab } from "@tabor/types";
 import { defineComponent, type PropType } from "vue";
 
 export default defineComponent({
-  name: "RtTabLabel",
+  name: "TaborTabLabel",
   props: {
     name: {
       type: [String, Symbol] satisfies PropType<Tab["name"]>,
@@ -14,7 +14,7 @@ export default defineComponent({
   },
   setup(props) {
     return () => (
-      <div class="rt-tab-label">
+      <div class="tabor-tab-label">
         <span>{props.name}</span>
       </div>
     );

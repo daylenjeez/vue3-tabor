@@ -2,7 +2,7 @@ import { createApp } from 'vue'
 import './style.css'
 import App from './App.vue'
 import router from './router/index'
-import Tabor from '../../dist/index.es.js'
+import Tabor from 'vue3-tabor'
 
 import '../../dist/assets/index.css'
 

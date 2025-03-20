@@ -1,4 +1,4 @@
-import type { RouterTabStore } from "@tabor/store";
+import { TABOR_STORE_KEY, type TaborStore } from "@tabor/store";
 import {
   computed,
   defineComponent,
@@ -6,22 +6,19 @@ import {
 } from "vue";
 
 export default defineComponent({
-  name: "RtIframe",
+  name: "Iframe",
 
   setup() {
-    const tabStore = inject<RouterTabStore>("tabStore");
+    const taborStore = inject<TaborStore>(TABOR_STORE_KEY);
 
-    const iframes = computed(() => tabStore?.iframeTabs.value);
-    //TODO: 需要考虑iframe刷新
+    const iframes = computed(() => taborStore?.iframeTabs.value);
 
     return () => (
-      <div class="rt-iframe-container">
+      <div class="tabor-iframe-container">
         {iframes.value?.map((iframe) => {
-          const activeTabId = tabStore?.state.activeTab?.id;
-          // 条件 1：是否需要保留组件 (活跃 或 keepAlive)
+          const activeTabId = taborStore?.state.activeTab?.id;
           const shouldKeep = iframe.id === activeTabId || iframe.keepAlive;
 
-          // 条件 2：是否当前活跃需要显示
           const shouldShow = iframe.id === activeTabId;
 
           return shouldKeep ? (

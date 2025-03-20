@@ -24,7 +24,7 @@ import type {
 import { useCache } from "./cache";
 import Page from "../components/page/index.vue";
 
-const TABOR_STORE_KEY = Symbol('tabor-store') satisfies InjectionKey<ReturnType<typeof createTaborStore>>;
+export const TABOR_STORE_KEY = Symbol('tabor-store') satisfies InjectionKey<ReturnType<typeof createTaborStore>>;
 
 interface TabStoreOptions {
   maxCache?: number;
@@ -207,7 +207,7 @@ export const createTaborStore = (router: Router, options: TabStoreOptions = {}) 
       // replace existing storage
       localStorage.setItem(IFRAME_ROUTE_STORAGE_KEY, JSON.stringify(route));
     } catch (error) {
-      console.error('Failed to save iframe route to localStorage:', error);
+      console.error("[vue3-tabor]: Failed to save iframe route to localStorage:", error);
     }
   };
 
@@ -244,7 +244,7 @@ export const createTaborStore = (router: Router, options: TabStoreOptions = {}) 
         });
       }
     } catch (error) {
-      console.error('Failed to restore iframe route from localStorage:', error);
+      console.error('[vue3-tabor]: Failed to restore iframe route from localStorage:', error);
     }
   };
 
@@ -268,7 +268,7 @@ export const createTaborStore = (router: Router, options: TabStoreOptions = {}) 
             return;
           }
         } catch (e) {
-          console.error('Error parsing stored route:', e);
+          console.error('[vue3-tabor]: Error parsing stored route:', e);
         }
       }
     }
@@ -581,8 +581,15 @@ export type TaborStore = ReturnType<typeof createTaborStore>;
  */
 export const initTaborStore = (router: Router, options: TabStoreOptions = {}) => {
   const store = createTaborStore(router, options);
-  provide(TABOR_STORE_KEY, store);
   return store;
+};
+
+/**
+ * provide tabor store in setup
+ * @param store 
+ */
+export const provideTaborStore = (store: TaborStore) => {
+  provide(TABOR_STORE_KEY, store);
 };
 
 /**
@@ -592,5 +599,5 @@ export const initTaborStore = (router: Router, options: TabStoreOptions = {}) =>
 export const useTaborStore = () => {
   const store = inject<TaborStore>(TABOR_STORE_KEY);
   if (!store) throwError('Tabor store not found');
-  return store;
+  return store as TaborStore;
 };
