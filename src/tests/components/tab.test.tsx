@@ -2,21 +2,21 @@ import { mount } from '@vue/test-utils';
 import { describe, it, expect, vi } from 'vitest';
 import { defineComponent, h, provide } from 'vue';
 import Tab from '@tabor/components/tabs/tab/index';
-import { RouterTabStore } from '@tabor/store';
+import { TABOR_STORE_KEY, TaborStore } from '@tabor/store';
 import { createRouter, createWebHistory, RouteLocationNormalized, Router } from 'vue-router';
 
 // 创建一个模拟的TaborStore
 const createMockStore = () => {
-    // 创建一个简单的VueRouter实例
-    const router = createRouter({
-      history: createWebHistory(),
-      routes: [
-        { path: '/tab1', name: 'tab1', component: {} ,meta:{tabConfig:{name:'tab1',key:'path'}}},
-        { path: '/tab2', name: 'tab2', component: {} ,meta:{tabConfig:{name:'tab2',key:'path'}}},
-        { path: '/tab3', name: 'tab3', component: {} ,meta:{tabConfig:{name:(route:RouteLocationNormalized)=>`${route.query.name}`,key:'fullpath'}}}
-      ]
-    });
-    
+  // 创建一个简单的VueRouter实例
+  const router = createRouter({
+    history: createWebHistory(),
+    routes: [
+      { path: '/tab1', name: 'tab1', component: {}, meta: { tabConfig: { name: 'tab1', key: 'path' } } },
+      { path: '/tab2', name: 'tab2', component: {}, meta: { tabConfig: { name: 'tab2', key: 'path' } } },
+      { path: '/tab3', name: 'tab3', component: {}, meta: { tabConfig: { name: (route: RouteLocationNormalized) => `${route.query.name}`, key: 'fullpath' } } }
+    ]
+  });
+
   const mockStore: {
     state: {
       tabs: Array<{ id: string; name: string | ((route: RouteLocationNormalized) => string); fullPath: string }>;
@@ -45,7 +45,7 @@ const createMockStore = () => {
     $router: router
   };
 
-  return mockStore as unknown as RouterTabStore;
+  return mockStore as unknown as TaborStore;
 };
 
 // 创建一个包装组件，提供必要的依赖
@@ -66,7 +66,8 @@ const TabWrapper = defineComponent({
   },
   setup(props) {
     const store = createMockStore();
-    provide('tabStore', store);
+    provide(TABOR_STORE_KEY, store);
+    provide('language', 'zh')
     provide('tabClass', 'custom-tab-class');
     provide('tabType', 'line');
 
@@ -93,9 +94,10 @@ describe('Tab Component', () => {
       }
     });
 
+
     // 检查基本渲染
-    expect(wrapper.find('.rt-tab').exists()).toBe(true);
-    expect(wrapper.find('.rt-tab--line').exists()).toBe(true);
+    expect(wrapper.find('.tabor-tab').exists()).toBe(true);
+    expect(wrapper.find('.tabor-tab--line').exists()).toBe(true);
     expect(wrapper.find('.custom-tab-class').exists()).toBe(true);
 
     // 检查标签名称
@@ -111,7 +113,7 @@ describe('Tab Component', () => {
       }
     });
 
-    expect(wrapper.find('.rt-tab-active').exists()).toBe(true);
+    expect(wrapper.find('.tabor-tab-active').exists()).toBe(true);
   });
 
   it('should not have active class when tab is not active', () => {
@@ -123,7 +125,7 @@ describe('Tab Component', () => {
       }
     });
 
-    expect(wrapper.find('.rt-tab-active').exists()).toBe(false);
+    expect(wrapper.find('.tabor-tab-active').exists()).toBe(false);
   });
 
   it('should call store.open when non-active tab is clicked', async () => {
@@ -132,7 +134,8 @@ describe('Tab Component', () => {
 
     const wrapper = mount({
       setup() {
-        provide('tabStore', store);
+        provide(TABOR_STORE_KEY, store);
+        provide('language', 'zh')
         provide('tabClass', 'custom-tab-class');
         provide('tabType', 'line');
 
@@ -145,7 +148,7 @@ describe('Tab Component', () => {
     });
 
     // 点击标签
-    await wrapper.find('.rt-tab').trigger('click');
+    await wrapper.find('.tabor-tab').trigger('click');
 
     // 验证store.open被调用
     expect(store.open).toHaveBeenCalledWith('/tab2');
@@ -157,7 +160,8 @@ describe('Tab Component', () => {
 
     const wrapper = mount({
       setup() {
-        provide('tabStore', store);
+        provide(TABOR_STORE_KEY, store);
+        provide('language', 'zh')
         provide('tabClass', 'custom-tab-class');
         provide('tabType', 'line');
 
@@ -170,7 +174,7 @@ describe('Tab Component', () => {
     });
 
     // 点击标签
-    await wrapper.find('.rt-tab').trigger('click');
+    await wrapper.find('.tabor-tab').trigger('click');
 
     // 验证store.open没有被调用
     expect(store.open).not.toHaveBeenCalled();
@@ -187,7 +191,7 @@ describe('Tab Component', () => {
 
     // 在我们的模拟store中有两个标签，所以应该显示关闭按钮
     // 注意：如果组件中使用了不同的类名，需要相应调整
-    const closeButton = wrapper.findComponent({ name: 'RtTabClose' });
+    const closeButton = wrapper.findComponent({ name: 'TaborTabClose' });
     expect(closeButton.exists()).toBe(true);
   });
 
@@ -209,7 +213,7 @@ describe('Tab Component', () => {
       clientY: 100
     };
 
-    await wrapper.find('.rt-tab').trigger('contextmenu', event);
+    await wrapper.find('.tabor-tab').trigger('contextmenu', event);
 
     // 验证事件处理
     expect(event.preventDefault).toHaveBeenCalled();
@@ -229,7 +233,8 @@ describe('Tab Component', () => {
 
     const wrapper = mount({
       setup() {
-        provide('tabStore', store);
+        provide(TABOR_STORE_KEY, store);
+        provide('language', 'zh')
         provide('tabClass', 'custom-tab-class');
         provide('tabType', 'line');
 
@@ -246,7 +251,7 @@ describe('Tab Component', () => {
 
     // 验证名称函数被调用，且使用了resolve后的路由对象
     expect(nameFunction).toHaveBeenCalled();
-    
+
     // 验证渲染的文本包含函数返回的字符串
     expect(wrapper.text()).toContain('Route: test');
   });

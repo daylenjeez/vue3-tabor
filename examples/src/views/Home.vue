@@ -1,26 +1,19 @@
 <script setup lang="ts">
-import { useRouter } from 'vue-router'
-import { useTabStore } from 'vue3-tabor'
+import { useTabor } from 'vue3-tabor'
+const tabor = useTabor()
 
-const router = useRouter()
-const tabor = useTabStore(router)
 
 const goToPath = () => {
   tabor.open({
     path: '/path',
-    query: {
-      name: 'tom'
-    },
-  })
+  });
 }
 
 const goToFullPath = (name: string) => {
-  router.push({
+  tabor.open({
     path: '/full-path',
-    query: {
-      name
-    },
-  })
+    query: { name }
+  });
 }
 </script>
 
@@ -47,7 +40,7 @@ h1 {
   margin-bottom: 20px;
 }
 
-button{
+button {
   margin-right: 10px;
 }
 </style>

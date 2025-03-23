@@ -4,7 +4,7 @@ import App from './App.vue'
 import router from './router/index'
 import Tabor from 'vue3-tabor'
 
-import 'vue3-tabor/dist/assets/index.css'
+import '../../dist/assets/index.css'
 
 const app = createApp(App)
 app.use(router)

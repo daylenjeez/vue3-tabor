@@ -1,8 +1,8 @@
 import { mount } from '@vue/test-utils';
 import { describe, it, expect } from 'vitest';
 import { defineComponent, h, provide, ref, computed } from 'vue';
-import RtIframe from '@tabor/components/page/iframe/index';
-import type { RouterTabStore } from '@tabor/store';
+import Iframe from '@tabor/components/page/iframe/index';
+import { TABOR_STORE_KEY, type TaborStore } from '@tabor/store';
 import type { Tab } from '@tabor/types';
 
 // 创建一个模拟的RouterTabStore
@@ -34,7 +34,7 @@ const createMockStore = () => {
     iframeTabs: computed(() => tabs.value)
   };
 
-  return mockStore as unknown as RouterTabStore;
+  return mockStore as unknown as TaborStore;
 };
 
 // 创建一个包装组件，提供必要的依赖
@@ -50,13 +50,13 @@ const IframeWrapper = defineComponent({
     // 设置活跃标签
     store.state.activeTab = store.iframeTabs.value.find(tab => tab.id === props.activeTabId) || store.state.activeTab;
 
-    provide('tabStore', store);
+    provide(TABOR_STORE_KEY, store);
 
-    return () => h(RtIframe);
+    return () => h(Iframe);
   }
 });
 
-describe('RtIframe Component', () => {
+describe('Iframe Component', () => {
   it('should render iframe for active tab', () => {
     const wrapper = mount(IframeWrapper, {
       props: {
@@ -65,7 +65,7 @@ describe('RtIframe Component', () => {
     });
 
     // 检查iframe容器
-    expect(wrapper.find('.rt-iframe-container').exists()).toBe(true);
+    expect(wrapper.find('.tabor-iframe-container').exists()).toBe(true);
 
     // 检查iframe元素
     const iframes = wrapper.findAll('iframe');

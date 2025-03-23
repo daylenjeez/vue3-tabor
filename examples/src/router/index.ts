@@ -18,8 +18,8 @@ const router = createRouter({
       path: '/path',
       name: 'key_is_path',
       component: () => import('../views/Path.vue'),
-      meta:{
-        tabConfig:{
+      meta: {
+        tabConfig: {
           key: 'path'
         } satisfies TabConfig
       }
@@ -27,11 +27,11 @@ const router = createRouter({
     {
       path: '/full-path',
       name: 'full_path',
-      component: () => import('../views/fullPath.vue'),
-      meta:{
-        tabConfig:{
+      component: () => import('../views/FullPath.vue'),
+      meta: {
+        tabConfig: {
           key: 'fullPath',
-          name: (route:RouteLocationNormalized) =>  route.query.name as string
+          name: (route: RouteLocationNormalized) => route.query.name as string
         } satisfies TabConfig
       }
     }

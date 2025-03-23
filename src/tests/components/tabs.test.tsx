@@ -2,18 +2,18 @@ import { beforeEach, describe, expect, it } from "vitest";
 import type { Router } from "vue-router";
 
 import Tabs from "../../components/tabs";
-import type { RouterTabStore } from "../../store";
+import type { TaborStore } from "../../store";
 import { beforeEachFn, type getWrapper } from "../unit";
 
 describe("check tabs", async () => {
   let router: Router;
-  let routerTab: RouterTabStore;
+  let taborStore: TaborStore;
   let wrapper: ReturnType<typeof getWrapper>;
 
   beforeEach(async () => {
     const item = await beforeEachFn();
     router = item.router;
-    routerTab = item.routerTab;
+    taborStore = item.taborStore;
     wrapper = item.wrapper;
   });
 
@@ -27,26 +27,26 @@ describe("check tabs", async () => {
     await router.push("/fullpath?id=1");
     await router.push("/fullpath?id=3");
 
-    const tabComponents = wrapper.findAllComponents({ name: "RtTab" });
+    const tabComponents = wrapper.findAllComponents({ name: "TaborTab" });
 
-    const tabs = routerTab.state.tabs;
+    const tabs = taborStore.state.tabs;
 
     //长度一致
     expect(tabComponents.length).equal(tabs.length).equal(6);
     //顺序一致
     tabComponents.forEach((tab, index) => {
-      const tabLabel = tab.getComponent({ name: "RtTabLabel" });
+      const tabLabel = tab.getComponent({ name: "TaborTabLabel" });
       expect(tabLabel.text()).toBe(tabs[index].name); //TODO:jsx
     });
     //activeId正确
     const hasActiveTab = wrapper
-      .findAllComponents({ name: "RtTab" })
+      .findAllComponents({ name: "TaborTab" })
       .some((tab) => {
         const classes = tab.classes();
 
-        if (classes.some((item) => item === "rt-tab-active")) {
-          const tabLabel = tab.getComponent({ name: "RtTabLabel" });
-          return tabLabel.text() === routerTab.state.activeTab?.name;
+        if (classes.some((item) => item === "tabor-tab-active")) {
+          const tabLabel = tab.getComponent({ name: "TaborTabLabel" });
+          return tabLabel.text() === taborStore.state.activeTab?.name;
         }
         return false;
       });

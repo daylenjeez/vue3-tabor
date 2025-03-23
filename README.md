@@ -94,7 +94,7 @@ app.mount("#app");
 在安装插件时，可以传入以下配置选项：
 
 ```js
-app.use(RouterTab, {
+app.use(Tabor, {
   router: router,       // 必需：Vue Router 实例
   maxCache: 10,         // 可选：最大缓存数量，默认为10
 });
@@ -127,18 +127,6 @@ vue3-tabor 支持中文和英文两种语言，可以通过以下方式进行配
 
 <!-- 设置为中文 -->
 <vue-tabor language="zh" />
-```
-
-你还可以通过 API 动态切换语言：
-
-```js
-import { setLanguage } from 'vue3-tabor/utils/i18n';
-
-// 切换为英文
-setLanguage('en');
-
-// 切换为中文
-setLanguage('zh');
 ```
 
 ### 样式变量
@@ -246,12 +234,12 @@ vue3-tabor 提供了以下 CSS 变量，可以通过 style 属性或全局 CSS �
 1. **使用提供的类名添加自定义样式**：
    ```css
    /* 自定义标签样式 */
-   .rt-tabs .tab {
+   .tabor-tab {
      /* 自定义样式 */
    }
    
    /* 自定义激活标签样式 */
-   .rt-tabs .tab.active {
+   .tabor-tab-active {
      /* 自定义样式 */
    }
    ```
@@ -267,14 +255,14 @@ vue3-tabor 提供了以下 CSS 变量，可以通过 style 属性或全局 CSS �
 
 ```js
 // 在组件中使用
-import { inject } from 'vue';
+import { useTabor } from 'vue3-tabor'
 
 export default {
   setup() {
-    const tabStore = inject('tabStore');
+    const tabor = useTabor();
     
-    // 使用tabStore方法
-    return { tabStore };
+    // 使用tabor方法
+    return { tabor };
   }
 }
 ```

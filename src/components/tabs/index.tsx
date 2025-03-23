@@ -1,30 +1,29 @@
 import "./index.less";
 
-import type { RouterTabStore } from "@tabor/store";
+import { TABOR_STORE_KEY, type TaborStore } from "@tabor/store";
 import { computed, defineComponent, inject, type PropType } from "vue";
 
-import RtTab from "./tab";
-import type { RouterTabProps, TabType } from "@tabor/types";
-import { INITIAL_TAB_TYPE } from "@tabor/helper/utils/constants";
+import Tab from "./tab";
+import type { TaborProps, TabType } from "@tabor/types";
 
 export default defineComponent({
-  name: "RtTabs",
+  name: "Tabs",
   props: {
     tabPrefix: {
-      type: Object as PropType<RouterTabProps["tabPrefix"]>,
+      type: Object as PropType<TaborProps["tabPrefix"]>,
     },
   },
   setup(props) {
-    const store = inject<RouterTabStore>("tabStore");
-    const tabType = inject<TabType>("tabType") ?? INITIAL_TAB_TYPE;
+    const store = inject<TaborStore>(TABOR_STORE_KEY);
+    const tabType = inject<TabType>("tabType");
 
     const tabs = computed(() => store?.state.tabs ?? []);
-    const classNames = computed(() => ["rt-tabs", `rt-tabs--${tabType}`]);
+    const classNames = computed(() => ["tabor-tabs", `tabor-tabs--${tabType}`]);
 
     return () => (
       <div class={classNames.value}>
         {tabs.value.map((tab) => (
-          <RtTab prefix={props.tabPrefix} {...tab} key={tab.id} />
+          <Tab prefix={props.tabPrefix} {...tab} key={tab.id} />
         ))}
       </div>
     );

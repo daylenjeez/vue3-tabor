@@ -17,6 +17,12 @@ export type IframeAttributes = Pick<
 
 /**
  * Configuration for a tab
+ * @interface TabConfig
+ * @property {TabKey} key - Key for the tab
+ * @property {string} name - Name for the tab
+ * @property {boolean} keepAlive - Whether to keep the tab alive
+ * @property {string} icon - Icon for the tab
+ * @property {IframeAttributes} iframeAttributes - Iframe attributes for the tab
  */
 export interface TabConfig {
   key?: TabKey;
@@ -70,8 +76,8 @@ export type TabGetter =
 export type TabType = "line" | "card";
 
 /**
- * RouterTab component props
- * @interface RouterTabProps
+ * Tabor component props
+ * @interface TaborProps
  * @property {number} maxAlive - Maximum number of cached tabs
  * @property {boolean} hideClose - Whether to hide close button
  * @property {Function} beforeClose - Hook called before closing a tab
@@ -85,7 +91,7 @@ export type TabType = "line" | "card";
  * @property {Component | ((tab: Tab) => Component | VNode)} tabPrefix - Vue component or function returning component to use as tab prefix
  * @property {Language} language - The language to use for the UI
  */
-export interface RouterTabProps {
+export interface TaborProps {
   maxAlive: number;
   hideClose?: boolean;
   beforeClose?: (tab: Tab) => Promise<boolean>;

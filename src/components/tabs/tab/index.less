@@ -1,4 +1,4 @@
-.rt-tab {
+.tabor-tab {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -16,7 +16,7 @@
   position: relative;
   min-width: var(--tab-min-width);
 
-  &.rt-tab-active {
+  &.tabor-tab-active {
     background: var(--tab-active-background-color);
     color: var(--primary-color);
     font-weight: 500;
@@ -45,14 +45,14 @@
     opacity: 1;
   }
 
-  .rt-tab--prefix {
+  .tabor-tab--prefix {
     margin-right: 6px;
     display: flex;
     align-items: center;
   }
 }
 
-.rt-tab--line {
+.tabor-tab--line {
   border-width: 0;
   border-radius: 0;
   margin: 0 16px 0 0;
@@ -72,7 +72,7 @@
     opacity: 0;
   }
 
-  &.rt-tab-active {
+  &.tabor-tab-active {
     background: transparent;
     border-bottom: none;
 
@@ -95,14 +95,14 @@
   }
 }
 
-.rt-tab--card {
+.tabor-tab--card {
   border-width: 1px;
   border-bottom-width: 0;
   border-radius: var(--tab-border-radius) var(--tab-border-radius) 0 0;
   box-shadow: var(--tab-box-shadow);
   overflow: hidden;
 
-  &.rt-tab-active {
+  &.tabor-tab-active {
     border-bottom-color: var(--tab-active-background-color);
     box-shadow: var(--tab-active-box-shadow);
 
@@ -117,7 +117,7 @@
     }
   }
 
-  &:hover:not(.rt-tab-active) {
+  &:hover:not(.tabor-tab-active) {
     background: rgba(240, 242, 245, 0.8);
   }
 }

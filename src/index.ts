@@ -1,11 +1,11 @@
 import type { App, Plugin } from "vue";
-import type { RouteLocationNormalized, Router } from "vue-router";
+import type { Router } from "vue-router";
 
 import "./style/global.less";
 
 import Tabor from "./tabor";
-import { type RouterTabStore, useTabStore } from "./store";
-import type { RouterTabProps, Tab, TabConfig, TabType } from "./types";
+import { initTaborStore, type TaborStore, useTabor, TABOR_STORE_KEY } from "./store";
+import type { TaborProps, Tab, TabConfig, TabType } from "./types";
 
 /**
  * Plugin initialization options
@@ -15,25 +15,6 @@ interface PluginOptions {
 	maxCache?: number;
 }
 
-/**
- * Update the tab when the route changes
- * @param {RouteLocationNormalized} guard
- * @param {RouterTabStore} store
- */
-export const updateTabOnRouteChange = (
-	guard: RouteLocationNormalized,
-	store: RouterTabStore,
-) => {
-	const tabId = store.getTabIdByRoute(guard);
-
-	if (tabId && store.has(tabId)) {
-		const tab = store.find(tabId);
-		if (tab) store.setActive(tab);
-	} else {
-		const tab = store.createTab(guard);
-		if (tab) store.addTab(tab, { setActive: true });
-	}
-};
 
 /**
  * Init
@@ -42,9 +23,10 @@ export const updateTabOnRouteChange = (
  */
 const init = (app: App, options: PluginOptions) => {
 	const { router } = options;
-	const tabStore = useTabStore(router, options);
-	app.provide("tabStore", tabStore);
-	app.config.globalProperties.$tabStore = tabStore;
+	const taborStore = initTaborStore(router, options);
+	// Provide the store at the app level
+	app.provide(TABOR_STORE_KEY, taborStore);
+	app.config.globalProperties.$taborStore = taborStore;
 };
 
 const TaborPlugin: Plugin = {
@@ -55,9 +37,9 @@ const TaborPlugin: Plugin = {
 };
 
 export type {
-	Tab, RouterTabProps, RouterTabStore, TabType, PluginOptions, TabConfig
+	Tab, TaborStore, TaborProps, TabType, PluginOptions, TabConfig
 };
 
-export { Tabor, useTabStore };
+export { Tabor, useTabor };
 
 export default TaborPlugin;

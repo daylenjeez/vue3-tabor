@@ -1,5 +1,5 @@
 <template>
-  <div class="rt-pages"
+  <div class="tabor-pages"
        :class="pageClass">
     <router-view v-slot="{ Component }">
       <keep-alive :include="cachedKeys">
@@ -9,36 +9,36 @@
       </keep-alive>
     </router-view>
 
-    <RtIframe />
+    <Iframe />
   </div>
 </template>
 <script lang="ts">
-import type { RouterTabStore } from "@tabor/store";
+import { TABOR_STORE_KEY, type TaborStore } from "@tabor/store";
 import { computed, defineComponent, inject, onMounted } from "vue";
-import RtIframe from "./iframe";
+import Iframe from "./iframe";
 import "./index.less";
 
 export default defineComponent({
   name: "RtPages",
   components: {
-    RtIframe,
+    Iframe,
   },
   setup() {
-    const tabStore = inject<RouterTabStore>("tabStore");
+    const taborStore = inject<TaborStore>(TABOR_STORE_KEY);
     const pageClass = inject<string>("pageClass");
 
     onMounted(() => {
-      if (!tabStore) {
-        console.error("RouterTab: tabStore not provided. Did you install the plugin correctly?");
+      if (!taborStore) {
+        console.error("[vue3-tabor]: taborStore not provided. Did you install the plugin correctly?");
       }
     });
 
-    const activeTab = computed(() => tabStore?.state.activeTab);
+    const activeTab = computed(() => taborStore?.state.activeTab);
     const activeTabKey = computed(() => activeTab.value?.id);
-    const refreshing = computed(() => tabStore?.cache.state.refreshing);
+    const refreshing = computed(() => taborStore?.cache.state.refreshing);
 
     const cachedKeys = computed(() => {
-      const keys = tabStore?.cache.keys.value;
+      const keys = taborStore?.cache.keys.value;
 
       return activeTab.value?.keepAlive
         ? keys
@@ -50,7 +50,7 @@ export default defineComponent({
       cachedKeys,
       refreshing,
       pageClass,
-      retrieveOrCacheComponent: tabStore?.retrieveOrCacheComponent,
+      retrieveOrCacheComponent: taborStore?.retrieveOrCacheComponent,
     };
   },
 });

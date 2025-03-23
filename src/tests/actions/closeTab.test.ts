@@ -1,4 +1,4 @@
-import type { RouterTabStore } from "@tabor/store";
+import type { TaborStore } from "@tabor/store";
 import { beforeEach, describe, it } from "vitest";
 import type { Router } from "vue-router";
 
@@ -6,54 +6,56 @@ import { beforeEachFn, sameLength } from "../unit";
 
 describe("Check tab closed", async () => {
   let router: Router;
-  let routerTab: RouterTabStore;
+  let taborStore: TaborStore;
   let expectLength: ReturnType<typeof sameLength>;
 
   beforeEach(async () => {
     const item = await beforeEachFn();
     router = item.router;
-    routerTab = item.routerTab;
-    expectLength = sameLength(routerTab.cache, routerTab);
+    taborStore = item.taborStore;
+    expectLength = sameLength(taborStore.cache, taborStore);
   });
 
   it("close tab by id", async ({ expect }) => {
     await router.push("/initial?id=1");
     await router.push("/path?id=1");
     expectLength(expect, 2);
-    await routerTab.close("/initial?id=1");
+    taborStore.close("/initial?id=1");
     expectLength(expect, 1);
   });
 
   it("close current tab", async ({ expect }) => {
     await router.push("/initial?id=3");
     await router.push("/initial?id=1&name=amy");
+
     expectLength(expect, 2);
-    await routerTab.close();
+
+    taborStore.close();
     expectLength(expect, 1);
   });
 
   it("close last tab", async ({ expect }) => {
     await router.push("/initial?id=1&name=amy");
     expectLength(expect, 1);
-    await routerTab.close();
+    taborStore.close();
     expectLength(expect, 0);
   });
 
   it("close tab by route", async ({ expect }) => {
-    await router.push("/initial?id=1");
     await router.push("/path?id=1");
+    await router.push("/initial?id=1");
     expectLength(expect, 2);
-    await routerTab.close(router.currentRoute.value.fullPath);
+    await taborStore.close(router.currentRoute.value.fullPath);
 
     expectLength(expect, 1);
-    expect(routerTab.state.activeTab?.id).toEqual("/initial?id=1");
+    expect(taborStore.state.activeTab?.id).toEqual("/path");
   });
 
   it("close no funded tab", async ({ expect }) => {
     await router.push("/initial?id=1");
     await router.push("/path?id=1");
     expectLength(expect, 2);
-    await routerTab.close("/initial?id=2");
+    taborStore.close("/initial?id=2");
 
     expectLength(expect, 2);
   });
@@ -62,23 +64,24 @@ describe("Check tab closed", async () => {
     await router.push("/initial?id=1");
     await router.push("/path?id=1");
 
-    await routerTab.open("/initial?id=1");
-    expect(routerTab.state.activeTab?.id).toEqual("/initial?id=1");
+    await taborStore.open("/initial?id=1");
+    expect(taborStore.state.activeTab?.id).toEqual("/initial?id=1");
     expectLength(expect, 2);
-    await routerTab.close();
-    expect(routerTab.state.activeTab?.id).toEqual("/path");
+
+    await taborStore.close();
+    expect(taborStore.state.activeTab?.id).toEqual("/path");
     expectLength(expect, 1);
   });
 
   it("after tab is active when current tab closed", async ({ expect }) => {
     await router.push("/initial?id=1");
     await router.push("/path?id=1");
-    await routerTab.open("/initial?id=1");
-    expect(routerTab.state.activeTab?.id).toEqual("/initial?id=1");
+    await taborStore.open("/initial?id=1");
+    expect(taborStore.state.activeTab?.id).toEqual("/initial?id=1");
     expectLength(expect, 2);
 
-    await routerTab.close("/initial?id=1");
-    expect(routerTab.state.activeTab?.id).toEqual("/path");
+    await taborStore.close("/initial?id=1");
+    expect(taborStore.state.activeTab?.id).toEqual("/path");
     expectLength(expect, 1);
   });
 
@@ -88,13 +91,13 @@ describe("Check tab closed", async () => {
     await router.push("/initial?id=1");
     await router.push("/path?id=1");
 
-    await routerTab.open("/path?id=1");
+    await taborStore.open("/path?id=1");
     expectLength(expect, 2);
-    expect(routerTab.state.activeTab?.id).toEqual("/path");
+    expect(taborStore.state.activeTab?.id).toEqual("/path");
 
-    await routerTab.close({ id: "/path" });
+    await taborStore.close({ id: "/path" });
     expectLength(expect, 1);
-    expect(routerTab.state.activeTab?.id).toEqual("/initial?id=1");
+    expect(taborStore.state.activeTab?.id).toEqual("/initial?id=1");
   });
 
   it("navigate to custom tab when add config", async ({ expect }) => {
@@ -103,11 +106,11 @@ describe("Check tab closed", async () => {
     await router.push("/initial?id=3");
     await router.push("/path?id=1");
     expectLength(expect, 4);
-    expect(routerTab.state.activeTab?.id).toEqual("/path");
+    expect(taborStore.state.activeTab?.id).toEqual("/path");
 
-    await routerTab.close({ fullPath: "/path?id=1" }, { id: "/initial?id=2" });
+    await taborStore.close({ fullPath: "/path?id=1" }, { id: "/initial?id=2" });
     expectLength(expect, 3);
-    expect(routerTab.state.activeTab?.id).toEqual("/initial?id=2");
+    expect(taborStore.state.activeTab?.id).toEqual("/initial?id=2");
   });
 
   it("close tab but open the same tab", async ({ expect }) => {
@@ -117,14 +120,14 @@ describe("Check tab closed", async () => {
     await router.push("/path?id=1");
 
     expectLength(expect, 4);
-    expect(routerTab.state.activeTab?.id).toEqual("/path");
+    expect(taborStore.state.activeTab?.id).toEqual("/path");
 
-    routerTab.open("/initial?id=2");
+    taborStore.open("/initial?id=2");
 
-    await routerTab.close("/path?id=1", { fullPath: "/path?id=1" });
+    await taborStore.close("/path?id=1", { fullPath: "/path?id=1" });
 
     expectLength(expect, 4);
-    expect(routerTab.state.activeTab?.id).toEqual("/path");
+    expect(taborStore.state.activeTab?.id).toEqual("/path");
   });
 
   it("close others", async ({ expect }) => {
@@ -133,11 +136,11 @@ describe("Check tab closed", async () => {
     await router.push("/initial?id=3");
     await router.push("/path?id=1");
     expectLength(expect, 4);
-    expect(routerTab.state.activeTab?.id).toEqual("/path");
+    expect(taborStore.state.activeTab?.id).toEqual("/path");
 
-    await routerTab.closeOthers("/path");
+    await taborStore.closeOthers("/path");
     expectLength(expect, 0); //{path:'/'} 被清除掉了
-    expect(routerTab.state.activeTab?.id).toEqual("/path");
+    expect(taborStore.state.activeTab?.id).toEqual("/path");
   });
 
   it("close others when params tab is not exist", async ({ expect }) => {
@@ -146,11 +149,11 @@ describe("Check tab closed", async () => {
     await router.push("/initial?id=3");
     await router.push("/path?id=1");
     expectLength(expect, 4);
-    expect(routerTab.state.activeTab?.id).toEqual("/path");
+    expect(taborStore.state.activeTab?.id).toEqual("/path");
 
-    await routerTab.closeOthers("/wwwww");
+    await taborStore.closeOthers("/wwwww");
     expectLength(expect, 4);
-    expect(routerTab.state.activeTab?.id).toEqual("/path");
+    expect(taborStore.state.activeTab?.id).toEqual("/path");
   });
 
   it("close others but is not active tab", async ({ expect }) => {
@@ -159,11 +162,11 @@ describe("Check tab closed", async () => {
     await router.push("/initial?id=3");
     await router.push("/path?id=1");
     expectLength(expect, 4);
-    expect(routerTab.state.activeTab?.id).toEqual("/path");
+    expect(taborStore.state.activeTab?.id).toEqual("/path");
 
-    await routerTab.closeOthers("/initial?id=2");
+    await taborStore.closeOthers("/initial?id=2");
     expectLength(expect, 0); //{path:'/'} 被清除掉了
-    expect(routerTab.state.activeTab?.id).toEqual("/initial?id=2");
+    expect(taborStore.state.activeTab?.id).toEqual("/initial?id=2");
   });
 
   it("close others when has not params", async ({ expect }) => {
@@ -172,10 +175,10 @@ describe("Check tab closed", async () => {
     await router.push("/initial?id=3");
     await router.push("/path?id=1");
     expectLength(expect, 4);
-    expect(routerTab.state.activeTab?.id).toEqual("/path");
+    expect(taborStore.state.activeTab?.id).toEqual("/path");
 
-    await routerTab.closeOthers();
+    await taborStore.closeOthers();
     expectLength(expect, 0); //{path:'/'} 被清除掉了
-    expect(routerTab.state.activeTab?.id).toEqual("/path");
+    expect(taborStore.state.activeTab?.id).toEqual("/path");
   });
 });

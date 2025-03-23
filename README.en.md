@@ -94,7 +94,7 @@ app.mount("#app");
 When installing the plugin, you can pass the following configuration options:
 
 ```js
-app.use(RouterTab, {
+app.use(Tabor, {
   router: router,       // Required: Vue Router instance
   maxCache: 10,         // Optional: Maximum cache size, default is 10
 });
@@ -116,6 +116,18 @@ The `<vue-tabor>` component supports the following properties:
 | style | Object | - | Custom style variables |
 | tabPrefix | Component | - | Tab prefix component |
 | language | String | 'zh' | UI language, options: 'zh', 'en' |
+
+### Internationalization
+
+vue3-tabor supports both Chinese and English languages, which can be configured as follows:
+
+```html
+<!-- Set to English -->
+<vue-tabor language="en" />
+
+<!-- Set to Chinese -->
+<vue-tabor language="zh" />
+```
 
 ### Style Variables
 
@@ -222,12 +234,12 @@ For deeper customization needs, you can use the following methods:
 1. **Add custom styles using provided class names**:
    ```css
    /* Custom tab styles */
-   .rt-tabs .tab {
+   .tabor-tab {
      /* Custom styles */
    }
    
    /* Custom active tab styles */
-   .rt-tabs .tab.active {
+   .tabor-tab-active {
      /* Custom styles */
    }
    ```
@@ -239,18 +251,18 @@ For deeper customization needs, you can use the following methods:
 
 ### Instance Methods
 
-You can access the following methods through the injected `tabStore`:
+You can access the following methods through the `useTabor` hook:
 
 ```js
 // In your component
-import { inject } from 'vue';
+import { useTabor } from 'vue3-tabor'
 
 export default {
   setup() {
-    const tabStore = inject('tabStore');
+    const tabor = useTabor();
     
-    // Use tabStore methods
-    return { tabStore };
+    // Use tabor methods
+    return { tabor };
   }
 }
 ```
@@ -319,33 +331,6 @@ tabStore.open({
     }
   }
 });
-```
-
-### Internationalization
-
-vue3-tabor supports both Chinese and English languages, which can be configured as follows:
-
-```html
-<!-- Set to English -->
-<vue-tabor language="en" />
-
-<!-- Set to Chinese -->
-<vue-tabor language="zh" />
-
-<!-- Hide language switch button -->
-<vue-tabor :showLanguageSwitch="false" />
-```
-
-You can also dynamically change the language using the API:
-
-```js
-import { setLanguage } from 'vue3-tabor/utils/i18n';
-
-// Switch to English
-setLanguage('en');
-
-// Switch to Chinese
-setLanguage('zh');
 ```
 
 ## 🔧 Tech Stack

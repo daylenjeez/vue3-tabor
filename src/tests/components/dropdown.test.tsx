@@ -12,7 +12,7 @@ describe('DropdownMenu Component', () => {
       }
     });
 
-    expect(wrapper.find('.rt-dropdown-menu').exists()).toBe(false);
+    expect(wrapper.find('.tabor-dropdown-menu').exists()).toBe(false);
   });
 
   it('should render when visible is true', () => {
@@ -24,7 +24,7 @@ describe('DropdownMenu Component', () => {
       }
     });
 
-    expect(wrapper.find('.rt-dropdown-menu').exists()).toBe(true);
+    expect(wrapper.find('.tabor-dropdown-menu').exists()).toBe(true);
   });
 
   it('should position the menu according to props', () => {
@@ -37,7 +37,7 @@ describe('DropdownMenu Component', () => {
       }
     });
 
-    const menu = wrapper.find('.rt-dropdown-menu');
+    const menu = wrapper.find('.tabor-dropdown-menu');
     expect(menu.attributes('style')).toContain(`top: ${position.y}px`);
     expect(menu.attributes('style')).toContain(`left: ${position.x}px`);
   });
@@ -70,7 +70,7 @@ describe('DropdownMenu Component', () => {
 
     // 找到关闭菜单项（第二个li）并点击
     const closeItem = wrapper.findAll('li')[1];
-    expect(closeItem.classes()).toContain('rt-dropdown-item-disabled');
+    expect(closeItem.classes()).toContain('tabor-dropdown-item-disabled');
 
     await closeItem.trigger('click');
 
@@ -95,7 +95,7 @@ describe('DropdownMenu Component', () => {
     };
 
     // 触发右键点击
-    await wrapper.find('.rt-dropdown-menu').trigger('contextmenu', event);
+    await wrapper.find('.tabor-dropdown-menu').trigger('contextmenu', event);
 
     // 验证preventDefault和stopPropagation被调用
     expect(event.preventDefault).toHaveBeenCalled();

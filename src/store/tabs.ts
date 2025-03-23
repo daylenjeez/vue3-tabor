@@ -14,7 +14,7 @@ import {
   throwError,
   withPostAction,
 } from "@tabor/utils";
-import { computed, reactive, type VNode } from "vue";
+import { computed, inject, InjectionKey, provide, reactive, type VNode } from "vue";
 import type {
   RouteLocationNormalizedLoaded,
   RouteLocationRaw,
@@ -24,12 +24,14 @@ import type {
 import { useCache } from "./cache";
 import Page from "../components/page/index.vue";
 
+export const TABOR_STORE_KEY = Symbol('tabor-store') satisfies InjectionKey<ReturnType<typeof createTaborStore>>;
+
 interface TabStoreOptions {
   maxCache?: number;
 }
 
 // change storage key
-const IFRAME_ROUTE_STORAGE_KEY = 'vue-tabor-iframe-route';
+const IFRAME_ROUTE_STORAGE_KEY = 'tabor-iframe-route';
 
 // modify interface to simplify structure
 interface StoredIframeRoute {
@@ -41,7 +43,13 @@ interface StoredIframeRoute {
   };
 }
 
-export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
+/**
+ * create tab store
+ * @param router 
+ * @param options 
+ * @returns Tabor Store
+ */
+export const createTaborStore = (router: Router, options: TabStoreOptions = {}) => {
   const { maxCache = 10 } = options;
 
   const state = reactive<{
@@ -55,7 +63,6 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
   const iframeTabs = computed(() => state.tabs.filter((tab) => tab.iframeAttributes));
 
   const cache = useCache({ max: maxCache });
-
 
   /**
    * get tab index by tabId
@@ -110,10 +117,10 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
    * @param {Tab} tab
    * @returns {Tab|undefined}
    */
-  const setActive = (tab: Tab) => {
-    if (!tab) return throwError(`Tab not found, please check the tab: ${tab}`);
+  const setActive = (tab?: Tab) => {
+    // if (!tab) return throwError(`Tab not found, please check the tab: ${tab}`);
     state.activeTab = tab;
-    cache.setActiveKey(tab.id);
+    if (tab) cache.setActiveKey(tab.id);
     return tab;
   };
 
@@ -154,7 +161,6 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
     if (index < 0) return void 0;
 
     const removedTab = removeTabByIndex(index);
-
     cache.remove(tabId);
 
     if (removedTab?.iframeAttributes && removedTab.routeName) {
@@ -169,7 +175,7 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
    * @param {RouteLocationRaw} to
    * @returns {Promise<RouteLocationNormalized>}
    */
-  const routerPush = async (to: RouteLocationRaw) => router.push(to);
+  const routerPush = (to: RouteLocationRaw) => router.push(to);
 
   /**
    * router replace
@@ -199,7 +205,7 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
       // replace existing storage
       localStorage.setItem(IFRAME_ROUTE_STORAGE_KEY, JSON.stringify(route));
     } catch (error) {
-      console.error('Failed to save iframe route to localStorage:', error);
+      console.error("[vue3-tabor]: Failed to save iframe route to localStorage:", error);
     }
   };
 
@@ -236,7 +242,7 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
         });
       }
     } catch (error) {
-      console.error('Failed to restore iframe route from localStorage:', error);
+      console.error('[vue3-tabor]: Failed to restore iframe route from localStorage:', error);
     }
   };
 
@@ -260,7 +266,7 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
             return;
           }
         } catch (e) {
-          console.error('Error parsing stored route:', e);
+          console.error('[vue3-tabor]: Error parsing stored route:', e);
         }
       }
     }
@@ -281,7 +287,7 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
   ) => {
     const { replace, tabConfig } = options;
 
-    const routeExist = doesRouteExist(to); 
+    const routeExist = doesRouteExist(to);
 
     if (!routeExist && tabConfig?.iframeAttributes) {
       const path = typeof to === "string" ? to : to.path;
@@ -315,7 +321,6 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
 
     if (replace) return routerReplace(to);
     const route = await routerPush(to);
-
 
     if (options.refresh && route) {
       const tabId = getTabIdByRoute(route.to);
@@ -437,7 +442,16 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
     if (!state.shouldClose) return;
     const _item = getRemoveItem(item);
     if (!_item) return void 0;
+
+
+    const closedTabIsActive = _item.id ? _item.id === state.activeTab?.id : _item.fullPath === state.activeTab?.fullPath;
+
+    if (closedTabIsActive) setActive(undefined);
+
     const removedTab = remove(_item);
+
+    if (removedTab && closedTabIsActive)
+      await openNearTab(removedTab);
 
     if (toOptions && (toOptions.id || toOptions.fullPath)) {
       const { id, fullPath } = toOptions;
@@ -455,9 +469,6 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
       await routerPush(_fullPath);
       return removedTab;
     }
-
-    if (removedTab && removedTab.id === state.activeTab?.id)
-      await openNearTab(removedTab);
 
     return removedTab;
   };
@@ -560,4 +571,36 @@ export const useTabStore = (router: Router, options: TabStoreOptions = {}) => {
   };
 };
 
-export type RouterTabStore = ReturnType<typeof useTabStore>;
+/**
+ * Tabor Store
+ */
+export type TaborStore = ReturnType<typeof createTaborStore>;
+
+/**
+ * initialize tabor store
+ * @param router 
+ * @param options 
+ * @returns Tabor Store
+ */
+export const initTaborStore = (router: Router, options: TabStoreOptions = {}) => {
+  const store = createTaborStore(router, options);
+  return store;
+};
+
+/**
+ * provide tabor store in setup
+ * @param store 
+ */
+export const provideTaborStore = (store: TaborStore) => {
+  provide(TABOR_STORE_KEY, store);
+};
+
+/**
+ * use tabor store in setup
+ * @returns Tabor Store
+ */
+export const useTabor = () => {
+  const store = inject<TaborStore>(TABOR_STORE_KEY);
+  if (!store) throwError('Tabor store not found');
+  return store as TaborStore;
+};
