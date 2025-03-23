@@ -2,23 +2,19 @@
 import { useTabor } from 'vue3-tabor'
 const tabor = useTabor()
 
-async function handleNavigation() {
-  await tabor.open({
+
+const goToPath = () => {
+  tabor.open({
     path: '/path',
-    query: { name: 'tom' }
   });
-
-  await tabor.open({
-    path: '/full-path',
-    query: { name: 'tom' }
-  });
-
-  // 现在可以安全关闭
-  await tabor.close();
 }
-handleNavigation();
 
-
+const goToFullPath = (name: string) => {
+  tabor.open({
+    path: '/full-path',
+    query: { name }
+  });
+}
 </script>
 
 <template>
