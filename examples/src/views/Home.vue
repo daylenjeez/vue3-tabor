@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useTaborStore } from 'vue3-tabor'
-const tabor = useTaborStore()
+import { useTabor } from 'vue3-tabor'
+const tabor = useTabor()
 
 async function handleNavigation() {
   await tabor.open({

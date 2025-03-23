@@ -599,7 +599,7 @@ export const provideTaborStore = (store: TaborStore) => {
  * use tabor store in setup
  * @returns Tabor Store
  */
-export const useTaborStore = () => {
+export const useTabor = () => {
   const store = inject<TaborStore>(TABOR_STORE_KEY);
   if (!store) throwError('Tabor store not found');
   return store as TaborStore;

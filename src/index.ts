@@ -4,7 +4,7 @@ import type { Router } from "vue-router";
 import "./style/global.less";
 
 import Tabor from "./tabor";
-import { initTaborStore, type TaborStore, useTaborStore, TABOR_STORE_KEY } from "./store";
+import { initTaborStore, type TaborStore, useTabor, TABOR_STORE_KEY } from "./store";
 import type { TaborProps, Tab, TabConfig, TabType } from "./types";
 
 /**
@@ -40,6 +40,6 @@ export type {
 	Tab, TaborStore, TaborProps, TabType, PluginOptions, TabConfig
 };
 
-export { Tabor, useTaborStore };
+export { Tabor, useTabor };
 
 export default TaborPlugin;
