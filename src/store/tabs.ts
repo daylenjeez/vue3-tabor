@@ -64,7 +64,6 @@ export const createTaborStore = (router: Router, options: TabStoreOptions = {}) 
 
   const cache = useCache({ max: maxCache });
 
-
   /**
    * get tab index by tabId
    * @param {TabId} tabId
@@ -118,10 +117,10 @@ export const createTaborStore = (router: Router, options: TabStoreOptions = {}) 
    * @param {Tab} tab
    * @returns {Tab|undefined}
    */
-  const setActive = (tab: Tab) => {
-    if (!tab) return throwError(`Tab not found, please check the tab: ${tab}`);
+  const setActive = (tab?: Tab) => {
+    // if (!tab) return throwError(`Tab not found, please check the tab: ${tab}`);
     state.activeTab = tab;
-    cache.setActiveKey(tab.id);
+    if (tab) cache.setActiveKey(tab.id);
     return tab;
   };
 
@@ -162,7 +161,6 @@ export const createTaborStore = (router: Router, options: TabStoreOptions = {}) 
     if (index < 0) return void 0;
 
     const removedTab = removeTabByIndex(index);
-
     cache.remove(tabId);
 
     if (removedTab?.iframeAttributes && removedTab.routeName) {
@@ -177,7 +175,7 @@ export const createTaborStore = (router: Router, options: TabStoreOptions = {}) 
    * @param {RouteLocationRaw} to
    * @returns {Promise<RouteLocationNormalized>}
    */
-  const routerPush = async (to: RouteLocationRaw) => router.push(to);
+  const routerPush = (to: RouteLocationRaw) => router.push(to);
 
   /**
    * router replace
@@ -324,7 +322,6 @@ export const createTaborStore = (router: Router, options: TabStoreOptions = {}) 
     if (replace) return routerReplace(to);
     const route = await routerPush(to);
 
-
     if (options.refresh && route) {
       const tabId = getTabIdByRoute(route.to);
       if (tabId) refresh(tabId);
@@ -445,7 +442,16 @@ export const createTaborStore = (router: Router, options: TabStoreOptions = {}) 
     if (!state.shouldClose) return;
     const _item = getRemoveItem(item);
     if (!_item) return void 0;
+
+
+    const closedTabIsActive = _item.id ? _item.id === state.activeTab?.id : _item.fullPath === state.activeTab?.fullPath;
+
+    if (closedTabIsActive) setActive(undefined);
+
     const removedTab = remove(_item);
+
+    if (removedTab && closedTabIsActive)
+      await openNearTab(removedTab);
 
     if (toOptions && (toOptions.id || toOptions.fullPath)) {
       const { id, fullPath } = toOptions;
@@ -463,9 +469,6 @@ export const createTaborStore = (router: Router, options: TabStoreOptions = {}) 
       await routerPush(_fullPath);
       return removedTab;
     }
-
-    if (removedTab && removedTab.id === state.activeTab?.id)
-      await openNearTab(removedTab);
 
     return removedTab;
   };

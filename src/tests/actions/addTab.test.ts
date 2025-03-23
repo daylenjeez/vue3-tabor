@@ -12,76 +12,76 @@ const expectActiveTab = (expect: ExpectStatic, taborStore: TaborStore) => {
   );
 };
 
-// describe("Should add tab when router pushed", async () => {
-//   let router: Router;
-//   let taborStore: TaborStore;
+describe("Should add tab when router pushed", async () => {
+  let router: Router;
+  let taborStore: TaborStore;
 
-//   beforeEach(async () => {
-//     const item = await beforeEachFn();
-//     router = item.router;
-//     taborStore = item.taborStore;
-//   });
+  beforeEach(async () => {
+    const item = await beforeEachFn();
+    router = item.router;
+    taborStore = item.taborStore;
+  });
 
-//   it(`默认没有配置 key 时，应该默认使用 'fullPath' 的类型`, async ({
-//     expect,
-//   }) => {
-//     await router.push("/initial?id=1&name=amy");
+  it(`默认没有配置 key 时，应该默认使用 'fullPath' 的类型`, async ({
+    expect,
+  }) => {
+    await router.push("/initial?id=1&name=amy");
 
-//     expect(taborStore.state.tabs.at(-1)).toEqual({
-//       fullPath: "/initial?id=1&name=amy",
-//       id: "/initial?id=1&name=amy",
-//       keepAlive: true,
-//       name: "initial",
-//     });
+    expect(taborStore.state.tabs.at(-1)).toEqual({
+      fullPath: "/initial?id=1&name=amy",
+      id: "/initial?id=1&name=amy",
+      keepAlive: true,
+      name: "initial",
+    });
 
-//     expectActiveTab(expect, taborStore);
-//   });
+    expectActiveTab(expect, taborStore);
+  });
 
-//   it("配置 key:path 时，包含 query 的 path，id需要去除 query", async ({
-//     expect,
-//   }) => {
-//     await router.push("/path?id=1");
+  it("配置 key:path 时，包含 query 的 path，id需要去除 query", async ({
+    expect,
+  }) => {
+    await router.push("/path?id=1");
 
-//     expect(taborStore.state.tabs.at(-1)).toEqual({
-//       fullPath: "/path?id=1",
-//       id: "/path",
-//       keepAlive: true,
-//       name: "path",
-//     });
+    expect(taborStore.state.tabs.at(-1)).toEqual({
+      fullPath: "/path?id=1",
+      id: "/path",
+      keepAlive: true,
+      name: "path",
+    });
 
-//     expectActiveTab(expect, taborStore);
-//   });
+    expectActiveTab(expect, taborStore);
+  });
 
-//   it("配置 key:path 时，包含 params 的 path，id不能去除 params", async ({
-//     expect,
-//   }) => {
-//     await router.push("/pathWithParams/2");
+  it("配置 key:path 时，包含 params 的 path，id不能去除 params", async ({
+    expect,
+  }) => {
+    await router.push("/pathWithParams/2");
 
-//     expect(taborStore.state.tabs.at(-1)).toEqual({
-//       fullPath: "/pathWithParams/2",
-//       id: "/pathWithParams/2",
-//       keepAlive: true,
-//       name: "pathWithParams",
-//     });
+    expect(taborStore.state.tabs.at(-1)).toEqual({
+      fullPath: "/pathWithParams/2",
+      id: "/pathWithParams/2",
+      keepAlive: true,
+      name: "pathWithParams",
+    });
 
-//     expectActiveTab(expect, taborStore);
-//   });
+    expectActiveTab(expect, taborStore);
+  });
 
-//   it("配置 key:fullpath 时，包含 query 的 fullpath，不能去除 query", async ({
-//     expect,
-//   }) => {
-//     await router.push("/fullpath?id=1");
+  it("配置 key:fullpath 时，包含 query 的 fullpath，不能去除 query", async ({
+    expect,
+  }) => {
+    await router.push("/fullpath?id=1");
 
-//     expect(taborStore.state.tabs.at(-1)).toEqual({
-//       fullPath: "/fullpath?id=1",
-//       id: "/fullpath?id=1",
-//       keepAlive: true,
-//       name: "fullpath",
-//     });
+    expect(taborStore.state.tabs.at(-1)).toEqual({
+      fullPath: "/fullpath?id=1",
+      id: "/fullpath?id=1",
+      keepAlive: true,
+      name: "fullpath",
+    });
 
-//     expectActiveTab(expect, taborStore);
-//   });
-// });
+    expectActiveTab(expect, taborStore);
+  });
+});
 
 describe("Check add Tab when the same route", async () => {
   let router: Router;

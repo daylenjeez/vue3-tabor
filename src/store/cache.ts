@@ -126,7 +126,6 @@ export const useCache = (options: CacheOptions) => {
 
 		state.keySet.delete(key);
 		state.keyToWrapper.delete(key);
-		// componentMap as WeakMap will automatically handle objects that are not referenced
 	};
 
 	/**

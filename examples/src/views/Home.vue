@@ -1,27 +1,24 @@
 <script setup lang="ts">
-import { useRouter } from 'vue-router'
 import { useTaborStore } from 'vue3-tabor'
 const tabor = useTaborStore()
 
-const router = useRouter()
-
-const goToPath = () => {
-  tabor.open({
+async function handleNavigation() {
+  await tabor.open({
     path: '/path',
-    query: {
-      name: 'tom'
-    },
-  })
-}
+    query: { name: 'tom' }
+  });
 
-const goToFullPath = (name: string) => {
-  router.push({
+  await tabor.open({
     path: '/full-path',
-    query: {
-      name
-    },
-  })
+    query: { name: 'tom' }
+  });
+
+  // 现在可以安全关闭
+  await tabor.close();
 }
+handleNavigation();
+
+
 </script>
 
 <template>
