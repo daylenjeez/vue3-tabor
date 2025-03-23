@@ -21,14 +21,14 @@ describe("init", () => {
   });
 
   // it("should have 'close' property of type Close in useRouterTab", () => {
-  //   expectTypeOf(routerTab.close).toEqualTypeOf<Close>();
+  //   expectTypeOf(taborStore.close).toEqualTypeOf<Close>();
   // });
 
   // it("should have 'closeOthers' property of type CloseOthers in useRouterTab", () => {
-  //   expectTypeOf(routerTab.closeOthers).toEqualTypeOf<CloseOthers>();
+  //   expectTypeOf(taborStore.closeOthers).toEqualTypeOf<CloseOthers>();
   // });
 
   // it("should have 'open' property of type Open in useRouterTab", () => {
-  //   expectTypeOf(routerTab.open).toEqualTypeOf<Open>();
+  //   expectTypeOf(taborStore.open).toEqualTypeOf<Open>();
   // });
 });
