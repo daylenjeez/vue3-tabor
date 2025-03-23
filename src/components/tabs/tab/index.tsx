@@ -124,8 +124,6 @@ export default defineComponent({
 
       // update the active dropdown menu ID
       activeDropdownId.value = props.id;
-
-      console.log("Right clicked, menu position:", dropdownPosition.value);
     };
 
     const handleDropdownAction = (action: string) => {

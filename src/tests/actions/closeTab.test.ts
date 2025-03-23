@@ -81,7 +81,6 @@ describe("Check tab closed", async () => {
     expectLength(expect, 2);
 
     await taborStore.close("/initial?id=1");
-    console.log(taborStore.state.activeTab?.id);
     expect(taborStore.state.activeTab?.id).toEqual("/path");
     expectLength(expect, 1);
   });
