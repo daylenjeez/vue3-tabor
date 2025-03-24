@@ -1,4 +1,4 @@
-import type { Tab, TabConfig, TabKey } from "@tabor/types";
+import type { Tab, TabConfig, TabKey, TaborRoute } from "@tabor/types";
 import { isFunction, isNonEmptyString, throwError } from "@tabor/utils";
 import type { RouteLocationNormalized } from "vue-router";
 
@@ -7,11 +7,12 @@ import { INITIAL_TAB_CONFIG } from "./constants";
 /**
  * create tabId
  * @param {TabKey} tabKey
- * @param {RouteLocationNormalized} route
+ * @param {TaborRoute} route
  * @returns {TabId} tabId
  */
-export const createTabId = (tabKey: TabKey, route: RouteLocationNormalized) => {
+export const createTabId = (tabKey: TabKey, route: TaborRoute) => {
   const _tabKey = tabKey ?? INITIAL_TAB_CONFIG.key;
+
   const tabId = isFunction(_tabKey) ? _tabKey(route) : route[_tabKey];
 
   if (isNonEmptyString(tabId)) return tabId;

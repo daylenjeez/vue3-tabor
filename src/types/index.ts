@@ -2,10 +2,20 @@ import type { CSSProperties, IframeHTMLAttributes, Component } from "vue";
 import type { RouteLocationNormalized } from "vue-router";
 import type { Language } from '../utils/i18n';
 
+export type TaborRoute = {
+  path?: string;
+  fullPath: string;
+  name?: string | symbol | ((route: RouteLocationNormalized) => string);
+  routeName?: string;
+  meta?: {
+    tabConfig?: TabConfig;
+  };
+}
+
 export type TabKey =
   | "path"
   | "fullPath"
-  | ((route: RouteLocationNormalized) => string);
+  | ((route: TaborRoute) => string);
 
 /**
  * Iframe HTML attributes that can be used in tabs
@@ -26,7 +36,7 @@ export type IframeAttributes = Pick<
  */
 export interface TabConfig {
   key?: TabKey;
-  name?: string | ((route: RouteLocationNormalized) => string);
+  name?: string | ((route: TaborRoute) => string);
   keepAlive?: boolean;
   icon?: string;
   iframeAttributes?: IframeAttributes;
@@ -37,7 +47,7 @@ export interface TabConfig {
  */
 export interface Tab {
   id: string;
-  name: string | symbol | ((route: RouteLocationNormalized) => string);
+  name: string | symbol | ((route: TaborRoute) => string);
   icon?: string;
   keepAlive?: boolean;
   fullPath: string;

@@ -130,7 +130,8 @@ export const createTaborStore = (router: Router, options: TabStoreOptions = {}) 
    * @param {{ setActive?: boolean }} options //TODO: add options
    * @returns {Number}
    */
-  const addTab = (tab: Tab, options?: { setActive?: boolean }) => {
+  const addTab = (tab?: Tab, options?: { setActive?: boolean }) => {
+    if (!tab) return -1;
     const index = state.tabs.push(tab);
     cache.add(tab.id);
 

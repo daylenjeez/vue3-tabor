@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory, type RouteLocationNormalized } from 'vue-router'
-import type { TabConfig } from 'vue3-tabor'
+import type { TabConfig } from '../../../dist'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -32,6 +32,20 @@ const router = createRouter({
         tabConfig: {
           key: 'fullPath',
           name: (route: RouteLocationNormalized) => route.query.name as string
+        } satisfies TabConfig
+      }
+    },
+    {
+      path: '/iframe',
+      name: 'iframe',
+      component: () => import('../views/Iframe.vue'),
+      meta: {
+        tabConfig: {
+          key: "fullPath",
+          name: 'iframe',
+          iframeAttributes: {
+            src: 'https://www.baidu.com'
+          }
         } satisfies TabConfig
       }
     }
