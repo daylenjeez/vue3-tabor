@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted } from 'vue';
+import { onActivated, onMounted } from 'vue';
 import { useTabor } from 'vue3-tabor'
 import { useRouter, type RouteLocationNormalized } from 'vue-router'
 const tabor = useTabor()
@@ -24,19 +24,22 @@ const goToIframe = () => {
 }
 
 const init = () => {
-
   router.getRoutes().forEach(route => {
     const normalizedRoute = router.resolve(route)
     if (normalizedRoute.name === "full_path") {
       normalizedRoute.query.name = "tom";
       normalizedRoute.fullPath = "/full-path?name=tom";
     }
-    console.log(normalizedRoute)
-    tabor.addTab(tabor.createTab(normalizedRoute as RouteLocationNormalized))
+
+    const tab = tabor.createTab(normalizedRoute as RouteLocationNormalized)
+    if (!tabor.has(tab?.id)) {
+      tabor.addTab(tab)
+    }
   })
 }
 
-onMounted(() => {
+onActivated(() => {
+  console.log('onMounted')
   init()
 })
 
