@@ -35,20 +35,20 @@ const router = createRouter({
         } satisfies TabConfig
       }
     },
-    {
-      path: '/iframe',
-      name: 'iframe',
-      component: () => import('../views/Iframe.vue'),
-      meta: {
-        tabConfig: {
-          key: "fullPath",
-          name: 'iframe',
-          iframeAttributes: {
-            src: 'https://www.baidu.com'
-          }
-        } satisfies TabConfig
-      }
-    }
+    // {
+    //   path: '/iframe',
+    //   name: 'iframe',
+    //   // component: () => import('../views/Iframe.vue'),
+    //   meta: {
+    //     tabConfig: {
+    //       key: "fullPath",
+    //       name: 'iframe',
+    //       iframeAttributes: {
+    //         src: 'https://www.baidu.com'
+    //       }
+    //     } satisfies TabConfig
+    //   }
+    // }
   ]
 })
 

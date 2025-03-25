@@ -3,7 +3,7 @@ import type { RouteLocationNormalized } from "vue-router";
 import type { Language } from '../utils/i18n';
 
 export type TaborRoute = {
-  path?: string;
+  path: string;
   fullPath: string;
   name?: string | symbol | ((route: RouteLocationNormalized) => string);
   routeName?: string;
@@ -15,7 +15,7 @@ export type TaborRoute = {
 export type TabKey =
   | "path"
   | "fullPath"
-  | ((route: TaborRoute) => string);
+  | ((route: RouteLocationNormalized) => string);
 
 /**
  * Iframe HTML attributes that can be used in tabs
@@ -36,7 +36,7 @@ export type IframeAttributes = Pick<
  */
 export interface TabConfig {
   key?: TabKey;
-  name?: string | ((route: TaborRoute) => string);
+  name?: string | ((route: RouteLocationNormalized) => string);
   keepAlive?: boolean;
   icon?: string;
   iframeAttributes?: IframeAttributes;
@@ -47,7 +47,7 @@ export interface TabConfig {
  */
 export interface Tab {
   id: string;
-  name: string | symbol | ((route: TaborRoute) => string);
+  name: string | symbol | ((route: RouteLocationNormalized) => string);
   icon?: string;
   keepAlive?: boolean;
   fullPath: string;
