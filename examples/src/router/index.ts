@@ -16,7 +16,7 @@ const router = createRouter({
       meta: {
         tabConfig: {
           hideClose: true
-        }
+        } satisfies TabConfig
       }
     },
     {

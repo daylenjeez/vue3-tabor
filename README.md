@@ -288,6 +288,7 @@ interface TabConfig {
   keepAlive?: boolean;
   icon?: string;
   iframeAttributes?: IframeAttributes;
+  hideClose?: boolean | ((tab: Tab) => boolean);
 }
 
 // 标签信息
@@ -331,6 +332,26 @@ tabStore.open({
     }
   }
 });
+```
+
+### 路由配置
+
+在路由配置中，可以通过 `meta.tabConfig` 来设置标签页的配置。使用 `satisfies TabConfig` 可以确保类型安全：
+
+```typescript
+const routes = [
+  {
+    path: '/home',
+    component: Home,
+    meta: {
+      tabConfig: {
+        hideClose: true,  // 隐藏关闭按钮
+        keepAlive: true,  // 启用缓存
+        name: '首页'
+      } satisfies TabConfig
+    }
+  }
+]
 ```
 
 ## 🔧 技术栈

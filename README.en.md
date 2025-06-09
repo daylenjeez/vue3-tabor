@@ -288,6 +288,7 @@ interface TabConfig {
   keepAlive?: boolean;
   icon?: string;
   iframeAttributes?: IframeAttributes;
+
 }
 
 // Tab information
@@ -331,6 +332,26 @@ tabStore.open({
     }
   }
 });
+```
+
+### Route Configuration
+
+You can set tab configurations through `meta.tabConfig` in your route configuration. Use `satisfies TabConfig` to ensure type safety:
+
+```typescript
+const routes = [
+  {
+    path: '/home',
+    component: Home,
+    meta: {
+      tabConfig: {
+        hideClose: true,  // Hide close button
+        keepAlive: true,  // Enable cache
+        name: 'Home'
+      } satisfies TabConfig
+    }
+  }
+]
 ```
 
 ## 🔧 Tech Stack
