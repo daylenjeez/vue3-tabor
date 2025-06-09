@@ -7,12 +7,17 @@ const router = createRouter({
     {
       path: '/',
       name: 'initial',
-      redirect: '/home'
+      redirect: '/home',
     },
     {
       path: '/home',
       name: 'home',
-      component: () => import('../views/Home.vue')
+      component: () => import('../views/Home.vue'),
+      meta: {
+        tabConfig: {
+          hideClose: true
+        }
+      }
     },
     {
       path: '/path',

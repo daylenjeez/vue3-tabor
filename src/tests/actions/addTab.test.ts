@@ -29,6 +29,7 @@ describe("Should add tab when router pushed", async () => {
 
     expect(taborStore.state.tabs.at(-1)).toEqual({
       fullPath: "/initial?id=1&name=amy",
+      hideClose: false,
       id: "/initial?id=1&name=amy",
       keepAlive: true,
       name: "initial",
@@ -44,6 +45,7 @@ describe("Should add tab when router pushed", async () => {
 
     expect(taborStore.state.tabs.at(-1)).toEqual({
       fullPath: "/path?id=1",
+      hideClose: false,
       id: "/path",
       keepAlive: true,
       name: "path",
@@ -59,6 +61,7 @@ describe("Should add tab when router pushed", async () => {
 
     expect(taborStore.state.tabs.at(-1)).toEqual({
       fullPath: "/pathWithParams/2",
+      hideClose: false,
       id: "/pathWithParams/2",
       keepAlive: true,
       name: "pathWithParams",
@@ -74,12 +77,36 @@ describe("Should add tab when router pushed", async () => {
 
     expect(taborStore.state.tabs.at(-1)).toEqual({
       fullPath: "/fullpath?id=1",
+      hideClose: false,
       id: "/fullpath?id=1",
       keepAlive: true,
       name: "fullpath",
     });
 
     expectActiveTab(expect, taborStore);
+  });
+
+  describe("tabConfig.hideClose", () => {
+    it("当路由配置 hideClose 为 true 时，标签不应该显示关闭按钮", async ({ expect }) => {
+      await router.push("/hide-close-true");
+
+      const tab = taborStore.state.tabs.at(-1);
+      expect(tab?.hideClose).toBe(true);
+    });
+
+    it("当路由配置 hideClose 为函数时，应该根据函数返回值决定是否显示关闭按钮", async ({ expect }) => {
+      await router.push("/hide-close-function");
+
+      const tab = taborStore.state.tabs.at(-1);
+      expect(typeof tab?.hideClose).toBe("function");
+    });
+
+    it("当路由没有配置 hideClose 时，应该使用默认值 false", async ({ expect }) => {
+      await router.push("/hide-close-default");
+
+      const tab = taborStore.state.tabs.at(-1);
+      expect(tab?.hideClose).toBe(false);
+    });
   });
 });
 

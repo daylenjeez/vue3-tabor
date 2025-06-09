@@ -10,6 +10,6 @@ const app = createApp(App)
 app.use(router)
 app.use(Tabor, {
   router,
-  maxCache: 10
+  maxCache: 10,
 })
 app.mount('#app')

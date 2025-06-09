@@ -10,6 +10,7 @@ import {
 import TaborPlugin from "..";
 import { type TaborStore } from "../store";
 import type { Cache } from "../store/cache";
+import type { Tab } from "../types";
 
 export const getRouter = () =>
   createRouter({
@@ -26,6 +27,27 @@ export const getRouter = () =>
         component: () => import("./pages/path"),
         name: "path",
         meta: { tabConfig: { key: "path" } },
+      },
+      {
+        path: "/hide-close-true",
+        component: () => import("./pages/path"),
+        name: "hideCloseTrue",
+        meta: { tabConfig: { hideClose: true } },
+      },
+      {
+        path: "/hide-close-function",
+        component: () => import("./pages/path"),
+        name: "hideCloseFunction",
+        meta: {
+          tabConfig: {
+            hideClose: (tab: Tab) => tab.id === "/hide-close-function"
+          }
+        },
+      },
+      {
+        path: "/hide-close-default",
+        component: () => import("./pages/path"),
+        name: "hideCloseDefault",
       },
       {
         path: "/pathWithParams/:id",

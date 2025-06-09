@@ -23,6 +23,7 @@ export type IframeAttributes = Pick<
  * @property {boolean} keepAlive - Whether to keep the tab alive
  * @property {string} icon - Icon for the tab
  * @property {IframeAttributes} iframeAttributes - Iframe attributes for the tab
+ * @property {boolean} hideClose - Whether to hide close button
  */
 export interface TabConfig {
   key?: TabKey;
@@ -30,6 +31,7 @@ export interface TabConfig {
   keepAlive?: boolean;
   icon?: string;
   iframeAttributes?: IframeAttributes;
+  hideClose?: boolean | ((tab: Tab) => boolean);
 }
 
 /**
@@ -42,6 +44,7 @@ export interface Tab {
   keepAlive?: boolean;
   fullPath: string;
   allowClose?: boolean;
+  hideClose?: boolean | ((tab: Tab) => boolean);
   iframeAttributes?: IframeAttributes;
   routeName?: string;
 }
@@ -90,10 +93,11 @@ export type TabType = "line" | "card";
  * @property {CustomCssVariables & CSSProperties} style - Custom styles
  * @property {Component | ((tab: Tab) => Component | VNode)} tabPrefix - Vue component or function returning component to use as tab prefix
  * @property {Language} language - The language to use for the UI
+ * @property {boolean} preventFirstTabClose - Whether to prevent closing the first tab
  */
 export interface TaborProps {
   maxAlive: number;
-  hideClose?: boolean;
+  hideClose?: boolean | ((tab: Tab) => boolean);
   beforeClose?: (tab: Tab) => Promise<boolean>;
   tabClass?: string;
   pageClass?: string;
@@ -104,6 +108,7 @@ export interface TaborProps {
   style?: CustomCssVariables & CSSProperties;
   tabPrefix?: Component;
   language?: Language;
+  preventFirstTabClose?: boolean;
 }
 
 /**

@@ -7,12 +7,15 @@
       <li @click="handleAction('refresh')">
         <span>{{ translations.refresh }}</span>
       </li>
-      <li @click="!disabledActions.includes('close') && handleAction('close')"
+      <li v-if="!hideActions.includes('close')"
+          @click="!disabledActions.includes('close') && handleAction('close')"
           :class="{ 'tabor-dropdown-item-disabled': disabledActions.includes('close') }">
         <span>{{ translations.close }}</span>
       </li>
-      <li class="tabor-dropdown-divider"></li>
-      <li @click="!disabledActions.includes('closeOthers') && handleAction('closeOthers')"
+      <li v-if="!hideActions.includes('closeOthers')"
+          class="tabor-dropdown-divider"></li>
+      <li v-if="!hideActions.includes('closeOthers')"
+          @click="!disabledActions.includes('closeOthers') && handleAction('closeOthers')"
           :class="{ 'tabor-dropdown-item-disabled': disabledActions.includes('closeOthers') }">
         <span>{{ translations.closeOthers }}</span>
       </li>
@@ -36,6 +39,10 @@ export default defineComponent({
       required: true,
     },
     disabledActions: {
+      type: Array as () => string[],
+      default: () => []
+    },
+    hideActions: {
       type: Array as () => string[],
       default: () => []
     },
@@ -73,7 +80,8 @@ export default defineComponent({
     return {
       translations,
       handleAction,
-      handleRightClick
+      handleRightClick,
+      hideActions: props.hideActions
     };
   },
 });

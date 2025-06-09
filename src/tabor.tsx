@@ -61,7 +61,7 @@ export default defineComponent({
 
     return () => (
       <div class="rt-container">
-        <Tabs tabPrefix={props.tabPrefix} />
+        <Tabs tabPrefix={props.tabPrefix} hideClose={props.hideClose} />
         <Page />
       </div>
     );

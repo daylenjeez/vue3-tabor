@@ -1,7 +1,7 @@
 import "./index.less";
 
 import { TABOR_STORE_KEY, type TaborStore } from "@tabor/store";
-import type { Tab, TabType } from "@tabor/types";
+import type { Tab, TaborProps, TabType } from "@tabor/types";
 import DropdownMenu from "../dropdown/index.vue";
 import {
   type Component,
@@ -38,6 +38,10 @@ export default defineComponent({
       type: String satisfies PropType<Tab["id"]>,
       required: true,
     },
+    hideClose: {
+      type: Boolean satisfies PropType<TaborProps["hideClose"]>,
+      default: false,
+    },
     fullPath: {
       type: String satisfies PropType<Tab["fullPath"]>,
       required: true,
@@ -55,7 +59,8 @@ export default defineComponent({
     const language = inject<Language>("language");
     const tabsLength = computed(() => store?.state.tabs.length ?? 0);
     const isActive = computed(() => store?.state.activeTab?.id === props.id);
-    const showClose = computed(() => tabsLength.value > 1);
+    const tab = computed(() => store?.find(props.id));
+    const showClose = computed(() => tabsLength.value > 1 && !tab.value?.hideClose && !props.hideClose);
 
     const name = computed(() => {
       if (typeof props.name === "function") {
@@ -164,6 +169,7 @@ export default defineComponent({
       if (dropdownVisible.value && activeDropdownId.value === props.id) {
         // calculate which operations need to be disabled
         const disabledActions: string[] = [];
+        const hideActions: string[] = [];
 
         // if there is only one tab, disable the "close" operation
         if (tabsLength.value <= 1) {
@@ -174,11 +180,17 @@ export default defineComponent({
           disabledActions.push("closeOthers");
         }
 
+        if (props.hideClose) {
+          hideActions.push("close");
+          hideActions.push("closeOthers");
+        }
+
         dropdownMenu = withDirectives(
           h(DropdownMenu, {
             visible: dropdownVisible.value,
             position: dropdownPosition.value,
             disabledActions: disabledActions,
+            hideActions: hideActions,
             language: language,
             onAction: handleDropdownAction,
           }),

@@ -27,7 +27,7 @@ export const createTabId = (tabKey: TabKey, route: RouteLocationNormalized) => {
  * @returns {Tab} tab
  */
 export const createTab = (router: RouteLocationNormalized) => {
-  const { key, name, keepAlive, iframeAttributes } =
+  const { key = INITIAL_TAB_CONFIG.key, name, keepAlive = INITIAL_TAB_CONFIG.keepAlive, iframeAttributes, hideClose = INITIAL_TAB_CONFIG.hideClose } =
     (router.meta.tabConfig as TabConfig) ?? INITIAL_TAB_CONFIG;
 
   if (!key) return throwError("tabKey is required");
@@ -42,6 +42,7 @@ export const createTab = (router: RouteLocationNormalized) => {
     id: tabId,
     keepAlive: keepAlive ?? INITIAL_TAB_CONFIG.keepAlive,
     fullPath: router.fullPath,
+    hideClose: hideClose ?? false,
   };
 
   if (iframeAttributes) tab.iframeAttributes = iframeAttributes;

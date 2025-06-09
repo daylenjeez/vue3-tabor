@@ -12,6 +12,10 @@ export default defineComponent({
     tabPrefix: {
       type: Object as PropType<TaborProps["tabPrefix"]>,
     },
+    hideClose: {
+      type: Boolean satisfies PropType<TaborProps["hideClose"]>,
+      default: false,
+    },
   },
   setup(props) {
     const store = inject<TaborStore>(TABOR_STORE_KEY);
@@ -23,7 +27,7 @@ export default defineComponent({
     return () => (
       <div class={classNames.value}>
         {tabs.value.map((tab) => (
-          <Tab prefix={props.tabPrefix} {...tab} key={tab.id} />
+          <Tab prefix={props.tabPrefix} {...tab} key={tab.id} hideClose={props.hideClose} />
         ))}
       </div>
     );

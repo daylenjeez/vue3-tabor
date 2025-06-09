@@ -443,7 +443,6 @@ export const createTaborStore = (router: Router, options: TabStoreOptions = {}) 
     const _item = getRemoveItem(item);
     if (!_item) return void 0;
 
-
     const closedTabIsActive = _item.id ? _item.id === state.activeTab?.id : _item.fullPath === state.activeTab?.fullPath;
 
     if (closedTabIsActive) setActive(undefined);
@@ -483,9 +482,16 @@ export const createTaborStore = (router: Router, options: TabStoreOptions = {}) 
 
     if (!has(_tabId)) return;
     for (const item of [...state.tabs]) {
-      if (item.id !== _tabId) removeTabById(item.id);
+      if (item.id !== _tabId) {
+        const tab = find(item.id);
+        if (tab) {
+          const hideClose = typeof tab.hideClose === 'function' ? tab.hideClose(tab) : tab.hideClose;
+          if (!hideClose) {
+            removeTabById(item.id);
+          }
+        }
+      }
     }
-
 
     if (!_tabId) return;
 
