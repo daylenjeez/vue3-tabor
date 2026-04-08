@@ -27,6 +27,10 @@ export default defineComponent({
               v-show={shouldShow}
               width="100%"
               height="100%"
+              sandbox={iframe.iframeAttributes?.sandbox}
+              referrerpolicy={iframe.iframeAttributes?.referrerpolicy}
+              allow={iframe.iframeAttributes?.allow}
+              csp={iframe.iframeAttributes?.csp}
               {...iframe.iframeAttributes}
             />
           ) : null;

@@ -9,6 +9,7 @@ import type {
   ToOptions,
 } from "@tabor/types";
 import {
+  isObject,
   isString,
   renameComponentType,
   throwError,
@@ -210,6 +211,41 @@ export const createTaborStore = (router: Router, options: TabStoreOptions = {}) 
   };
 
   /**
+   * validate iframe src to prevent unsafe protocols
+   */
+  const isValidIframeSrc = (src: unknown): src is string => {
+    if (typeof src !== 'string') return false;
+    try {
+      const url = new URL(src, window.location.href);
+      return url.protocol === 'http:' || url.protocol === 'https:';
+    } catch {
+      return false;
+    }
+  };
+
+  /**
+   * sanitize route name to only allow safe characters
+   */
+  const sanitizeRouteName = (path: string) => {
+    const sanitized = path.replace(/[^a-zA-Z0-9-_]/g, '-');
+    return `rt-iframe-${sanitized}`;
+  };
+
+  /**
+   * validate stored iframe route data
+   */
+  const isValidStoredIframeRoute = (route: unknown): route is StoredIframeRoute => {
+    if (!isObject(route)) return false;
+    const { path, name, meta } = route as Partial<StoredIframeRoute>;
+    if (typeof path !== 'string' || path === '') return false;
+    if (typeof name !== 'string' || name === '') return false;
+    if (!isObject(meta)) return false;
+    if (!isObject(meta.tabConfig)) return false;
+    if (typeof meta.routeName !== 'string' || meta.routeName === '') return false;
+    return true;
+  };
+
+  /**
    * check if route exists
    */
   const doesRouteExist = (to: RouteLocationRaw) => {
@@ -228,7 +264,21 @@ export const createTaborStore = (router: Router, options: TabStoreOptions = {}) 
       const storedRoute = localStorage.getItem(IFRAME_ROUTE_STORAGE_KEY);
       if (!storedRoute) return;
 
-      const route: StoredIframeRoute = JSON.parse(storedRoute);
+      const parsed = JSON.parse(storedRoute);
+      if (!isValidStoredIframeRoute(parsed)) {
+        console.error('[vue3-tabor]: Invalid stored iframe route, removing from localStorage');
+        localStorage.removeItem(IFRAME_ROUTE_STORAGE_KEY);
+        return;
+      }
+      const route = parsed;
+
+      // validate iframe src before restoring
+      const iframeSrc = route.meta.tabConfig?.iframeAttributes?.src;
+      if (iframeSrc && !isValidIframeSrc(iframeSrc)) {
+        console.error('[vue3-tabor]: Invalid iframe src in stored route, removing from localStorage');
+        localStorage.removeItem(IFRAME_ROUTE_STORAGE_KEY);
+        return;
+      }
 
       // check if route exists
       const doesExist = doesRouteExist({ path: route.path });
@@ -259,8 +309,8 @@ export const createTaborStore = (router: Router, options: TabStoreOptions = {}) 
       const storedRoute = localStorage.getItem(IFRAME_ROUTE_STORAGE_KEY);
       if (storedRoute) {
         try {
-          const route: StoredIframeRoute = JSON.parse(storedRoute);
-          if (to.path === route.path) {
+          const parsed = JSON.parse(storedRoute);
+          if (isValidStoredIframeRoute(parsed) && to.path === parsed.path) {
             // navigate to the current URL again to parse the newly added route
             next({ path: to.fullPath, replace: true });
             return;
@@ -293,7 +343,13 @@ export const createTaborStore = (router: Router, options: TabStoreOptions = {}) 
       const path = typeof to === "string" ? to : to.path;
       if (!path)
         return throwError(`Path not found, please check the path: ${to}`);
-      const name = `rt-iframe-${path.replace(/\//g, '-')}`;
+
+      const iframeSrc = tabConfig.iframeAttributes.src;
+      if (iframeSrc && !isValidIframeSrc(iframeSrc)) {
+        return throwError(`Invalid iframe src, only http/https protocols are allowed: ${iframeSrc}`);
+      }
+
+      const name = sanitizeRouteName(path);
 
       const route = {
         path: path,

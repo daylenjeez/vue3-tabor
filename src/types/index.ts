@@ -12,7 +12,16 @@ export type TabKey =
  */
 export type IframeAttributes = Pick<
   IframeHTMLAttributes,
-  "src" | "width" | "height" | "loading" | "name" | "marginheight"
+  | "src"
+  | "width"
+  | "height"
+  | "loading"
+  | "name"
+  | "marginheight"
+  | "sandbox"
+  | "referrerpolicy"
+  | "allow"
+  | "csp"
 >;
 
 /**
