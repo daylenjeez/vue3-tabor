@@ -30,7 +30,6 @@ export default defineComponent({
               sandbox={iframe.iframeAttributes?.sandbox}
               referrerpolicy={iframe.iframeAttributes?.referrerpolicy}
               allow={iframe.iframeAttributes?.allow}
-              csp={iframe.iframeAttributes?.csp}
               {...iframe.iframeAttributes}
             />
           ) : null;

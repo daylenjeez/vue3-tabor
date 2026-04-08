@@ -21,7 +21,6 @@ export type IframeAttributes = Pick<
   | "sandbox"
   | "referrerpolicy"
   | "allow"
-  | "csp"
 >;
 
 /**
