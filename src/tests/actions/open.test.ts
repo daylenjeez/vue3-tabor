@@ -52,4 +52,33 @@ describe("test open api", async () => {
     expectLength(expect, 2);
     expect(taborStore.state.activeTab?.id).toEqual("/path");
   });
+
+  it("open iframe tab with valid http src", async ({ expect }) => {
+    await taborStore.open("/external-page", {
+      tabConfig: {
+        iframeAttributes: { src: "https://example.com/page" }
+      }
+    });
+    expect(taborStore.state.activeTab?.iframeAttributes?.src).toEqual("https://example.com/page");
+  });
+
+  it("reject iframe tab with invalid javascript src", async ({ expect }) => {
+    const result = await taborStore.open("/evil-page", {
+      tabConfig: {
+        iframeAttributes: { src: "javascript:alert(1)" }
+      }
+    });
+    expect(result).toBeUndefined();
+    expect(taborStore.state.tabs.some(tab => tab.id === "/evil-page")).toBe(false);
+  });
+
+  it("sanitize dynamic route name for iframe tabs", async ({ expect }) => {
+    await taborStore.open("/sanitize-test.page", {
+      tabConfig: {
+        iframeAttributes: { src: "https://example.com" }
+      }
+    });
+    const tab = taborStore.state.tabs.find(t => t.fullPath === "/sanitize-test.page");
+    expect(tab?.routeName).toEqual("rt-iframe--sanitize-test-page");
+  });
 });

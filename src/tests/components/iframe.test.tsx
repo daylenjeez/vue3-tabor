@@ -76,6 +76,43 @@ describe('Iframe Component', () => {
     expect(iframe.attributes('src')).toBe('https://example.com/1');
   });
 
+  it('should render iframe with security attributes', () => {
+    const SecurityWrapper = defineComponent({
+      setup() {
+        const secureTab: Tab = {
+          id: 'secure-iframe',
+          name: 'Secure Iframe',
+          fullPath: '/secure-iframe',
+          keepAlive: true,
+          iframeAttributes: {
+            src: 'https://secure.example.com',
+            sandbox: 'allow-scripts allow-same-origin',
+            referrerpolicy: 'no-referrer',
+            allow: 'fullscreen'
+          }
+        };
+        const mockStore = {
+          state: {
+            tabs: [secureTab],
+            activeTab: secureTab
+          },
+          iframeTabs: computed(() => [secureTab])
+        };
+        provide(TABOR_STORE_KEY, mockStore as unknown as TaborStore);
+        return () => h(Iframe);
+      }
+    });
+
+    const wrapper = mount(SecurityWrapper);
+    const iframe = wrapper.find('iframe');
+
+    expect(iframe.exists()).toBe(true);
+    expect(iframe.attributes('src')).toBe('https://secure.example.com');
+    expect(iframe.attributes('sandbox')).toBe('allow-scripts allow-same-origin');
+    expect(iframe.attributes('referrerpolicy')).toBe('no-referrer');
+    expect(iframe.attributes('allow')).toBe('fullscreen');
+  });
+
   it('should render keepAlive iframes even when not active', () => {
     const wrapper = mount(IframeWrapper, {
       props: {
