@@ -1,7 +1,16 @@
 <script setup lang="ts">
+import { onMounted, onBeforeUnmount } from 'vue'
 import { useTabor } from 'vue3-tabor'
+
 const tabor = useTabor()
 
+onMounted(() => {
+  console.log('Home page mounted:', Date.now())
+})
+
+onBeforeUnmount(() => {
+  console.log('Home page beforeUnmount:', Date.now())
+})
 
 const goToPath = () => {
   tabor.open({

@@ -1,4 +1,13 @@
 <script setup lang="ts">
+import { onMounted, onBeforeUnmount } from 'vue'
+
+onMounted(() => {
+  console.log('FullPath page mounted:', Date.now())
+})
+
+onBeforeUnmount(() => {
+  console.log('FullPath page beforeUnmount:', Date.now())
+})
 </script>
 
 <template>
