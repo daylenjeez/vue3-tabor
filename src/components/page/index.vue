@@ -4,7 +4,7 @@
     <router-view v-slot="{ Component }">
       <keep-alive :include="cachedKeys">
         <component :is="retrieveOrCacheComponent?.(Component)"
-                   v-if="!refreshing"
+                   v-if="!refreshing && activeTabKey"
                    :key="activeTabKey" />
       </keep-alive>
     </router-view>
